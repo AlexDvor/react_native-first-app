@@ -1,6 +1,21 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "strict": true
-  }
+	"extends": "expo/tsconfig.base",
+	"compilerOptions": {
+		"strict": true,
+		"baseUrl": "./app/",
+		"paths": {
+			"@/components/*": ["components/*"],
+			"@/ui/*": ["components/ui/*"],
+			"@/screens/*": ["components/screens/*"],
+			"@/interfaces/*": ["interfaces/*"],
+			"@/hooks/*": ["hooks/*"],
+			"@/services/*": ["services/*"],
+			"@/utils/*": ["utils/*"],
+			"@/assets/*": ["assets/*"],
+			"@/configs/*": ["configs/*"],
+			"@/store/*": ["store/*"]
+		}
+	},
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules"]
 }
