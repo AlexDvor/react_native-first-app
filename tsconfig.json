@@ -2,19 +2,20 @@
 	"extends": "expo/tsconfig.base",
 	"compilerOptions": {
 		"strict": true,
-		"baseUrl": "./app/",
+		"baseUrl": ".",
 		"paths": {
-			"@/components/*": ["components/*"],
-			"@/constants/*": ["constants/*"],
-			"@/ui/*": ["components/ui/*"],
-			"@/screens/*": ["components/screens/*"],
-			"@/interfaces/*": ["interfaces/*"],
-			"@/hooks/*": ["hooks/*"],
-			"@/services/*": ["services/*"],
-			"@/utils/*": ["utils/*"],
-			"@/assets/*": ["assets/*"],
-			"@/configs/*": ["configs/*"],
-			"@/store/*": ["store/*"]
+			"components/*": ["app/components/*"],
+			"constants/*": ["app/constants/*"],
+			"ui/*": ["app/components/ui/*"],
+			"screens/*": ["app/components/screens/*"],
+			"interfaces/*": ["app/interfaces/*"],
+			"hooks/*": ["app/hooks/*"],
+			"services/*": ["app/services/*"],
+			"utils/*": ["app/utils/*"],
+			"assets/*": ["app/assets/*"],
+			"configs/*": ["app/configs/*"],
+			"store/*": ["app/store/*"],
+			"app/*": ["app/*"]
 		}
 	},
 	"include": ["**/*.ts", "**/*.tsx"],
