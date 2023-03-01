@@ -5,6 +5,7 @@
 		"baseUrl": "./app/",
 		"paths": {
 			"@/components/*": ["components/*"],
+			"@/constants/*": ["constants/*"],
 			"@/ui/*": ["components/ui/*"],
 			"@/screens/*": ["components/screens/*"],
 			"@/interfaces/*": ["interfaces/*"],
