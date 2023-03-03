@@ -7,6 +7,7 @@ import { StyleSheet, Text, View } from 'react-native'
 export default function App() {
 	const [fontsLoaded] = useFonts({
 		'OpenSans-Regular': require('./app/assets/fonts/OpenSans-Regular.ttf'),
+		'OpenSans-Bold': require('./app/assets/fonts/OpenSans-Bold.ttf'),
 	})
 
 	if (!fontsLoaded) {
