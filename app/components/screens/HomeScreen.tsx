@@ -1,6 +1,8 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { Gallery } from 'components/ui/Gallery/Gallery'
 import { Logo } from 'components/ui/Logo'
+import { ScrollableMenuList } from 'components/ui/ScrollableMenu/ScrollableMenuList'
+import { menuData } from 'components/ui/ScrollableMenu/menu.data'
 import { COLORS } from 'constants/theme'
 import { useState } from 'react'
 import { FC } from 'react'
@@ -30,7 +32,8 @@ export const HomeScreen: FC = () => {
 					</View>
 				</View>
 
-				<Gallery items={dataAnimals}></Gallery>
+				<ScrollableMenuList menu={menuData} />
+				{/* <Gallery items={dataAnimals} /> */}
 			</View>
 		</SafeAreaView>
 	)
@@ -39,7 +42,7 @@ export const HomeScreen: FC = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginHorizontal: 20,
+		marginHorizontal: 10,
 		marginTop: 80,
 		borderWidth: 2,
 	},

@@ -13,10 +13,8 @@ export const Gallery: FC<IGallery> = ({ items }) => {
 		<SafeAreaView>
 			<FlatList
 				data={items}
-				horizontal
 				renderItem={({ item }) => <GalleryItem item={item} />}
 				keyExtractor={(item) => String(item.id)}
-				showsHorizontalScrollIndicator={false}
 			/>
 		</SafeAreaView>
 	)
