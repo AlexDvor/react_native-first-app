@@ -1,3 +1,4 @@
+import { Logo } from 'components/ui/Logo'
 import { PrimaryButton } from 'components/ui/PrimaryButton'
 import { bgImage } from 'constants/images'
 import { FONTS } from 'constants/theme'
@@ -14,6 +15,10 @@ export const StartScreen: FC = () => {
 					colors={['rgba(47, 48, 58, 0.4)', 'rgba(47, 48, 58, 0.4)']}
 					style={styles.gradient}
 				/>
+				<View style={styles.logoWrapper}>
+					<Logo logoColor="#F8F8F8" />
+				</View>
+
 				<Text style={styles.text}>Happiness is closer than you think</Text>
 				<View style={styles.containerBtn}>
 					<PrimaryButton title="Let's Go!" />
@@ -51,5 +56,11 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		marginHorizontal: 30,
 		marginBottom: 60,
+	},
+	logoWrapper: {
+		flex: 1,
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		marginTop: 90,
 	},
 })

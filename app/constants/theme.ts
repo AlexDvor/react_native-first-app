@@ -17,7 +17,7 @@ export const COLORS = {
 
 	// Button color
 	primaryBtn: '#F2968F',
-	textColorBtn: '#FCFCFC',
+	primaryTextColorBtn: '#FCFCFC',
 }
 export const SIZES = {
 	// global sizes
@@ -75,6 +75,12 @@ export const FONTS = {
 	// 	fontSize: SIZES.body5,
 	// 	lineHeight: 22,
 	// },
+
+	buttonPrimaryFonts: {
+		fontFamily: 'OpenSans-Medium',
+		fontSize: 17,
+		lineHeight: 20,
+	},
 }
 
 const appTheme = { COLORS, SIZES, FONTS }

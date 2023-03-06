@@ -16,6 +16,7 @@ module.exports = function (api) {
 						services: './app/services',
 						utils: './app/utils',
 						assets: './app/assets',
+						icons: './app/assets/icons',
 						configs: './app/configs',
 						store: './app/store',
 						app: './app',

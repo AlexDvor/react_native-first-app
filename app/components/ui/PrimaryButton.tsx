@@ -1,4 +1,4 @@
-import { COLORS } from 'constants/theme'
+import { COLORS, FONTS } from 'constants/theme'
 import { FC } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
 	},
 
 	text: {
-		color: COLORS.textColorBtn,
+		color: COLORS.primaryTextColorBtn,
+		...FONTS.buttonPrimaryFonts,
 	},
 })
