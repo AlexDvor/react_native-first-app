@@ -8,6 +8,7 @@
 			"constants/*": ["app/constants/*"],
 			"ui/*": ["app/components/ui/*"],
 			"screens/*": ["app/components/screens/*"],
+			"data/*": ["app/data/*"],
 			"interfaces/*": ["app/interfaces/*"],
 			"hooks/*": ["app/hooks/*"],
 			"services/*": ["app/services/*"],

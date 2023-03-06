@@ -1,3 +1,4 @@
+import { HomeScreen } from 'components/screens/HomeScreen'
 import { StartScreen } from 'components/screens/StartScreen'
 import { useFonts } from 'expo-font'
 import { StyleSheet } from 'react-native'
@@ -13,7 +14,11 @@ export default function App() {
 		return null
 	}
 
-	return <StartScreen></StartScreen>
+	return (
+		<>
+			<HomeScreen />
+		</>
+	)
 }
 
 const styles = StyleSheet.create({})
