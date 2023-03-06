@@ -18,6 +18,10 @@ export const COLORS = {
 	// Button color
 	primaryBtn: '#F2968F',
 	primaryTextColorBtn: '#FCFCFC',
+
+	//Notification
+	notificationDotColor: '#F2968F',
+	notificationBackgroundColor: '#FCFCFC',
 }
 export const SIZES = {
 	// global sizes

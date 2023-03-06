@@ -9,7 +9,7 @@ interface ILogo {
 export const Logo: FC<ILogo> = ({ logoColor = '#000' }) => {
 	return (
 		<>
-			<LogoApp width={100} height={35} fill={logoColor} />
+			<LogoApp width={100} height={20} fill={logoColor} />
 		</>
 	)
 }
