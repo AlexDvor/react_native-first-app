@@ -12,6 +12,7 @@ import { dataAnimals } from '../../data/animals'
 
 export const HomeScreen: FC = () => {
 	const [hasNotification, setHasNotification] = useState(true)
+	const handleOnPressTypeMenu = () => {}
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#F8F8F8' }}>
@@ -43,15 +44,14 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		marginHorizontal: 10,
-		marginTop: 80,
-		borderWidth: 2,
+		marginTop: 60,
 	},
 	headerContainer: {
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		flexDirection: 'row',
-		borderWidth: 2,
 	},
+
 	iconWrapper: {
 		position: 'relative',
 	},

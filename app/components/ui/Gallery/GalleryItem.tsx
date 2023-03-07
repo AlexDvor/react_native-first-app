@@ -2,20 +2,28 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { FONTS } from 'constants/theme'
 import { IAnimalsData } from 'interfaces/animals.types'
 import { FC, useState } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 interface IGalleryItemProps {
 	item: IAnimalsData
+	lastIdElements: number[]
 }
 
-export const GalleryItem: FC<IGalleryItemProps> = ({
-	item: { name, age, imageUrl, breed },
-}) => {
+//add in last elements a marginBottom
+
+export const GalleryItem: FC<IGalleryItemProps> = ({ item }) => {
 	const [isFavorite, setIsFavorite] = useState(true)
+
+	const handleOnPress = (id: number) => {
+		console.log(id)
+	}
 	return (
-		<View style={styles.container}>
+		<TouchableOpacity
+			style={styles.container}
+			onPress={() => handleOnPress(item.id)}
+		>
 			<View style={styles.imageWrapper}>
-				<Image style={styles.image} source={imageUrl}></Image>
+				<Image style={styles.image} source={item.imageUrl}></Image>
 			</View>
 
 			<View style={styles.icon}>
@@ -28,24 +36,24 @@ export const GalleryItem: FC<IGalleryItemProps> = ({
 
 			<View style={styles.infoContainer}>
 				<View style={styles.info}>
-					<Text style={styles.name}>{name}</Text>
-					<Text style={styles.age}>{`${age} years`}</Text>
+					<Text style={styles.name}>{`${item.name}-${item.id}`}</Text>
+					<Text style={styles.age}>{`${item.age} years`}</Text>
 				</View>
 
-				<Text style={styles.breed}>{breed}</Text>
+				<Text style={styles.breed}>{item.breed}</Text>
 			</View>
-		</View>
+		</TouchableOpacity>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
 		borderRadius: 16,
-		// borderWidth: 1,
 		width: 187,
 		height: 192,
 		overflow: 'hidden',
 		backgroundColor: '#FCFCFC',
+		elevation: 2,
 	},
 
 	imageWrapper: {
@@ -89,5 +97,9 @@ const styles = StyleSheet.create({
 	breed: {
 		...FONTS.body3,
 		marginTop: 5,
+	},
+
+	marginBottom: {
+		marginBottom: 30,
 	},
 })

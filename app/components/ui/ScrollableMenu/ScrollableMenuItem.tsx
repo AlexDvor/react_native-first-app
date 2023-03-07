@@ -1,6 +1,5 @@
-import { IAnimalsData } from 'interfaces/animals.types'
 import { FC } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 import { IMenuData } from './menu.data'
 
@@ -11,10 +10,10 @@ interface IScrollableMenuItem {
 export const ScrollableMenuItem: FC<IScrollableMenuItem> = ({ itemMenu }) => {
 	return (
 		<>
-			<View style={styles.container}>
+			<TouchableOpacity style={styles.container}>
 				<Image source={itemMenu.image} style={styles.image}></Image>
 				<Text>{itemMenu.title}</Text>
-			</View>
+			</TouchableOpacity>
 		</>
 	)
 }

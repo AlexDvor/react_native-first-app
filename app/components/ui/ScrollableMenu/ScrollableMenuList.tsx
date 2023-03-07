@@ -10,7 +10,6 @@ interface IScrollableMenuList {
 }
 
 export const ScrollableMenuList: FC<IScrollableMenuList> = ({ menu }) => {
-	console.log('menu:', menu)
 	return (
 		<View style={styles.container}>
 			<FlatList
