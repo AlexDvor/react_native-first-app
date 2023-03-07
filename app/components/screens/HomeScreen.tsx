@@ -14,7 +14,7 @@ export const HomeScreen: FC = () => {
 	const [hasNotification, setHasNotification] = useState(true)
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: '#F8F8F8' }}>
 			<View style={styles.container}>
 				<View style={styles.headerContainer}>
 					<Logo logoColor={'#2B2B2E'} />

@@ -35,11 +35,11 @@ export const SIZES = {
 	h2: 22,
 	h3: 16,
 	h4: 14,
-	body1: 30,
-	body2: 22,
-	body3: 16,
-	body4: 14,
-	body5: 12,
+	body1: 16,
+	body2: 13,
+	body3: 12,
+	// body4: 14,
+	// body5: 12,
 
 	// app dimensions
 	// width,
@@ -54,21 +54,21 @@ export const FONTS = {
 	// h2: { fontFamily: 'Roboto-Bold', fontSize: SIZES.h2, lineHeight: 30 },
 	// h3: { fontFamily: 'Roboto-Bold', fontSize: SIZES.h3, lineHeight: 22 },
 	// h4: { fontFamily: 'Roboto-Bold', fontSize: SIZES.h4, lineHeight: 22 },
-	// body1: {
-	// 	fontFamily: 'Roboto-Regular',
-	// 	fontSize: SIZES.body1,
-	// 	lineHeight: 36,
-	// },
-	// body2: {
-	// 	fontFamily: 'Roboto-Regular',
-	// 	fontSize: SIZES.body2,
-	// 	lineHeight: 30,
-	// },
-	// body3: {
-	// 	fontFamily: 'Roboto-Regular',
-	// 	fontSize: SIZES.body3,
-	// 	lineHeight: 22,
-	// },
+	body1: {
+		fontFamily: 'OpenSans-Bold',
+		fontSize: SIZES.body1,
+		lineHeight: 20,
+	},
+	body2: {
+		fontFamily: 'OpenSans-Regular',
+		fontSize: SIZES.body2,
+		lineHeight: 16,
+	},
+	body3: {
+		fontFamily: 'OpenSans-Regular',
+		fontSize: SIZES.body3,
+		lineHeight: 14,
+	},
 	// body4: {
 	// 	fontFamily: 'Roboto-Regular',
 	// 	fontSize: SIZES.body4,

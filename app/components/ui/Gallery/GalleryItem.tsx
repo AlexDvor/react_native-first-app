@@ -1,3 +1,4 @@
+import { FONTS } from 'constants/theme'
 import { IAnimalsData } from 'interfaces/animals.types'
 import { FC } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
@@ -7,45 +8,63 @@ interface IGalleryItemProps {
 }
 
 export const GalleryItem: FC<IGalleryItemProps> = ({
-	item: { name, age, imageUrl },
+	item: { name, age, imageUrl, breed },
 }) => {
 	return (
-		<>
-			<View style={[styles.container, styles.shadow]}>
-				<View style={styles.imageWrapper}>
-					<Image
-						style={styles.image}
-						source={require('../../../assets/images/animals/test_4.png')}
-					></Image>
-				</View>
-				<Text style={styles.title}>{name}</Text>
+		<View style={styles.container}>
+			<View style={styles.imageWrapper}>
+				<Image style={styles.image} source={imageUrl}></Image>
 			</View>
-		</>
+
+			<View style={styles.infoContainer}>
+				<View style={styles.info}>
+					<Text style={styles.name}>{name}</Text>
+					<Text style={styles.age}>{`${age} years`}</Text>
+				</View>
+
+				<Text style={styles.breed}>{breed}</Text>
+			</View>
+		</View>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
-		borderWidth: 1,
 		borderRadius: 16,
-		width: 180,
+		borderWidth: 1,
+		width: 187,
 		height: 192,
 		overflow: 'hidden',
+		backgroundColor: '#FCFCFC',
 	},
 
-	imageWrapper: {},
+	imageWrapper: {
+		width: '100%',
+		borderRadius: 16,
+		overflow: 'hidden',
+	},
 
 	image: {
 		width: '100%',
 		height: 116,
-		borderRadius: 16,
-	},
-	title: {
-		fontSize: 32,
 	},
 
-	shadow: {
-		shadowColor: '#52006A',
-		elevation: 1,
+	infoContainer: { padding: 5 },
+
+	info: {
+		marginTop: 10,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
+
+	name: {
+		...FONTS.body1,
+	},
+	age: {
+		...FONTS.body2,
+	},
+	breed: {
+		...FONTS.body3,
+		marginTop: 5,
 	},
 })
