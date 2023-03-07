@@ -1,15 +1,23 @@
 import { IAnimalsData } from 'interfaces/animals.types'
 import { FC } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 
 interface IGalleryItemProps {
 	item: IAnimalsData
 }
 
-export const GalleryItem: FC<IGalleryItemProps> = ({ item: { name, age } }) => {
+export const GalleryItem: FC<IGalleryItemProps> = ({
+	item: { name, age, imageUrl },
+}) => {
 	return (
 		<>
-			<View style={styles.item}>
+			<View style={[styles.container, styles.shadow]}>
+				<View style={styles.imageWrapper}>
+					<Image
+						style={styles.image}
+						source={require('../../../assets/images/animals/test_4.png')}
+					></Image>
+				</View>
 				<Text style={styles.title}>{name}</Text>
 			</View>
 		</>
@@ -17,13 +25,27 @@ export const GalleryItem: FC<IGalleryItemProps> = ({ item: { name, age } }) => {
 }
 
 const styles = StyleSheet.create({
-	item: {
-		backgroundColor: '#f9c2ff',
-		padding: 20,
-		marginVertical: 8,
-		marginHorizontal: 16,
+	container: {
+		borderWidth: 1,
+		borderRadius: 16,
+		width: 180,
+		height: 192,
+		overflow: 'hidden',
+	},
+
+	imageWrapper: {},
+
+	image: {
+		width: '100%',
+		height: 116,
+		borderRadius: 16,
 	},
 	title: {
 		fontSize: 32,
+	},
+
+	shadow: {
+		shadowColor: '#52006A',
+		elevation: 1,
 	},
 })

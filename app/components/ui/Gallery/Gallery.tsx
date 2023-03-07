@@ -12,12 +12,25 @@ export const Gallery: FC<IGallery> = ({ items }) => {
 	return (
 		<SafeAreaView>
 			<FlatList
+				style={styles.container}
+				contentContainerStyle={{
+					alignItems: 'center',
+					gap: 10,
+					marginTop: 20,
+				}}
+				horizontal={false}
+				numColumns={2}
 				data={items}
 				renderItem={({ item }) => <GalleryItem item={item} />}
 				keyExtractor={(item) => String(item.id)}
+				columnWrapperStyle={{
+					gap: 10,
+				}}
 			/>
 		</SafeAreaView>
 	)
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+	container: {},
+})

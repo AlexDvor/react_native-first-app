@@ -33,7 +33,7 @@ export const HomeScreen: FC = () => {
 				</View>
 
 				<ScrollableMenuList menu={menuData} />
-				{/* <Gallery items={dataAnimals} /> */}
+				<Gallery items={dataAnimals} />
 			</View>
 		</SafeAreaView>
 	)
