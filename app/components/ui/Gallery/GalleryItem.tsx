@@ -1,6 +1,7 @@
+import Ionicons from '@expo/vector-icons/Ionicons'
 import { FONTS } from 'constants/theme'
 import { IAnimalsData } from 'interfaces/animals.types'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 
 interface IGalleryItemProps {
@@ -10,10 +11,19 @@ interface IGalleryItemProps {
 export const GalleryItem: FC<IGalleryItemProps> = ({
 	item: { name, age, imageUrl, breed },
 }) => {
+	const [isFavorite, setIsFavorite] = useState(true)
 	return (
 		<View style={styles.container}>
 			<View style={styles.imageWrapper}>
 				<Image style={styles.image} source={imageUrl}></Image>
+			</View>
+
+			<View style={styles.icon}>
+				{isFavorite ? (
+					<Ionicons name="star" size={13} color="white" />
+				) : (
+					<Ionicons name="star-outline" size={13} color="white" />
+				)}
 			</View>
 
 			<View style={styles.infoContainer}>
@@ -31,7 +41,7 @@ export const GalleryItem: FC<IGalleryItemProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		borderRadius: 16,
-		borderWidth: 1,
+		// borderWidth: 1,
 		width: 187,
 		height: 192,
 		overflow: 'hidden',
@@ -39,6 +49,7 @@ const styles = StyleSheet.create({
 	},
 
 	imageWrapper: {
+		position: 'relative',
 		width: '100%',
 		borderRadius: 16,
 		overflow: 'hidden',
@@ -47,6 +58,18 @@ const styles = StyleSheet.create({
 	image: {
 		width: '100%',
 		height: 116,
+	},
+
+	icon: {
+		position: 'absolute',
+		top: 5,
+		right: 5,
+		width: 24,
+		height: 24,
+		borderRadius: 50,
+		backgroundColor: 'rgba(255, 255, 255, 0.25)',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 
 	infoContainer: { padding: 5 },
