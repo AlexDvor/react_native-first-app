@@ -6,7 +6,7 @@ import { menuData } from 'components/ui/ScrollableMenu/menu.data'
 import { COLORS } from 'constants/theme'
 import { useState } from 'react'
 import { FC } from 'react'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { dataAnimals } from '../../data/animals'
 

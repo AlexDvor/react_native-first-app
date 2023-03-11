@@ -1,3 +1,4 @@
+import { AnimalProfileScreen } from 'components/screens/AnimalProfileScreen'
 import { HomeScreen } from 'components/screens/HomeScreen'
 import { StartScreen } from 'components/screens/StartScreen'
 import { useFonts } from 'expo-font'
@@ -17,7 +18,8 @@ export default function App() {
 	return (
 		<>
 			{/* <StartScreen></StartScreen> */}
-			<HomeScreen />
+			{/* <HomeScreen /> */}
+			<AnimalProfileScreen />
 		</>
 	)
 }

@@ -1,10 +1,8 @@
+import { ItemCard } from 'components/ui/ItemCard/ItemCard'
 import { FC } from 'react'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export const AnimalProfileScreen: FC = () => {
-	return (
-		<>
-			<View></View>
-		</>
-	)
+	return <ItemCard />
 }
+const styles = StyleSheet.create({})
