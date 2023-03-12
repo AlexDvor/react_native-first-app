@@ -26,28 +26,18 @@ export const ItemCard: FC = () => {
 						style={styles.image}
 						source={require('../../../assets/images/animals/test_6.png')}
 					/>
-				</View>
-
-				<View style={styles.generalInfoWrapper}>
-					<View>
-						<Text>Agat</Text>
-						<Text>{`French Buldog · 1y 4m`}</Text>
-					</View>
-					<View
-						style={{
-							width: 40,
-							height: 40,
-							backgroundColor: 'rgba(245, 150, 143, 1)',
-							borderRadius: 10,
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}
-					>
-						{genderItem === 'male' ? (
-							<Ionicons name="gender-male" size={32} color="white" />
-						) : (
-							<Ionicons name="gender-female" size={32} color="white" />
-						)}
+					<View style={styles.generalInfoWrapper}>
+						<View>
+							<Text>Agat</Text>
+							<Text>{`French Buldog · 1y 4m`}</Text>
+						</View>
+						<View style={styles.iconGender}>
+							{genderItem === 'male' ? (
+								<Ionicons name="gender-male" size={32} color="white" />
+							) : (
+								<Ionicons name="gender-female" size={32} color="white" />
+							)}
+						</View>
 					</View>
 				</View>
 
@@ -105,31 +95,45 @@ export const ItemCard: FC = () => {
 const styles = StyleSheet.create({
 	imageWrapper: {
 		width: '100%',
+		position: 'relative',
 	},
 
 	image: { width: '100%', height: 400 },
 
 	generalInfoWrapper: {
+		position: 'absolute',
+		bottom: '-10%',
+		left: '10%',
 		marginHorizontal: 15,
-		borderWidth: 1,
+
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		paddingVertical: 25,
 		paddingHorizontal: 15,
 		borderRadius: 20,
+		width: 300,
+		backgroundColor: 'rgba(245, 150, 143, 0.4)',
 	},
 	generalInfoName: {},
 	generalInfoBreedAndAge: {},
 
+	iconGender: {
+		width: 40,
+		height: 40,
+		backgroundColor: 'rgba(245, 150, 143, 1)',
+		borderRadius: 10,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+
 	infoWrapper: {
 		marginHorizontal: 15,
+		marginTop: 50,
 	},
 
 	iconWrapper: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		borderWidth: 1,
-		borderColor: 'green',
 	},
 
 	sectionTitle: {
