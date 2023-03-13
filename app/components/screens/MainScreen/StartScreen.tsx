@@ -1,7 +1,3 @@
-import { Logo } from 'components/ui/Logo'
-import { PrimaryButton } from 'components/ui/PrimaryButton'
-import { bgImage } from 'constants/images'
-import { FONTS } from 'constants/theme'
 import { LinearGradient } from 'expo-linear-gradient'
 import { FC } from 'react'
 import {
@@ -11,6 +7,10 @@ import {
 	Text,
 	View,
 } from 'react-native'
+import { Logo } from '~components/ui/Logo/Logo'
+import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
+import { bgImage } from '~constants/images'
+import { FONTS } from '~constants/theme'
 
 export const StartScreen: FC = () => {
 	return (

@@ -1,6 +1,6 @@
-import { COLORS, FONTS } from 'constants/theme'
 import { FC } from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { COLORS, FONTS } from '~constants/theme'
 
 interface IPrimaryBtn {
 	title: string

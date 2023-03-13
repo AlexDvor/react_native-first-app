@@ -1,8 +1,8 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { FONTS } from 'constants/theme'
-import { IAnimalsData } from 'interfaces/animals.types'
 import { FC, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FONTS } from '~constants/theme'
+import { IAnimalsData } from '~interfaces/animals.types'
 
 interface IGalleryItemProps {
 	item: IAnimalsData

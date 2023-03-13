@@ -1,6 +1,8 @@
 import { useFonts } from 'expo-font'
 import { StyleSheet } from 'react-native'
-import { AnimalProfileScreen } from '~components/screens/AnimalProfileScreen'
+import { AnimalProfileScreen } from '~components/screens/MainScreen/AnimalProfileScreen'
+import { HomeScreen } from '~components/screens/MainScreen/HomeScreen'
+import { StartScreen } from '~components/screens/MainScreen/StartScreen'
 
 export default function App() {
 	const [fontsLoaded] = useFonts({
@@ -15,7 +17,9 @@ export default function App() {
 
 	return (
 		<>
-			<AnimalProfileScreen />
+			<StartScreen />
+			{/* <HomeScreen /> */}
+			{/* <AnimalProfileScreen /> */}
 		</>
 	)
 }

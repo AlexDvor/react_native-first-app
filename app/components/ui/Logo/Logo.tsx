@@ -1,6 +1,6 @@
-import LogoApp from 'assets/icons/logo.svg'
 import { FC } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
+import LogoApp from '~assets/icons/logo.svg'
 
 interface ILogo {
 	logoColor: '#2B2B2E' | '#F8F8F8'

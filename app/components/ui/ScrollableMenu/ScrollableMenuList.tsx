@@ -1,4 +1,3 @@
-import { IAnimalsData } from 'interfaces/animals.types'
 import { FC } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 
