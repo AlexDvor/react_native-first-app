@@ -23,7 +23,7 @@ export default function App() {
 
 	return (
 		<NavigationContainer>
-			<MainTabs.Navigator>
+			<MainTabs.Navigator screenOptions={{ headerShown: false }}>
 				<MainTabs.Screen name="HomeRoute" component={HomeRoute} />
 				<MainTabs.Screen name="ProfileScreen" component={ProfileScreen} />
 				<MainTabs.Screen name="ChatScreen" component={ChatScreen} />

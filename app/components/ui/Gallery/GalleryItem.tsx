@@ -1,4 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { useNavigation } from '@react-navigation/native'
 import { FC, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FONTS } from '~constants/theme'
@@ -13,12 +14,15 @@ interface IGalleryItemProps {
 
 export const GalleryItem: FC<IGalleryItemProps> = ({ item }) => {
 	const [isFavorite, setIsFavorite] = useState(true)
-
+	const navigation = useNavigation()
 	const handleOnPress = (id: number) => {
 		console.log(id)
 	}
 	return (
-		<TouchableOpacity style={styles.container} onPress={() => {}}>
+		<TouchableOpacity
+			style={styles.container}
+			onPress={() => navigation.navigate('AnimalProfileScreen')}
+		>
 			<View style={styles.imageWrapper}>
 				<Image style={styles.image} source={item.imageUrl}></Image>
 			</View>
