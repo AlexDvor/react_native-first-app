@@ -1,5 +1,4 @@
 import Ionicons from '@expo/vector-icons/MaterialCommunityIcons'
-import { FONTS } from 'constants/theme'
 import { FC } from 'react'
 import {
 	Image,
@@ -9,6 +8,7 @@ import {
 	Text,
 	View,
 } from 'react-native'
+import { FONTS } from '~constants/theme'
 
 export const ItemCard: FC = () => {
 	const genderItem = 'male'

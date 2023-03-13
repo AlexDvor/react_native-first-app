@@ -1,6 +1,6 @@
-import { ItemCard } from 'components/ui/ItemCard/ItemCard'
 import { FC } from 'react'
 import { StyleSheet } from 'react-native'
+import { ItemCard } from '~components/ui/ItemCard/ItemCard'
 
 export const AnimalProfileScreen: FC = () => {
 	return <ItemCard />
