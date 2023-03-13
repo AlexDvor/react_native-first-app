@@ -12,7 +12,6 @@ interface IGalleryItemProps {
 //add in last elements a marginBottom
 
 export const GalleryItem: FC<IGalleryItemProps> = ({ item }) => {
-	console.log('🚀 ~ file: GalleryItem.tsx:15 ~ navigation:')
 	const [isFavorite, setIsFavorite] = useState(true)
 
 	const handleOnPress = (id: number) => {
