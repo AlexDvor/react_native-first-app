@@ -2,12 +2,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { StyleSheet } from 'react-native'
-import { AnimalProfileScreen } from '~components/screens/MainScreen/AnimalProfileScreen'
-import { ChatScreen } from '~components/screens/MainScreen/ChatScreen'
-import { FavoriteScreen } from '~components/screens/MainScreen/FavoriteScreen'
-import { HomeScreen } from '~components/screens/MainScreen/HomeScreen'
-import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
-import { StartScreen } from '~components/screens/MainScreen/StartScreen'
+import 'react-native-gesture-handler'
+import { ChatScreen } from '~components/screens/MainScreen/ChatScreen/ChatScreen'
+import { FavoriteScreen } from '~components/screens/MainScreen/FavoriteScreen/FavoriteScreen'
+import { HomeRoute } from '~components/screens/MainScreen/HomeScreen/HomeRoute'
+import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen/ProfileScreen'
 
 const MainTabs = createBottomTabNavigator()
 
@@ -25,7 +24,7 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<MainTabs.Navigator>
-				<MainTabs.Screen name="HomeScreen" component={HomeScreen} />
+				<MainTabs.Screen name="HomeRoute" component={HomeRoute} />
 				<MainTabs.Screen name="ProfileScreen" component={ProfileScreen} />
 				<MainTabs.Screen name="ChatScreen" component={ChatScreen} />
 				<MainTabs.Screen name="FavoriteScreen" component={FavoriteScreen} />

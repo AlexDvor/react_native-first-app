@@ -12,16 +12,14 @@ interface IGalleryItemProps {
 //add in last elements a marginBottom
 
 export const GalleryItem: FC<IGalleryItemProps> = ({ item }) => {
+	console.log('🚀 ~ file: GalleryItem.tsx:15 ~ navigation:')
 	const [isFavorite, setIsFavorite] = useState(true)
 
 	const handleOnPress = (id: number) => {
 		console.log(id)
 	}
 	return (
-		<TouchableOpacity
-			style={styles.container}
-			onPress={() => handleOnPress(item.id)}
-		>
+		<TouchableOpacity style={styles.container} onPress={() => {}}>
 			<View style={styles.imageWrapper}>
 				<Image style={styles.image} source={item.imageUrl}></Image>
 			</View>

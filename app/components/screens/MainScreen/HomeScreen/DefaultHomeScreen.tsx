@@ -1,6 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { useState } from 'react'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Logo } from '~components/ui/Logo/Logo'
@@ -8,9 +7,9 @@ import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenu
 import { menuData } from '~components/ui/ScrollableMenu/menu.data'
 import { COLORS } from '~constants/theme'
 
-import { dataAnimals } from '../../../data/animals'
+import { dataAnimals } from '../../../../data/animals'
 
-export const HomeScreen: FC = () => {
+export const DefaultHomeScreen: FC = ({}) => {
 	const [hasNotification, setHasNotification] = useState(true)
 	const handleOnPressTypeMenu = () => {}
 
