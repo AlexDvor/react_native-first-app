@@ -7,13 +7,16 @@ import { IUserProfile } from './user.types'
 export interface IAnimalsData {
 	id: number
 	name: string
+	color: string
 	age: number
 	breed: TBreedsCats | TBreedsDogs
 	imageUrl: ImageSourcePropType
 	type: 'dog' | 'cat'
 	description: string
-	gender: 'famale' | 'male'
+	gender: 'female' | 'male'
 	weight: number
+	height: number
 	vaccine: boolean
 	owner: IUserProfile
+	behavior: string[]
 }

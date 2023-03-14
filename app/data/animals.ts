@@ -1,4 +1,4 @@
-import { IAnimalsData } from 'interfaces/animals.types'
+import { IAnimalsData } from '~interfaces/animals.types'
 
 export const dataAnimals: IAnimalsData[] = [
 	{
@@ -14,6 +14,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: false,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 
 	{
@@ -29,6 +37,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 8,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 
 	{
@@ -44,6 +60,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 12,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 
 	{
@@ -59,6 +83,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 	{
 		id: 5,
@@ -73,6 +105,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 	{
 		id: 6,
@@ -87,6 +127,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 	{
 		id: 7,
@@ -101,6 +149,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: false,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 
 	{
@@ -116,6 +172,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 8,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 
 	{
@@ -131,6 +195,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 12,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 
 	{
@@ -146,6 +218,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 	{
 		id: 11,
@@ -160,6 +240,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 	{
 		id: 12,
@@ -174,6 +262,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 	{
 		id: 13,
@@ -188,6 +284,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: false,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 
 	{
@@ -203,6 +307,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 8,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 
 	{
@@ -218,6 +330,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 12,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 
 	{
@@ -233,6 +353,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 	{
 		id: 17,
@@ -247,6 +375,14 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 	{
 		id: 18,
@@ -261,5 +397,13 @@ export const dataAnimals: IAnimalsData[] = [
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
+		color: 'Grey',
+		behavior: [
+			'Leash trained',
+			'Friendly with cats',
+			'Active',
+			'Tries to eat things',
+		],
+		height: 42,
 	},
 ]

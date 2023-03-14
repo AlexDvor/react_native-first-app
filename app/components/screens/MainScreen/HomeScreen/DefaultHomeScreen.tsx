@@ -40,7 +40,7 @@ export const DefaultHomeScreen: FC<DefaultHomeProps> = ({
 				</View>
 
 				<ScrollableMenuList menu={menuData} />
-				<Gallery items={dataAnimals} screenName="AnimalProfileScreen" />
+				<Gallery items={dataAnimals} navigateTo="AnimalProfileScreen" />
 			</View>
 		</SafeAreaView>
 	)
