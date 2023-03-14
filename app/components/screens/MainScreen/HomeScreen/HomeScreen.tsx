@@ -10,7 +10,7 @@ import { DefaultHomeProps } from '~interfaces/navigator.types'
 
 import { dataAnimals } from '../../../../data/animals'
 
-export const DefaultHomeScreen: FC<DefaultHomeProps> = ({
+export const HomeScreen: FC<DefaultHomeProps> = ({
 	route,
 	navigation,
 }: DefaultHomeProps) => {

@@ -24,7 +24,7 @@ export const GalleryItem: FC<IGalleryItemProps> = ({ item, navigateTo }) => {
 	return (
 		<TouchableOpacity
 			style={styles.container}
-			onPress={() => navigate(navigateTo, { itemId: item.id })}
+			onPress={() => navigate(navigateTo, { item: item })}
 		>
 			<View style={styles.imageWrapper}>
 				<Image style={styles.image} source={item.imageUrl}></Image>

@@ -9,30 +9,25 @@ import {
 	View,
 } from 'react-native'
 import { FONTS } from '~constants/theme'
+import { IAnimalsData } from '~interfaces/animals.types'
 
-export const ItemCard: FC = () => {
-	const genderItem = 'male'
-	const testData = [
-		'Leash trained',
-		'Friendly with cats',
-		'Active',
-		'Tries to eat things',
-	]
+interface IAnimalProfileCard {
+	item: IAnimalsData
+}
+
+export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<ScrollView>
 				<View style={styles.imageWrapper}>
-					<Image
-						style={styles.image}
-						source={require('../../../assets/images/animals/test_6.png')}
-					/>
+					<Image style={styles.image} source={item.imageUrl} />
 					<View style={styles.generalInfoWrapper}>
 						<View>
-							<Text>Agat</Text>
-							<Text>{`French Buldog · 1y 4m`}</Text>
+							<Text>{item.name}</Text>
+							<Text>{`${item.breed} · 1y 4m`}</Text>
 						</View>
 						<View style={styles.iconGender}>
-							{genderItem === 'male' ? (
+							{item.gender === 'male' ? (
 								<Ionicons name="gender-male" size={32} color="white" />
 							) : (
 								<Ionicons name="gender-female" size={32} color="white" />
@@ -48,38 +43,35 @@ export const ItemCard: FC = () => {
 							source={require('../../../assets/icons/pet.png')}
 						></Image>
 
-						<Text style={styles.sectionTitle}>About Agat</Text>
+						<Text style={styles.sectionTitle}>{`About ${item.name}`}</Text>
 					</View>
 
 					<View style={styles.featureWrapper}>
 						<View style={styles.featureItem}>
 							<Text>Weight</Text>
-							<Text style={styles.featureValue}>5,5 kg</Text>
+							<Text style={styles.featureValue}>{`${item.weight} kg`}</Text>
 						</View>
 						<View style={styles.featureItem}>
 							<Text>Height</Text>
-							<Text style={styles.featureValue}>42cm</Text>
+							<Text style={styles.featureValue}>{`${item.height} cm`}</Text>
 						</View>
 						<View style={styles.featureItem}>
 							<Text>Color</Text>
-							<Text style={styles.featureValue}>Brown</Text>
+							<Text style={styles.featureValue}>{item.color}</Text>
 						</View>
 					</View>
-					<Text style={styles.reviewOwner}>
-						My dog is incredibly and unconditionally loyal to me. He loves me as
-						much as I love him or sometimes more.
-					</Text>
+					<Text style={styles.reviewOwner}>{item.description}</Text>
 
 					<View style={styles.iconWrapper}>
 						<Image
 							style={{ width: 26, height: 26 }}
 							source={require('../../../assets/icons/smileys.png')}
 						></Image>
-						<Text style={styles.sectionTitle}>Agat behavior</Text>
+						<Text style={styles.sectionTitle}>{`${item.name} behavior`}</Text>
 					</View>
-					{testData && (
+					{item.behavior && (
 						<View style={styles.behaviorWrapper}>
-							{testData.map((item, index) => (
+							{item.behavior.map((item, index) => (
 								<View style={styles.behaviorItem} key={index}>
 									<Text style={styles.behaviorText}>{item}</Text>
 								</View>

@@ -33,7 +33,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'female',
 		weight: 8,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -55,7 +55,7 @@ export const dataAnimals: IAnimalsData[] = [
 		type: 'dog',
 		breed: 'Samoyed',
 		description:
-			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
+			'My dog is incredibly and unconditionally loyal to me. He loves me as much as I love him or sometimes more.',
 		gender: 'male',
 		weight: 12,
 		vaccine: true,
