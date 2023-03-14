@@ -26,7 +26,7 @@ export default function App() {
 		<NavigationContainer>
 			<Navigator screenOptions={{ headerShown: false }} initialRouteName="Home">
 				<Screen name="Home" component={HomeRootNavigator} />
-				<Screen name="Profil" component={ProfileScreen} />
+				<Screen name="Profile" component={ProfileScreen} />
 				<Screen name="Chat" component={ChatScreen} />
 				<Screen name="Favorite" component={FavoriteScreen} />
 			</Navigator>

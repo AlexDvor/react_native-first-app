@@ -1,6 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { FC } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
 import { HomeRootStackParamList } from '~interfaces/navigator.types'
 
 import { DefaultHomeScreen } from './DefaultHomeScreen'
@@ -8,7 +7,7 @@ import { AnimalProfileScreen } from './NestedHomeScreen/AnimalProfileScreen'
 
 const HomeStack = createStackNavigator<HomeRootStackParamList>()
 
-export const HomeRootNavigator = () => {
+export const HomeRootNavigator: FC = () => {
 	const { Navigator, Screen } = HomeStack
 	return (
 		<Navigator>
@@ -20,16 +19,3 @@ export const HomeRootNavigator = () => {
 		</Navigator>
 	)
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-
-	text: {
-		color: 'red',
-		fontSize: 25,
-	},
-})

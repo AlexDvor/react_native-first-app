@@ -1,16 +1,18 @@
 import { FC } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { IAnimalsData } from '~interfaces/animals.types'
+import { TScreenName } from '~interfaces/navigator.types'
 
 import { GalleryItem } from './GalleryItem'
 
 interface IGallery {
 	items: IAnimalsData[]
+	screenName: TScreenName
 }
 
 //add in last elements a marginBottom
 
-export const Gallery: FC<IGallery> = ({ items }) => {
+export const Gallery: FC<IGallery> = ({ items, screenName }) => {
 	return (
 		<View style={styles.container}>
 			<FlatList
@@ -24,7 +26,13 @@ export const Gallery: FC<IGallery> = ({ items }) => {
 				renderItem={({ item, index }) => {
 					const lastElem = items.slice(-2)
 					const idsElem = lastElem.map((item) => item.id)
-					return <GalleryItem item={item} lastIdElements={idsElem} />
+					return (
+						<GalleryItem
+							item={item}
+							lastIdElements={idsElem}
+							screenName={screenName}
+						/>
+					)
 				}}
 				keyExtractor={(item) => String(item.id)}
 				columnWrapperStyle={{

@@ -4,23 +4,24 @@ import { FC, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FONTS } from '~constants/theme'
 import { IAnimalsData } from '~interfaces/animals.types'
+import { TNavigationComponent, TScreenName } from '~interfaces/navigator.types'
 
 interface IGalleryItemProps {
 	item: IAnimalsData
 	lastIdElements?: number[]
+	screenName: TScreenName
 }
 
 //add in last elements a marginBottom
 
-export const GalleryItem: FC<IGalleryItemProps> = ({ item }) => {
+export const GalleryItem: FC<IGalleryItemProps> = ({ item, screenName }) => {
 	const [isFavorite, setIsFavorite] = useState(true)
-	const { navigate } = useNavigation()
-	const id = item.id
+	const { navigate } = useNavigation<TNavigationComponent>()
 
 	return (
 		<TouchableOpacity
 			style={styles.container}
-			onPress={() => console.log('fff')}
+			onPress={() => navigate(screenName, { itemId: item.id })}
 		>
 			<View style={styles.imageWrapper}>
 				<Image style={styles.image} source={item.imageUrl}></Image>

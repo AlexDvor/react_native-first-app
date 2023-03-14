@@ -1,9 +1,11 @@
 import type { StackScreenProps } from '@react-navigation/stack'
+import { StackNavigationProp } from '@react-navigation/stack'
 
-//RootStackParamList
+export type TScreenName = 'AnimalProfileScreen'
+
 export type HomeRootStackParamList = {
 	DefaultHomeScreen: undefined
-	AnimalProfileScreen: undefined
+	AnimalProfileScreen: { itemId: number }
 }
 
 export type DefaultHomeProps = StackScreenProps<
@@ -15,3 +17,5 @@ export type ProfileAnimalProps = StackScreenProps<
 	HomeRootStackParamList,
 	'AnimalProfileScreen'
 >
+
+export type TNavigationComponent = StackNavigationProp<HomeRootStackParamList>
