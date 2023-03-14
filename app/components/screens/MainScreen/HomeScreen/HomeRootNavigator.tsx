@@ -1,24 +1,23 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { FC } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { HomeRootStackParamList } from '~interfaces/navigator.types'
 
 import { DefaultHomeScreen } from './DefaultHomeScreen'
 import { AnimalProfileScreen } from './NestedHomeScreen/AnimalProfileScreen'
 
-const HomeStack = createStackNavigator()
+const HomeStack = createStackNavigator<HomeRootStackParamList>()
 
-export const HomeRoute = () => {
+export const HomeRootNavigator = () => {
+	const { Navigator, Screen } = HomeStack
 	return (
-		<HomeStack.Navigator>
-			<HomeStack.Screen
-				name="DefaultHomeScreen"
-				component={DefaultHomeScreen}
-			></HomeStack.Screen>
-			<HomeStack.Screen
+		<Navigator>
+			<Screen name="DefaultHomeScreen" component={DefaultHomeScreen}></Screen>
+			<Screen
 				name="AnimalProfileScreen"
 				component={AnimalProfileScreen}
-			></HomeStack.Screen>
-		</HomeStack.Navigator>
+			></Screen>
+		</Navigator>
 	)
 }
 

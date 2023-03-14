@@ -7,21 +7,20 @@ import { IAnimalsData } from '~interfaces/animals.types'
 
 interface IGalleryItemProps {
 	item: IAnimalsData
-	lastIdElements: number[]
+	lastIdElements?: number[]
 }
 
 //add in last elements a marginBottom
 
 export const GalleryItem: FC<IGalleryItemProps> = ({ item }) => {
 	const [isFavorite, setIsFavorite] = useState(true)
-	const navigation = useNavigation()
-	const handleOnPress = (id: number) => {
-		console.log(id)
-	}
+	const { navigate } = useNavigation()
+	const id = item.id
+
 	return (
 		<TouchableOpacity
 			style={styles.container}
-			onPress={() => navigation.navigate('AnimalProfileScreen')}
+			onPress={() => console.log('fff')}
 		>
 			<View style={styles.imageWrapper}>
 				<Image style={styles.image} source={item.imageUrl}></Image>

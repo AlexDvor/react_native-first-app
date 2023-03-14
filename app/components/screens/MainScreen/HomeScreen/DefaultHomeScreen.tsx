@@ -6,12 +6,19 @@ import { Logo } from '~components/ui/Logo/Logo'
 import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenuList'
 import { menuData } from '~components/ui/ScrollableMenu/menu.data'
 import { COLORS } from '~constants/theme'
+import { DefaultHomeProps } from '~interfaces/navigator.types'
 
 import { dataAnimals } from '../../../../data/animals'
 
-export const DefaultHomeScreen: FC = ({}) => {
+export const DefaultHomeScreen: FC<DefaultHomeProps> = ({
+	route,
+	navigation,
+}: DefaultHomeProps) => {
 	const [hasNotification, setHasNotification] = useState(true)
 	const handleOnPressTypeMenu = () => {}
+	const handleOnPressItem = () => {
+		console.log()
+	}
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#F8F8F8' }}>

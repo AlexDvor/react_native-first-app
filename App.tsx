@@ -5,12 +5,13 @@ import { StyleSheet } from 'react-native'
 import 'react-native-gesture-handler'
 import { ChatScreen } from '~components/screens/MainScreen/ChatScreen/ChatScreen'
 import { FavoriteScreen } from '~components/screens/MainScreen/FavoriteScreen/FavoriteScreen'
-import { HomeRoute } from '~components/screens/MainScreen/HomeScreen/HomeRoute'
+import { HomeRootNavigator } from '~components/screens/MainScreen/HomeScreen/HomeRootNavigator'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen/ProfileScreen'
 
 const MainTabs = createBottomTabNavigator()
 
 export default function App() {
+	const { Navigator, Screen } = MainTabs
 	const [fontsLoaded] = useFonts({
 		'OpenSans-Regular': require('./app/assets/fonts/OpenSans-Regular.ttf'),
 		'OpenSans-Bold': require('./app/assets/fonts/OpenSans-Bold.ttf'),
@@ -23,12 +24,12 @@ export default function App() {
 
 	return (
 		<NavigationContainer>
-			<MainTabs.Navigator screenOptions={{ headerShown: false }}>
-				<MainTabs.Screen name="HomeRoute" component={HomeRoute} />
-				<MainTabs.Screen name="ProfileScreen" component={ProfileScreen} />
-				<MainTabs.Screen name="ChatScreen" component={ChatScreen} />
-				<MainTabs.Screen name="FavoriteScreen" component={FavoriteScreen} />
-			</MainTabs.Navigator>
+			<Navigator screenOptions={{ headerShown: false }} initialRouteName="Home">
+				<Screen name="Home" component={HomeRootNavigator} />
+				<Screen name="Profil" component={ProfileScreen} />
+				<Screen name="Chat" component={ChatScreen} />
+				<Screen name="Favorite" component={FavoriteScreen} />
+			</Navigator>
 		</NavigationContainer>
 	)
 }
