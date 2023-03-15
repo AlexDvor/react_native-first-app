@@ -60,6 +60,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 							<Text style={styles.featureValue}>{item.color}</Text>
 						</View>
 					</View>
+
 					<Text style={styles.reviewOwner}>{item.description}</Text>
 
 					<View style={styles.iconWrapper}>
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
 		width: 300,
 		backgroundColor: 'rgba(245, 150, 143, 0.4)',
 	},
+
 	generalInfoName: {},
 	generalInfoBreedAndAge: {},
 
@@ -143,9 +145,9 @@ const styles = StyleSheet.create({
 
 	featureItem: {
 		backgroundColor: 'rgba(245, 150, 143, 0.20)',
-		padding: 15,
+		padding: 10,
 		borderRadius: 20,
-		width: 110,
+		width: 100,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
@@ -185,3 +187,6 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 })
+function setLengthMore(arg0: boolean) {
+	throw new Error('Function not implemented.')
+}

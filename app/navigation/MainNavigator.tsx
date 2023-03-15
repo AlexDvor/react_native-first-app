@@ -8,13 +8,15 @@ import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen/Prof
 
 const MainTabs = createBottomTabNavigator()
 
+const screenConfig = {
+	headerShown: false,
+	tabBarShowLabel: false,
+}
+
 export const MainNavigator = () => {
 	const { Navigator, Screen } = MainTabs
 	return (
-		<Navigator
-			screenOptions={{ headerShown: false, tabBarShowLabel: false }}
-			initialRouteName="Home"
-		>
+		<Navigator screenOptions={screenConfig} initialRouteName="Home">
 			<Screen
 				name="Home"
 				component={HomeRootNavigator}
