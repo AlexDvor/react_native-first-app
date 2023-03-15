@@ -10,7 +10,7 @@ const HomeStack = createStackNavigator<HomeRootStackParamList>()
 export const HomeRootNavigator: FC = () => {
 	const { Navigator, Screen } = HomeStack
 	return (
-		<Navigator screenOptions={{ headerShown: false }}>
+		<Navigator screenOptions={{ headerShown: true }}>
 			<Screen name="HomeScreen" component={HomeScreen}></Screen>
 			<Screen
 				name="AnimalProfileScreen"

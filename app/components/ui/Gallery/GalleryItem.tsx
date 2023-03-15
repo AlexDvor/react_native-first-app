@@ -15,8 +15,6 @@ interface IGalleryItemProps {
 	navigateTo: THomeScreenName
 }
 
-//add in last elements a marginBottom
-
 export const GalleryItem: FC<IGalleryItemProps> = ({ item, navigateTo }) => {
 	const [isFavorite, setIsFavorite] = useState(true)
 	const { navigate } = useNavigation<TNavigationComponent>()
