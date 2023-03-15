@@ -13,7 +13,7 @@ export interface IAnimalsData {
 	imageUrl: ImageSourcePropType
 	type: 'dog' | 'cat'
 	description: string
-	gender: 'female' | 'male'
+	gender: 'Female' | 'Male'
 	weight: number
 	height: number
 	vaccine: boolean

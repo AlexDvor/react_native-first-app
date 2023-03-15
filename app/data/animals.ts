@@ -1,5 +1,7 @@
 import { IAnimalsData } from '~interfaces/animals.types'
 
+//delete behavior option
+
 export const dataAnimals: IAnimalsData[] = [
 	{
 		id: 1,
@@ -9,8 +11,8 @@ export const dataAnimals: IAnimalsData[] = [
 		type: 'cat',
 		breed: 'British Longhair',
 		description:
-			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles',
+		gender: 'Male',
 		weight: 3,
 		vaccine: false,
 		owner: { id: 11, name: 'Alex' },
@@ -33,7 +35,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'female',
+		gender: 'Female',
 		weight: 8,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -56,7 +58,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Samoyed',
 		description:
 			'My dog is incredibly and unconditionally loyal to me. He loves me as much as I love him or sometimes more.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 12,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -79,7 +81,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -101,7 +103,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Half-Breed',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -123,7 +125,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Jack Russell terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -145,7 +147,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'British Longhair',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 3,
 		vaccine: false,
 		owner: { id: 11, name: 'Alex' },
@@ -168,7 +170,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 8,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -191,7 +193,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Samoyed',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 12,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -214,7 +216,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -236,7 +238,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Half-Breed',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -258,7 +260,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Jack Russell terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -280,7 +282,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'British Longhair',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 3,
 		vaccine: false,
 		owner: { id: 11, name: 'Alex' },
@@ -303,7 +305,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 8,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -326,7 +328,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Samoyed',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 12,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -349,7 +351,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -371,7 +373,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Half-Breed',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Male',
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },
@@ -393,7 +395,7 @@ export const dataAnimals: IAnimalsData[] = [
 		breed: 'Jack Russell terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'male',
+		gender: 'Female',
 		weight: 3,
 		vaccine: true,
 		owner: { id: 11, name: 'Alex' },

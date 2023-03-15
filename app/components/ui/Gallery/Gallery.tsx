@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { THomeScreenName } from '~interfaces/navigator.types'
 

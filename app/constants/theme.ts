@@ -1,5 +1,8 @@
-// import { Dimensions } from "react-native";
-// const { width, height } = Dimensions.get("window");
+import { Dimensions } from 'react-native'
+
+const { width, height } = Dimensions.get('window')
+export const widthScreen = width
+export const heightScreen = height
 
 export const COLORS = {
 	// primary: '#7F5DF0', // Light purple
@@ -17,11 +20,23 @@ export const COLORS = {
 
 	// Button color
 	primaryBtn: '#F2968F',
+	secondaryBtn: '#111c1e',
 	primaryTextColorBtn: '#FCFCFC',
 
 	//Notification
 	notificationDotColor: '#F2968F',
 	notificationBackgroundColor: '#FCFCFC',
+
+	// favoriteIcon
+	iconFavoriteBg: '#111c1e',
+	iconFavoriteColor: '#FCFCFC',
+
+	//ItemCard
+
+	ageCardContainerColor: '#fef6eb',
+	genderCardContainerColor: '#e2e8fe',
+	weightCardContainerColor: '#ffd9d8',
+	vaccineCardContainerColor: '#eaffe0',
 }
 export const SIZES = {
 	// global sizes
@@ -69,11 +84,12 @@ export const FONTS = {
 		fontSize: SIZES.body3,
 		lineHeight: 14,
 	},
-	// body4: {
-	// 	fontFamily: 'Roboto-Regular',
-	// 	fontSize: SIZES.body4,
-	// 	lineHeight: 22,
-	// },
+	bodyCard1: {
+		fontFamily: 'OpenSans-Bold',
+		fontSize: SIZES.body1,
+		lineHeight: 22,
+	},
+
 	// body5: {
 	// 	fontFamily: 'Roboto-Regular',
 	// 	fontSize: SIZES.body5,

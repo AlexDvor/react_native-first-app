@@ -21,7 +21,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 	}
 
 	return (
-		<SafeAreaView style={{ flex: 1, backgroundColor: '#F8F8F8' }}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<View style={styles.container}>
 				<View style={styles.headerContainer}>
 					<Logo logoColor={'#2B2B2E'} />

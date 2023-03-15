@@ -1,4 +1,3 @@
-import Ionicons from '@expo/vector-icons/MaterialCommunityIcons'
 import { FC } from 'react'
 import {
 	Image,
@@ -8,8 +7,13 @@ import {
 	Text,
 	View,
 } from 'react-native'
-import { FONTS } from '~constants/theme'
+import { COLORS } from '~constants/theme'
+import { widthScreen } from '~constants/theme'
 import { IAnimalsData } from '~interfaces/animals.types'
+
+import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
+import { PrimaryButton } from '../PrimaryButton/PrimaryButton'
+import { TextContainer } from '../TextContainer/TextContainer'
 
 interface IAnimalProfileCard {
 	item: IAnimalsData
@@ -17,68 +21,50 @@ interface IAnimalProfileCard {
 
 export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<ScrollView>
 				<View style={styles.imageWrapper}>
 					<Image style={styles.image} source={item.imageUrl} />
-					<View style={styles.generalInfoWrapper}>
-						<View>
-							<Text>{item.name}</Text>
-							<Text>{`${item.breed} · 1y 4m`}</Text>
-						</View>
-						<View style={styles.iconGender}>
-							{item.gender === 'male' ? (
-								<Ionicons name="gender-male" size={32} color="white" />
-							) : (
-								<Ionicons name="gender-female" size={32} color="white" />
-							)}
-						</View>
-					</View>
 				</View>
 
 				<View style={styles.infoWrapper}>
-					<View style={styles.iconWrapper}>
-						<Image
-							style={{ width: 26, height: 26 }}
-							source={require('../../../assets/icons/pet.png')}
-						></Image>
-
-						<Text style={styles.sectionTitle}>{`About ${item.name}`}</Text>
-					</View>
-
+					<Text style={styles.breed}>{item.breed}</Text>
+					<Text style={styles.type}>{item.type}</Text>
 					<View style={styles.featureWrapper}>
-						<View style={styles.featureItem}>
+						<View style={[styles.featureItem, styles.ageBackColor]}>
+							<Text>Age</Text>
+							<Text style={styles.featureValue}>{item.age}</Text>
+						</View>
+						<View style={[styles.featureItem, styles.genderBackColor]}>
+							<Text>Gender</Text>
+							<Text style={styles.featureValue}>{item.gender}</Text>
+						</View>
+						<View style={[styles.featureItem, styles.weightBackColor]}>
 							<Text>Weight</Text>
-							<Text style={styles.featureValue}>{`${item.weight} kg`}</Text>
+							<Text style={styles.featureValue}>{item.weight}</Text>
 						</View>
-						<View style={styles.featureItem}>
-							<Text>Height</Text>
-							<Text style={styles.featureValue}>{`${item.height} cm`}</Text>
-						</View>
-						<View style={styles.featureItem}>
-							<Text>Color</Text>
-							<Text style={styles.featureValue}>{item.color}</Text>
+						<View style={[styles.featureItem, styles.vaccineBackColor]}>
+							<Text>Vaccine</Text>
+							<Text style={styles.featureValue}>
+								{item.vaccine ? 'Yes' : 'No'}
+							</Text>
 						</View>
 					</View>
 
-					<Text style={styles.reviewOwner}>{item.description}</Text>
+					<TextContainer
+						textStyle={styles.reviewOwner}
+						numberOfLines={3}
+						text={item.description}
+					/>
 
-					<View style={styles.iconWrapper}>
-						<Image
-							style={{ width: 26, height: 26 }}
-							source={require('../../../assets/icons/smileys.png')}
-						></Image>
-						<Text style={styles.sectionTitle}>{`${item.name} behavior`}</Text>
+					<View style={styles.buttonsWrapper}>
+						<FavoriteIcon />
+						<PrimaryButton
+							title="Adopt Now"
+							widthButton={300}
+							backgroundColorButton={'secondaryBtn'}
+						></PrimaryButton>
 					</View>
-					{item.behavior && (
-						<View style={styles.behaviorWrapper}>
-							{item.behavior.map((item, index) => (
-								<View style={styles.behaviorItem} key={index}>
-									<Text style={styles.behaviorText}>{item}</Text>
-								</View>
-							))}
-						</View>
-					)}
 				</View>
 			</ScrollView>
 		</SafeAreaView>
@@ -88,68 +74,56 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 const styles = StyleSheet.create({
 	imageWrapper: {
 		width: '100%',
-		position: 'relative',
+		marginBottom: 15,
 	},
 
 	image: { width: '100%', height: 400 },
 
-	generalInfoWrapper: {
-		position: 'absolute',
-		bottom: '-10%',
-		left: '10%',
-		marginHorizontal: 15,
-
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingVertical: 25,
-		paddingHorizontal: 15,
-		borderRadius: 20,
-		width: 300,
-		backgroundColor: 'rgba(245, 150, 143, 0.4)',
-	},
-
-	generalInfoName: {},
-	generalInfoBreedAndAge: {},
-
-	iconGender: {
-		width: 40,
-		height: 40,
-		backgroundColor: 'rgba(245, 150, 143, 1)',
-		borderRadius: 10,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-
 	infoWrapper: {
 		marginHorizontal: 15,
-		marginTop: 50,
 	},
 
-	iconWrapper: {
-		flexDirection: 'row',
-		alignItems: 'center',
+	breed: {
+		fontFamily: 'OpenSans-Bold',
+		fontSize: 16,
+		lineHeight: 22,
+		marginBottom: 5,
 	},
-
-	sectionTitle: {
-		...FONTS.body1,
-		marginBottom: 10,
-		marginTop: 10,
-		marginLeft: 6,
+	type: {
+		fontFamily: 'OpenSans-Regular',
+		fontSize: 15,
+		lineHeight: 16,
+		marginBottom: 15,
 	},
 
 	featureWrapper: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		justifyContent: 'center',
+		gap: 10,
 		marginBottom: 20,
 	},
 
 	featureItem: {
 		backgroundColor: 'rgba(245, 150, 143, 0.20)',
-		padding: 10,
 		borderRadius: 20,
-		width: 100,
+		width: widthScreen / 4 - 15,
+		height: 70,
 		justifyContent: 'center',
 		alignItems: 'center',
+		elevation: 1,
+	},
+
+	ageBackColor: {
+		backgroundColor: COLORS.ageCardContainerColor,
+	},
+	genderBackColor: {
+		backgroundColor: COLORS.genderCardContainerColor,
+	},
+	weightBackColor: {
+		backgroundColor: COLORS.weightCardContainerColor,
+	},
+	vaccineBackColor: {
+		backgroundColor: COLORS.vaccineCardContainerColor,
 	},
 
 	featureValue: {
@@ -160,33 +134,15 @@ const styles = StyleSheet.create({
 
 	reviewOwner: {
 		color: 'rgba(161, 161, 161, 1)',
-		fontSize: 16,
+		fontSize: 15,
 		lineHeight: 21,
-		marginBottom: 20,
+		marginBottom: 5,
 	},
 
-	behaviorWrapper: {
-		flexWrap: 'wrap',
+	buttonsWrapper: {
 		flexDirection: 'row',
-		gap: 15,
-		marginBottom: 10,
-	},
-
-	behaviorTitle: {
-		...FONTS.body1,
-		marginBottom: 10,
-	},
-
-	behaviorItem: {
-		borderWidth: 1,
-		padding: 8,
-		borderRadius: 25,
-		borderColor: 'rgba(245, 150, 143, 1)',
-	},
-	behaviorText: {
-		fontSize: 16,
+		justifyContent: 'space-around',
+		marginBottom: 30,
+		marginTop: 10,
 	},
 })
-function setLengthMore(arg0: boolean) {
-	throw new Error('Function not implemented.')
-}
