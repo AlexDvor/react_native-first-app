@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import {
 	Image,
 	SafeAreaView,
@@ -13,19 +13,30 @@ import { IAnimalsData } from '~interfaces/animals.types'
 
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
 import { PrimaryButton } from '../PrimaryButton/PrimaryButton'
-import { TextContainer } from '../TextContainer/TextContainer'
+import { ReadMoreContainer } from '../ReadMoreContainer/ReadMoreContainer'
+import { Slider } from '../Slider/Slider'
 
 interface IAnimalProfileCard {
 	item: IAnimalsData
 }
 
 export const Card: FC<IAnimalProfileCard> = ({ item }) => {
+	const scrollCurrentRef = useRef(null)
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
-			<ScrollView>
-				<View style={styles.imageWrapper}>
-					<Image style={styles.image} source={item.imageUrl} />
-				</View>
+			<ScrollView ref={scrollCurrentRef}>
+				{item.imageUri.length === 1 ? (
+					<>
+						<View style={styles.imageWrapper}>
+							<Image style={styles.image} source={item.imageUri[0].image} />
+						</View>
+					</>
+				) : (
+					<>
+						<Slider imageData={item.imageUri} />
+					</>
+				)}
 
 				<View style={styles.infoWrapper}>
 					<Text style={styles.breed}>{item.breed}</Text>
@@ -51,33 +62,49 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 						</View>
 					</View>
 
-					<TextContainer
-						textStyle={styles.reviewOwner}
+					<View style={styles.ownerWrapper}>
+						<View style={styles.ownerImageWrapper}>
+							<Image
+								style={{ width: '100%', height: 50 }}
+								source={require('../../../assets/images/owner.jpg')}
+							></Image>
+						</View>
+						<View style={styles.ownerContainer}>
+							<Text style={styles.ownerName}>Kate</Text>
+							<Text>Owner</Text>
+						</View>
+
+						<Text style={{ marginLeft: 'auto' }}>2.0km</Text>
+					</View>
+
+					<ReadMoreContainer
+						textStyle={styles.review}
 						numberOfLines={3}
 						text={item.description}
+						scrollRef={scrollCurrentRef}
 					/>
-
-					<View style={styles.buttonsWrapper}>
-						<FavoriteIcon />
-						<PrimaryButton
-							title="Adopt Now"
-							widthButton={300}
-							backgroundColorButton={'secondaryBtn'}
-						></PrimaryButton>
-					</View>
 				</View>
 			</ScrollView>
+
+			<View style={styles.buttonsWrapper}>
+				<FavoriteIcon />
+				<PrimaryButton
+					title="Adopt Now"
+					widthButton={300}
+					backgroundColorButton={'secondaryBtn'}
+				></PrimaryButton>
+			</View>
 		</SafeAreaView>
 	)
 }
 
 const styles = StyleSheet.create({
 	imageWrapper: {
-		width: '100%',
+		width: widthScreen,
 		marginBottom: 15,
 	},
 
-	image: { width: '100%', height: 400 },
+	image: { width: widthScreen, height: 400 },
 
 	infoWrapper: {
 		marginHorizontal: 15,
@@ -132,11 +159,33 @@ const styles = StyleSheet.create({
 		marginTop: 2,
 	},
 
-	reviewOwner: {
+	review: {
 		color: 'rgba(161, 161, 161, 1)',
 		fontSize: 15,
 		lineHeight: 21,
-		marginBottom: 5,
+		marginBottom: 20,
+	},
+
+	ownerWrapper: {
+		flexDirection: 'row',
+		marginBottom: 20,
+	},
+
+	ownerImageWrapper: {
+		width: 50,
+		height: 50,
+		borderRadius: 50,
+		overflow: 'hidden',
+	},
+
+	ownerContainer: {
+		marginLeft: 8,
+	},
+
+	ownerName: {
+		fontFamily: 'OpenSans-Bold',
+		fontSize: 16,
+		lineHeight: 20,
 	},
 
 	buttonsWrapper: {

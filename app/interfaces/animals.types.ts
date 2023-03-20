@@ -1,8 +1,12 @@
-import { ImageSourcePropType } from 'react-native'
+import { ImageSourcePropType, ImageURISource } from 'react-native'
 
 import { TBreedsCats } from './cat.breeds'
 import { TBreedsDogs } from './dog.breeds'
 import { IUserProfile } from './user.types'
+
+interface IImage {
+	image: ImageSourcePropType
+}
 
 export interface IAnimalsData {
 	id: number
@@ -10,7 +14,7 @@ export interface IAnimalsData {
 	color: string
 	age: number
 	breed: TBreedsCats | TBreedsDogs
-	imageUrl: ImageSourcePropType
+	imageUri: IImage[]
 	type: 'dog' | 'cat'
 	description: string
 	gender: 'Female' | 'Male'

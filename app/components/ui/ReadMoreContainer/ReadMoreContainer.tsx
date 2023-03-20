@@ -1,22 +1,25 @@
 import { FC, useCallback, useState } from 'react'
-import { Text, View } from 'react-native'
-import { TextStyle } from 'react-native'
+import { Text, TextStyle, View } from 'react-native'
 
 interface ITextContainer {
 	text: string
 	numberOfLines: number
 	textStyle: TextStyle
+	scrollRef?: any
 }
 
-export const TextContainer: FC<ITextContainer> = ({
+export const ReadMoreContainer: FC<ITextContainer> = ({
 	text,
 	numberOfLines,
 	textStyle,
+	scrollRef,
 }) => {
 	const [textShown, setTextShown] = useState(false)
 	const [lengthMore, setLengthMore] = useState(false)
 	const toggleNumberOfLines = () => {
 		setTextShown(!textShown)
+		if (!textShown)
+			scrollRef.current?.scrollToEnd({ x: 0, y: 0, animated: true })
 	}
 
 	const onTextLayout = useCallback(

@@ -25,7 +25,7 @@ export const GalleryItem: FC<IGalleryItemProps> = ({ item, navigateTo }) => {
 			onPress={() => navigate(navigateTo, { item: item })}
 		>
 			<View style={styles.imageWrapper}>
-				<Image style={styles.image} source={item.imageUrl}></Image>
+				<Image style={styles.image} source={item.imageUri[0].image}></Image>
 			</View>
 
 			<View style={styles.icon}>

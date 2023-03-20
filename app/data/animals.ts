@@ -7,7 +7,12 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 1,
 		name: 'Miki',
 		age: 2,
-		imageUrl: require('../assets/images/animals/Photo_3.png'),
+		imageUri: [
+			{ image: require('../assets/images/animals/Photo_3.png') },
+			{ image: require('../assets/images/animals/Photo_1.png') },
+			{ image: require('../assets/images/animals/Photo_5.png') },
+		],
+
 		type: 'cat',
 		breed: 'British Longhair',
 		description:
@@ -30,7 +35,12 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 2,
 		name: 'Gary',
 		age: 3,
-		imageUrl: require('../assets/images/animals/Photo_1.png'),
+		imageUri: [
+			{ image: require('../assets/images/animals/Photo_1.png') },
+			{ image: require('../assets/images/animals/test_1.png') },
+			{ image: require('../assets/images/animals/test_2.png') },
+			{ image: require('../assets/images/animals/test_3.png') },
+		],
 		type: 'dog',
 		breed: 'Australian Terrier',
 		description:
@@ -53,7 +63,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 3,
 		name: 'Wolf',
 		age: 4,
-		imageUrl: require('../assets/images/animals/Photo_5.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_5.png') }],
 		type: 'dog',
 		breed: 'Samoyed',
 		description:
@@ -76,7 +86,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 4,
 		name: 'Killer',
 		age: 2,
-		imageUrl: require('../assets/images/animals/Photo_6.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_6.png') }],
 		type: 'cat',
 		breed: 'Australian Terrier',
 		description:
@@ -98,7 +108,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 5,
 		name: 'Peach',
 		age: 2.5,
-		imageUrl: require('../assets/images/animals/Photo_2.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_2.png') }],
 		type: 'cat',
 		breed: 'Half-Breed',
 		description:
@@ -120,7 +130,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 6,
 		name: 'Buggy',
 		age: 4,
-		imageUrl: require('../assets/images/animals/Photo_4.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_4.png') }],
 		type: 'cat',
 		breed: 'Jack Russell terrier',
 		description:
@@ -142,7 +152,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 7,
 		name: 'Miki',
 		age: 2,
-		imageUrl: require('../assets/images/animals/Photo_3.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_3.png') }],
 		type: 'cat',
 		breed: 'British Longhair',
 		description:
@@ -165,7 +175,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 8,
 		name: 'Gary',
 		age: 3,
-		imageUrl: require('../assets/images/animals/Photo_1.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_1.png') }],
 		type: 'dog',
 		breed: 'Australian Terrier',
 		description:
@@ -188,7 +198,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 9,
 		name: 'Wolf',
 		age: 4,
-		imageUrl: require('../assets/images/animals/Photo_5.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_5.png') }],
 		type: 'dog',
 		breed: 'Samoyed',
 		description:
@@ -211,7 +221,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 10,
 		name: 'Killer',
 		age: 2,
-		imageUrl: require('../assets/images/animals/Photo_6.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_6.png') }],
 		type: 'cat',
 		breed: 'Australian Terrier',
 		description:
@@ -233,7 +243,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 11,
 		name: 'Peach',
 		age: 2.5,
-		imageUrl: require('../assets/images/animals/Photo_2.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_2.png') }],
 		type: 'cat',
 		breed: 'Half-Breed',
 		description:
@@ -255,7 +265,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 12,
 		name: 'Buggy',
 		age: 4,
-		imageUrl: require('../assets/images/animals/Photo_4.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_4.png') }],
 		type: 'cat',
 		breed: 'Jack Russell terrier',
 		description:
@@ -277,7 +287,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 13,
 		name: 'Miki',
 		age: 2,
-		imageUrl: require('../assets/images/animals/Photo_3.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_3.png') }],
 		type: 'cat',
 		breed: 'British Longhair',
 		description:
@@ -300,7 +310,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 14,
 		name: 'Gary',
 		age: 3,
-		imageUrl: require('../assets/images/animals/Photo_1.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_1.png') }],
 		type: 'dog',
 		breed: 'Australian Terrier',
 		description:
@@ -323,7 +333,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 15,
 		name: 'Wolf',
 		age: 4,
-		imageUrl: require('../assets/images/animals/Photo_5.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_5.png') }],
 		type: 'dog',
 		breed: 'Samoyed',
 		description:
@@ -346,7 +356,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 16,
 		name: 'Killer',
 		age: 2,
-		imageUrl: require('../assets/images/animals/Photo_6.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_6.png') }],
 		type: 'cat',
 		breed: 'Australian Terrier',
 		description:
@@ -368,7 +378,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 17,
 		name: 'Peach',
 		age: 2.5,
-		imageUrl: require('../assets/images/animals/Photo_2.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_2.png') }],
 		type: 'cat',
 		breed: 'Half-Breed',
 		description:
@@ -390,7 +400,7 @@ export const dataAnimals: IAnimalsData[] = [
 		id: 18,
 		name: 'Buggy',
 		age: 4,
-		imageUrl: require('../assets/images/animals/Photo_4.png'),
+		imageUri: [{ image: require('../assets/images/animals/Photo_4.png') }],
 		type: 'cat',
 		breed: 'Jack Russell terrier',
 		description:
