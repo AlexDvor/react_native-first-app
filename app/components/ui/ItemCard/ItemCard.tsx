@@ -1,4 +1,5 @@
-import { FC, useRef } from 'react'
+import { Feather, Ionicons } from '@expo/vector-icons'
+import React, { FC, useRef } from 'react'
 import {
 	Image,
 	SafeAreaView,
@@ -7,6 +8,7 @@ import {
 	Text,
 	View,
 } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { COLORS } from '~constants/theme'
 import { widthScreenDevice } from '~constants/theme'
 import { IAnimalsData } from '~interfaces/animals.types'
@@ -22,14 +24,25 @@ interface IAnimalProfileCard {
 
 export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 	const scrollCurrentRef = useRef(null)
+	const sizeIcon = 18
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<ScrollView ref={scrollCurrentRef} style={{}}>
 				<Slider imageData={item.imageUri} />
+
 				<View style={styles.infoWrapper}>
 					<Text style={styles.breed}>{item.breed}</Text>
-					<Text style={styles.type}>{item.type}</Text>
+
+					<View style={styles.containerLocation}>
+						<Ionicons
+							name="md-location-outline"
+							size={sizeIcon}
+							color={'#111c1e'}
+							style={{ height: sizeIcon, width: sizeIcon }}
+						/>
+						<Text style={styles.location}>California ( 2,5km )</Text>
+					</View>
 					<View style={styles.featureWrapper}>
 						<View style={[styles.featureItem, styles.ageBackColor]}>
 							<Text>Age</Text>
@@ -54,7 +67,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 					<View style={styles.ownerWrapper}>
 						<View style={styles.ownerImageWrapper}>
 							<Image
-								style={{ width: '100%', height: 50 }}
+								style={{ width: '100%', height: '100%' }}
 								source={require('../../../assets/images/owner.jpg')}
 							></Image>
 						</View>
@@ -62,8 +75,32 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 							<Text style={styles.ownerName}>Kate</Text>
 							<Text>Owner</Text>
 						</View>
-
-						<Text style={{ marginLeft: 'auto' }}>2.0km</Text>
+						<View
+							style={{
+								marginLeft: 'auto',
+							}}
+						>
+							<TouchableOpacity
+								style={{
+									width: 45,
+									height: 45,
+									backgroundColor: '#111c1e',
+									alignItems: 'center',
+									justifyContent: 'center',
+									borderRadius: 50,
+								}}
+							>
+								<Feather
+									name="message-circle"
+									size={25}
+									color={'#FCFCFC'}
+									style={{
+										height: 25,
+										width: 25,
+									}}
+								/>
+							</TouchableOpacity>
+						</View>
 					</View>
 
 					<ReadMoreContainer
@@ -73,16 +110,16 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 						scrollRef={scrollCurrentRef}
 					/>
 				</View>
-			</ScrollView>
 
-			<View style={styles.buttonsWrapper}>
-				<FavoriteIcon />
-				<PrimaryButton
-					title="Adopt Now"
-					widthButton={300}
-					backgroundColorButton={'secondaryBtn'}
-				></PrimaryButton>
-			</View>
+				<View style={styles.buttonsWrapper}>
+					<FavoriteIcon />
+					<PrimaryButton
+						title="Adopt Now"
+						widthButton={300}
+						backgroundColorButton={'secondaryBtn'}
+					></PrimaryButton>
+				</View>
+			</ScrollView>
 		</SafeAreaView>
 	)
 }
@@ -98,25 +135,34 @@ const styles = StyleSheet.create({
 		lineHeight: 22,
 		marginBottom: 5,
 	},
-	type: {
+
+	containerLocation: {
+		flexDirection: 'row',
+		alignItems: 'baseline',
+		marginBottom: 20,
+	},
+
+	location: {
 		fontFamily: 'OpenSans-Regular',
-		fontSize: 15,
+		fontSize: 14,
 		lineHeight: 16,
-		marginBottom: 15,
+
+		color: 'rgba(161, 161, 161, 1)',
+		marginLeft: 5,
 	},
 
 	featureWrapper: {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		gap: 10,
-		marginBottom: 20,
+		marginBottom: 22,
 	},
 
 	featureItem: {
 		backgroundColor: 'rgba(245, 150, 143, 0.20)',
 		borderRadius: 20,
 		width: widthScreenDevice / 4 - 15,
-		height: 70,
+		height: 60,
 		justifyContent: 'center',
 		alignItems: 'center',
 		elevation: 1,
@@ -151,11 +197,12 @@ const styles = StyleSheet.create({
 	ownerWrapper: {
 		flexDirection: 'row',
 		marginBottom: 20,
+		alignItems: 'center',
 	},
 
 	ownerImageWrapper: {
-		width: 50,
-		height: 50,
+		width: 60,
+		height: 60,
 		borderRadius: 50,
 		overflow: 'hidden',
 	},
