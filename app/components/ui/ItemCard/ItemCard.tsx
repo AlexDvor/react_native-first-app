@@ -26,17 +26,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<ScrollView ref={scrollCurrentRef} style={{}}>
-				{item.imageUri.length === 1 ? (
-					<>
-						<View style={styles.imageWrapper}>
-							<Image style={[styles.image]} source={item.imageUri[0].image} />
-						</View>
-					</>
-				) : (
-					<>
-						<Slider imageData={item.imageUri} />
-					</>
-				)}
+				<Slider imageData={item.imageUri} />
 
 				<View style={styles.infoWrapper}>
 					<Text style={styles.breed}>{item.breed}</Text>

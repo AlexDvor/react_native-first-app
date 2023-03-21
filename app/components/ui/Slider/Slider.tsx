@@ -43,20 +43,32 @@ export const Slider: FC<ISliderProps> = ({ imageData }) => {
 
 	return (
 		<>
-			<FlatList
-				data={imageData}
-				pagingEnabled
-				snapToAlignment="center"
-				horizontal
-				keyExtractor={(_, index) => String(index)}
-				showsHorizontalScrollIndicator={false}
-				onScroll={handleOnScroll}
-				onViewableItemsChanged={handleOnViewableItemsChange}
-				viewabilityConfig={viewabilityConfig}
-				renderItem={({ item }) => <SliderItem image={item.image} />}
-			/>
+			{imageData.length === 1 ? (
+				<>
+					<SliderItem image={imageData[0].image} />
+				</>
+			) : (
+				<>
+					<FlatList
+						data={imageData}
+						pagingEnabled
+						snapToAlignment="center"
+						horizontal
+						keyExtractor={(_, index) => String(index)}
+						showsHorizontalScrollIndicator={false}
+						onScroll={handleOnScroll}
+						onViewableItemsChanged={handleOnViewableItemsChange}
+						viewabilityConfig={viewabilityConfig}
+						renderItem={({ item }) => <SliderItem image={item.image} />}
+					/>
 
-			<PaginationIndicator data={imageData} scrollX={scrollX} index={index} />
+					<PaginationIndicator
+						data={imageData}
+						scrollX={scrollX}
+						index={index}
+					/>
+				</>
+			)}
 		</>
 	)
 }

@@ -8,11 +8,9 @@ interface ISliderItemProps {
 
 export const SliderItem: FC<ISliderItemProps> = ({ image }) => {
 	return (
-		<>
-			<View style={[styles.imageWrapper, styles.relative]}>
-				<Image style={styles.image} source={image} />
-			</View>
-		</>
+		<View style={[styles.imageWrapper, styles.relative]}>
+			<Image style={styles.image} source={image} />
+		</View>
 	)
 }
 
