@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Animated, ImageSourcePropType, StyleSheet, View } from 'react-native'
-import { widthScreen } from '~constants/theme'
+import { widthScreenDevice } from '~constants/theme'
 
 interface PaginationIndicatorProps {
 	data: { image: ImageSourcePropType }[]
@@ -17,9 +17,9 @@ export const PaginationIndicator: FC<PaginationIndicatorProps> = ({
 		<View style={styles.container}>
 			{data.map((_: any, idx: number) => {
 				const inputRange = [
-					(idx - 1) * widthScreen,
-					idx * widthScreen,
-					(idx + 1) * widthScreen,
+					(idx - 1) * widthScreenDevice,
+					idx * widthScreenDevice,
+					(idx + 1) * widthScreenDevice,
 				]
 
 				const dotWidth = scrollX.interpolate({
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		position: 'absolute',
-		top: 380,
+		top: 430,
 		right: 20,
 	},
 

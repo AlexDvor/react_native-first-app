@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native'
-import { widthScreen } from '~constants/theme'
+import { widthScreenDevice } from '~constants/theme'
 
 interface ISliderItemProps {
 	image: ImageSourcePropType
@@ -18,7 +18,8 @@ export const SliderItem: FC<ISliderItemProps> = ({ image }) => {
 
 const styles = StyleSheet.create({
 	imageWrapper: {
-		width: widthScreen,
+		width: widthScreenDevice,
+		height: 450,
 		marginBottom: 15,
 	},
 
@@ -26,5 +27,5 @@ const styles = StyleSheet.create({
 		position: 'relative',
 	},
 
-	image: { width: widthScreen, height: 400 },
+	image: { width: widthScreenDevice, height: '100%', resizeMode: 'cover' },
 })

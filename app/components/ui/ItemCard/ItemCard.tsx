@@ -1,6 +1,5 @@
 import { FC, useRef } from 'react'
 import {
-	DrawerLayoutAndroid,
 	Image,
 	SafeAreaView,
 	ScrollView,
@@ -26,11 +25,11 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
-			<ScrollView ref={scrollCurrentRef}>
+			<ScrollView ref={scrollCurrentRef} style={{}}>
 				{item.imageUri.length === 1 ? (
 					<>
 						<View style={styles.imageWrapper}>
-							<Image style={styles.image} source={item.imageUri[0].image} />
+							<Image style={[styles.image]} source={item.imageUri[0].image} />
 						</View>
 					</>
 				) : (
@@ -102,11 +101,11 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 const styles = StyleSheet.create({
 	imageWrapper: {
 		width: widthScreenDevice,
-		flex: 0.6,
+		height: 450,
 		marginBottom: 15,
 	},
 
-	image: { width: widthScreenDevice },
+	image: { width: widthScreenDevice, height: '100%', resizeMode: 'cover' },
 
 	infoWrapper: {
 		marginHorizontal: 15,

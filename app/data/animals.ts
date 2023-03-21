@@ -11,6 +11,8 @@ export const dataAnimals: IAnimalsData[] = [
 			{ image: require('../assets/images/animals/Photo_3.png') },
 			{ image: require('../assets/images/animals/Photo_1.png') },
 			{ image: require('../assets/images/animals/Photo_5.png') },
+			{ image: require('../assets/images/animals/Photo_2.png') },
+			{ image: require('../assets/images/animals/Photo_6.png') },
 		],
 
 		type: 'cat',
