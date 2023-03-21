@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { FC, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FONTS } from '~constants/theme'
+import { widthScreenDevice } from '~constants/theme'
 import { IAnimalsData } from '~interfaces/animals.types'
 import {
 	THomeScreenName,
@@ -51,7 +52,7 @@ export const GalleryItem: FC<IGalleryItemProps> = ({ item, navigateTo }) => {
 const styles = StyleSheet.create({
 	container: {
 		borderRadius: 16,
-		width: 187,
+		width: widthScreenDevice / 2 - 20,
 		height: 192,
 		overflow: 'hidden',
 		backgroundColor: '#FCFCFC',
