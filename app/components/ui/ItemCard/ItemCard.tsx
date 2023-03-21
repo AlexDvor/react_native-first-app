@@ -1,5 +1,6 @@
 import { FC, useRef } from 'react'
 import {
+	DrawerLayoutAndroid,
 	Image,
 	SafeAreaView,
 	ScrollView,
@@ -8,7 +9,7 @@ import {
 	View,
 } from 'react-native'
 import { COLORS } from '~constants/theme'
-import { widthScreen } from '~constants/theme'
+import { widthScreenDevice } from '~constants/theme'
 import { IAnimalsData } from '~interfaces/animals.types'
 
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
@@ -100,11 +101,12 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 
 const styles = StyleSheet.create({
 	imageWrapper: {
-		width: widthScreen,
+		width: widthScreenDevice,
+		flex: 0.6,
 		marginBottom: 15,
 	},
 
-	image: { width: widthScreen, height: 400 },
+	image: { width: widthScreenDevice },
 
 	infoWrapper: {
 		marginHorizontal: 15,
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
 	featureItem: {
 		backgroundColor: 'rgba(245, 150, 143, 0.20)',
 		borderRadius: 20,
-		width: widthScreen / 4 - 15,
+		width: widthScreenDevice / 4 - 15,
 		height: 70,
 		justifyContent: 'center',
 		alignItems: 'center',

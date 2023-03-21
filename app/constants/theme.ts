@@ -1,8 +1,8 @@
 import { Dimensions } from 'react-native'
 
 const { width, height } = Dimensions.get('window')
-export const widthScreen = width
-export const heightScreen = height
+export const widthScreenDevice = width
+export const heightScreenDevice = height
 
 export const COLORS = {
 	// primary: '#7F5DF0', // Light purple
