@@ -26,15 +26,7 @@ export const MainNavigator = () => {
 					),
 				}}
 			/>
-			<Screen
-				name="Profile"
-				component={ProfileScreen}
-				options={{
-					tabBarIcon: ({ size, color }) => (
-						<MaterialIcon name="account-circle" size={size} color={color} />
-					),
-				}}
-			/>
+
 			<Screen
 				name="Chat"
 				component={ChatScreen}
@@ -54,6 +46,15 @@ export const MainNavigator = () => {
 				options={{
 					tabBarIcon: ({ size, color }) => (
 						<Ionicons name="star-outline" size={size} color={color} />
+					),
+				}}
+			/>
+			<Screen
+				name="Profile"
+				component={ProfileScreen}
+				options={{
+					tabBarIcon: ({ size, color }) => (
+						<MaterialIcon name="account-circle" size={size} color={color} />
 					),
 				}}
 			/>
