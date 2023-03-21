@@ -27,7 +27,6 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<ScrollView ref={scrollCurrentRef} style={{}}>
 				<Slider imageData={item.imageUri} />
-
 				<View style={styles.infoWrapper}>
 					<Text style={styles.breed}>{item.breed}</Text>
 					<Text style={styles.type}>{item.type}</Text>
@@ -89,14 +88,6 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 }
 
 const styles = StyleSheet.create({
-	imageWrapper: {
-		width: widthScreenDevice,
-		height: 450,
-		marginBottom: 15,
-	},
-
-	image: { width: widthScreenDevice, height: '100%', resizeMode: 'cover' },
-
 	infoWrapper: {
 		marginHorizontal: 15,
 	},
