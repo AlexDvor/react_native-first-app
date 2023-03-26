@@ -1,4 +1,5 @@
 import { AntDesign, Entypo, Fontisto, MaterialIcons } from '@expo/vector-icons'
+import { LinearGradient } from 'expo-linear-gradient'
 import { FC } from 'react'
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
@@ -6,25 +7,33 @@ import { widthScreenDevice } from '~constants/theme'
 
 export const ProfileScreen: FC = () => {
 	const sizeIcon = 32
+	const colorIcon = 'black'
 	return (
 		<>
-			<View style={styles.headerWrapper}>
-				<View style={styles.imageWrapper}>
-					<Image
-						style={{ width: '100%', height: '100%' }}
-						source={require('../../../../assets/images/owner.jpg')}
-					></Image>
-				</View>
+			<View style={styles.header}>
+				<LinearGradient
+					start={{ x: 0.4, y: 0.0 }}
+					colors={['rgba(242, 150, 143,1)', 'rgba(242, 150, 143,0.3)']}
+					style={styles.backgroundHeader}
+				>
+					<Text style={styles.ownerName}>Kate Lopez</Text>
+					<View style={styles.imageWrapper}>
+						<Image
+							style={{ width: '100%', height: '100%' }}
+							source={require('../../../../assets/images/owner.jpg')}
+						></Image>
+					</View>
+				</LinearGradient>
 			</View>
 
-			<View style={styles.container}>
+			<View style={styles.contentContainer}>
 				<View style={styles.listWrapper}>
 					<View style={styles.item}>
 						<View style={styles.iconWrapper}>
 							<MaterialIcons
 								name="account-circle"
 								size={sizeIcon}
-								color="black"
+								color={colorIcon}
 							/>
 						</View>
 
@@ -33,7 +42,7 @@ export const ProfileScreen: FC = () => {
 
 					<View style={styles.item}>
 						<View style={styles.iconWrapper}>
-							<AntDesign name="calendar" size={sizeIcon} color="black" />
+							<AntDesign name="calendar" size={sizeIcon} color={colorIcon} />
 						</View>
 
 						<Text style={styles.text}>Data of Birthday</Text>
@@ -41,7 +50,7 @@ export const ProfileScreen: FC = () => {
 
 					<View style={styles.item}>
 						<View style={styles.iconWrapper}>
-							<Entypo name="mobile" size={sizeIcon} color="black" />
+							<Entypo name="mobile" size={sizeIcon} color={colorIcon} />
 						</View>
 
 						<Text style={styles.text}>620 332 73</Text>
@@ -49,7 +58,7 @@ export const ProfileScreen: FC = () => {
 
 					<View style={styles.item}>
 						<View style={styles.iconWrapper}>
-							<Fontisto name="email" size={sizeIcon} color="black" />
+							<Fontisto name="email" size={sizeIcon} color={colorIcon} />
 						</View>
 
 						<Text style={styles.text}>alexmatvichuk@gmail.com</Text>
@@ -57,50 +66,62 @@ export const ProfileScreen: FC = () => {
 
 					<View style={styles.item}>
 						<View style={styles.iconWrapper}>
-							<AntDesign name="eyeo" size={sizeIcon} color="black" />
+							<AntDesign name="eyeo" size={sizeIcon} color={colorIcon} />
 						</View>
 
 						<Text style={styles.text}>Password</Text>
 					</View>
 				</View>
-				<View>
-					<PrimaryButton
-						title={'Edit Profile'}
-						widthButton={250}
-						backgroundColorButton={'secondaryBtn'}
-					/>
-				</View>
+			</View>
+
+			<View style={styles.buttonsContainer}>
+				<PrimaryButton
+					title={'Edit Profile'}
+					widthButton={250}
+					backgroundColorButton={'secondaryBtn'}
+				/>
 			</View>
 		</>
 	)
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		// justifyContent: 'center',
+	header: {
+		width: widthScreenDevice,
+
+		flex: 0.3,
 		alignItems: 'center',
-		// marginTop: StatusBar.currentHeight && StatusBar.currentHeight + 10,
-		marginHorizontal: 20,
-		borderWidth: 2,
-		borderColor: 'red',
+		marginBottom: 30,
 	},
 
-	headerWrapper: {
-		backgroundColor: 'tomato',
-		width: widthScreenDevice,
-		height: widthScreenDevice,
-		borderRadius: 150,
+	ownerName: {
+		fontSize: 20,
+		fontWeight: 'bold',
+	},
+
+	backgroundHeader: {
+		width: widthScreenDevice + 100,
+		height: '100%',
 		justifyContent: 'flex-end',
 		alignItems: 'center',
-		borderWidth: 2,
+		borderBottomLeftRadius: 300,
+		borderBottomRightRadius: 300,
 	},
 
 	imageWrapper: {
+		position: 'relative',
+		top: 25,
+		borderWidth: 1,
 		width: 120,
 		height: 120,
 		borderRadius: 100,
 		overflow: 'hidden',
+	},
+
+	contentContainer: {
+		flex: 0.6,
+		alignItems: 'center',
+		justifyContent: 'flex-start',
 	},
 
 	listWrapper: {
@@ -109,13 +130,24 @@ const styles = StyleSheet.create({
 
 	item: {
 		flexDirection: 'row',
-		borderWidth: 1,
-		paddingVertical: 10,
+		paddingVertical: 15,
 		paddingHorizontal: 15,
 		alignItems: 'center',
+		borderBottomWidth: 1,
+		borderBottomColor: 'rgba(88, 89, 87,0.3)',
 	},
-	iconWrapper: {},
+	iconWrapper: {
+		marginLeft: 10,
+	},
 	text: {
-		marginLeft: 30,
+		marginLeft: 35,
+		fontSize: 16,
+	},
+
+	buttonsContainer: {
+		flex: 0.1,
+		justifyContent: 'center',
+		width: widthScreenDevice,
+		alignItems: 'center',
 	},
 })
