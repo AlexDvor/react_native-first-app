@@ -1,7 +1,7 @@
 import { AntDesign, Entypo, Fontisto, MaterialIcons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import { FC } from 'react'
-import { Image, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
 import { widthScreenDevice } from '~constants/theme'
 
@@ -38,14 +38,6 @@ export const ProfileScreen: FC = () => {
 						</View>
 
 						<Text style={styles.text}>Kate Lopez</Text>
-					</View>
-
-					<View style={styles.item}>
-						<View style={styles.iconWrapper}>
-							<AntDesign name="calendar" size={sizeIcon} color={colorIcon} />
-						</View>
-
-						<Text style={styles.text}>Data of Birthday</Text>
 					</View>
 
 					<View style={styles.item}>
