@@ -1,7 +1,6 @@
 import type { StackScreenProps } from '@react-navigation/stack'
 import { StackNavigationProp } from '@react-navigation/stack'
-
-import { IAnimalsData } from './animals.types'
+import { IAnimalsData } from '~interfaces/animals.types'
 
 export type THomeScreenName = 'AnimalProfileScreen'
 

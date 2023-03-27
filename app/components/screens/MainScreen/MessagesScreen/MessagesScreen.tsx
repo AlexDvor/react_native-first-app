@@ -1,12 +1,16 @@
+import { useNavigation } from '@react-navigation/native'
 import { FC } from 'react'
 import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { MessageItem } from '~components/ui/MessageItem/MessageItem'
 import { messages } from '~data/messages'
+import { TMessage } from '~interfaces/message.types'
+
+import { MessageNavigationComponent } from './messageNavigation.types'
 
 export const MessagesScreen: FC = () => {
-	const handlePress = () => {
-		// navigation.navigate('Chat', {userName: item.userName})
-	}
+	const { navigate } = useNavigation<MessageNavigationComponent>()
+	const handlePress = (id: TMessage) => navigate('ChatScreen', { user: id })
+
 	return (
 		<>
 			<View style={styles.container}>

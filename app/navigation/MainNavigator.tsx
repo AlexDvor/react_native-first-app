@@ -3,7 +3,7 @@ import MaterialIcon from '@expo/vector-icons/MaterialCommunityIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FavoriteScreen } from '~components/screens/MainScreen/FavoriteScreen/FavoriteScreen'
 import { HomeRootNavigator } from '~components/screens/MainScreen/HomeScreen/HomeRootNavigator'
-import { MessagesScreen } from '~components/screens/MainScreen/MessagesScreen/MessagesScreen'
+import { MessageRootNavigator } from '~components/screens/MainScreen/MessagesScreen/MessageRootNavigator'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen/ProfileScreen'
 
 const MainTabs = createBottomTabNavigator()
@@ -29,7 +29,7 @@ export const MainNavigator = () => {
 
 			<Screen
 				name="Chat"
-				component={MessagesScreen}
+				component={MessageRootNavigator}
 				options={{
 					tabBarIcon: ({ size, color }) => (
 						<Ionicons

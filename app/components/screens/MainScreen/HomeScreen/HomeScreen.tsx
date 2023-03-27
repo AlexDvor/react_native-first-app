@@ -6,9 +6,10 @@ import { Logo } from '~components/ui/Logo/Logo'
 import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenuList'
 import { menuData } from '~components/ui/ScrollableMenu/menu.data'
 import { COLORS } from '~constants/theme'
-import { DefaultHomeProps } from '~interfaces/navigator.types'
 
 import { dataAnimals } from '../../../../data/animals'
+
+import { DefaultHomeProps } from './homeNavigation.types'
 
 export const HomeScreen: FC<DefaultHomeProps> = ({
 	route,

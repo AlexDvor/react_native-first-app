@@ -1,12 +1,4 @@
-import { ImageSourcePropType } from 'react-native'
-
-export interface TMessage {
-	id: string
-	userName: string
-	userImg: ImageSourcePropType
-	messageTime: string
-	messageText: string
-}
+import { TMessage } from '~interfaces/message.types'
 
 export const messages: TMessage[] = [
 	{

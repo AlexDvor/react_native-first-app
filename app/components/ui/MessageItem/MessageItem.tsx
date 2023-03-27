@@ -1,15 +1,18 @@
 import { FC } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { TMessage } from '~data/messages'
+import { TMessage } from '~interfaces/message.types'
 
 interface MessageItemProps {
 	user: TMessage
-	handleOnPress: () => void
+	handleOnPress: (arg: string) => void
 }
 
 export const MessageItem: FC<MessageItemProps> = ({ user, handleOnPress }) => {
 	return (
-		<TouchableOpacity style={styles.container} onPress={handleOnPress}>
+		<TouchableOpacity
+			style={styles.container}
+			onPress={() => handleOnPress(user.id)}
+		>
 			<View style={styles.userInfo}>
 				<View style={styles.userImageWrapper}>
 					<Image style={styles.userImage} source={user.userImg} />

@@ -1,7 +1,8 @@
 import { FC } from 'react'
 import { StyleSheet } from 'react-native'
 import { Card } from '~components/ui/ItemCard/ItemCard'
-import { ProfileAnimalProps } from '~interfaces/navigator.types'
+
+import { ProfileAnimalProps } from '../homeNavigation.types'
 
 export const AnimalProfileScreen: FC<ProfileAnimalProps> = ({ route }) => {
 	const animalData = route.params.item
