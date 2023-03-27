@@ -4,7 +4,7 @@ import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { MessageItem } from '~components/ui/MessageItem/MessageItem'
 import { messages } from '~data/messages'
 
-import { MessageNavigationComponent } from './messageNavigation.types'
+import { MessageNavigationComponent } from '../../../interfaces/message.navigation.types'
 
 export const MessagesScreen: FC = () => {
 	const { navigate } = useNavigation<MessageNavigationComponent>()

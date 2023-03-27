@@ -7,9 +7,8 @@ import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenu
 import { menuData } from '~components/ui/ScrollableMenu/menu.data'
 import { COLORS } from '~constants/theme'
 
-import { dataAnimals } from '../../../../data/animals'
-
-import { DefaultHomeProps } from './homeNavigation.types'
+import { dataAnimals } from '../../../data/animals'
+import { DefaultHomeProps } from '../../../interfaces/home.navigation.types'
 
 export const HomeScreen: FC<DefaultHomeProps> = ({
 	route,

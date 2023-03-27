@@ -1,9 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { FC } from 'react'
+import { ChatScreen } from '~components/screens/MainScreen/NestedScreen/ChatScreen'
 
-import { MessagesScreen } from './MessagesScreen'
-import { ChatScreen } from './NestedMessageScreen/ChatScreen'
-import { MessageRootStackParamList } from './messageNavigation.types'
+import { MessagesScreen } from '../components/screens/MainScreen/MessagesScreen'
+import { MessageRootStackParamList } from '../interfaces/message.navigation.types'
 
 const MessageStack = createStackNavigator<MessageRootStackParamList>()
 

@@ -1,9 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { FC } from 'react'
 
-import { HomeScreen } from './HomeScreen'
-import { AnimalProfileScreen } from './NestedHomeScreen/AnimalProfileScreen'
-import { HomeRootStackParamList } from './homeNavigation.types'
+import { HomeScreen } from '../components/screens/MainScreen/HomeScreen'
+import { AnimalProfileScreen } from '../components/screens/MainScreen/NestedScreen/AnimalProfileScreen'
+import { HomeRootStackParamList } from '../interfaces/home.navigation.types'
 
 const HomeStack = createStackNavigator<HomeRootStackParamList>()
 

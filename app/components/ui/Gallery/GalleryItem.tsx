@@ -2,13 +2,12 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { useNavigation } from '@react-navigation/native'
 import { FC, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FONTS, widthScreenDevice } from '~constants/theme'
+import { IAnimalsData } from '~interfaces/animals.types'
 import {
 	THomeScreenName,
 	TNavigationComponent,
-} from '~components/screens/MainScreen/HomeScreen/homeNavigation.types'
-import { FONTS } from '~constants/theme'
-import { widthScreenDevice } from '~constants/theme'
-import { IAnimalsData } from '~interfaces/animals.types'
+} from '~interfaces/home.navigation.types'
 
 interface IGalleryItemProps {
 	item: IAnimalsData

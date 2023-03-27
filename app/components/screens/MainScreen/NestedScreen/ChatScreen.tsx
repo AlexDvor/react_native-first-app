@@ -3,8 +3,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat'
-
-import { ChatProps } from '../messageNavigation.types'
+import { ChatProps } from '~interfaces/message.navigation.types'
 
 // Fix message and onSend types
 //

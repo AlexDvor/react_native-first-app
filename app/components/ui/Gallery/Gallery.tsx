@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
-import { THomeScreenName } from '~components/screens/MainScreen/HomeScreen/homeNavigation.types'
 import { IAnimalsData } from '~interfaces/animals.types'
+import { THomeScreenName } from '~interfaces/home.navigation.types'
 
 import { GalleryItem } from './GalleryItem'
 

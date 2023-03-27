@@ -20,7 +20,7 @@ export const ProfileScreen: FC = () => {
 					<View style={styles.imageWrapper}>
 						<Image
 							style={{ width: '100%', height: '100%' }}
-							source={require('../../../../assets/images/owner.jpg')}
+							source={require('../../../assets/images/owner.jpg')}
 						></Image>
 					</View>
 				</LinearGradient>

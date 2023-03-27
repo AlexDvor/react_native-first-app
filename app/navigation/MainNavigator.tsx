@@ -1,10 +1,11 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import MaterialIcon from '@expo/vector-icons/MaterialCommunityIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { FavoriteScreen } from '~components/screens/MainScreen/FavoriteScreen/FavoriteScreen'
-import { HomeRootNavigator } from '~components/screens/MainScreen/HomeScreen/HomeRootNavigator'
-import { MessageRootNavigator } from '~components/screens/MainScreen/MessagesScreen/MessageRootNavigator'
-import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen/ProfileScreen'
+import { FavoriteScreen } from '~components/screens/MainScreen/FavoriteScreen'
+import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
+import { HomeRootNavigator } from '~navigation/HomeRootNavigator'
+
+import { MessageRootNavigator } from './MessageRootNavigator'
 
 const MainTabs = createBottomTabNavigator()
 
