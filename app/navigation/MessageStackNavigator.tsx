@@ -7,7 +7,7 @@ import { MessageRootStackParamList } from '../interfaces/message.navigation.type
 
 const MessageStack = createStackNavigator<MessageRootStackParamList>()
 
-export const MessageRootNavigator: FC = () => {
+export const MessageStackNavigator: FC = () => {
 	const { Navigator, Screen } = MessageStack
 	return (
 		<Navigator screenOptions={{ headerShown: false }}>

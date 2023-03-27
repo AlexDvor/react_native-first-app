@@ -7,7 +7,7 @@ import { HomeRootStackParamList } from '../interfaces/home.navigation.types'
 
 const HomeStack = createStackNavigator<HomeRootStackParamList>()
 
-export const HomeRootNavigator: FC = () => {
+export const HomeStackNavigator: FC = () => {
 	const { Navigator, Screen } = HomeStack
 	return (
 		<Navigator screenOptions={{ headerShown: false }}>

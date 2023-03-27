@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import 'react-native-gesture-handler'
-import { MainNavigator } from '~navigation/MainNavigator'
+import { MainStackNavigator } from '~navigation/MainStackNavigator'
 
 export default function App() {
 	const [fontsLoaded] = useFonts({
@@ -16,7 +16,7 @@ export default function App() {
 
 	return (
 		<NavigationContainer>
-			<MainNavigator />
+			<MainStackNavigator />
 		</NavigationContainer>
 	)
 }

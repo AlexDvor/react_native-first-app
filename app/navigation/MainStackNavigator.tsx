@@ -3,9 +3,9 @@ import MaterialIcon from '@expo/vector-icons/MaterialCommunityIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FavoriteScreen } from '~components/screens/MainScreen/FavoriteScreen'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
-import { HomeRootNavigator } from '~navigation/HomeRootNavigator'
 
-import { MessageRootNavigator } from './MessageRootNavigator'
+import { HomeStackNavigator } from './HomeStackNavigator'
+import { MessageStackNavigator } from './MessageStackNavigator'
 
 const MainTabs = createBottomTabNavigator()
 
@@ -14,13 +14,13 @@ const screenConfig = {
 	tabBarShowLabel: false,
 }
 
-export const MainNavigator = () => {
+export const MainStackNavigator = () => {
 	const { Navigator, Screen } = MainTabs
 	return (
 		<Navigator screenOptions={screenConfig} initialRouteName="Home">
 			<Screen
 				name="Home"
-				component={HomeRootNavigator}
+				component={HomeStackNavigator}
 				options={{
 					tabBarIcon: ({ size, color }) => (
 						<Ionicons name="home-outline" size={size} color={color} />
@@ -30,7 +30,7 @@ export const MainNavigator = () => {
 
 			<Screen
 				name="Chat"
-				component={MessageRootNavigator}
+				component={MessageStackNavigator}
 				options={{
 					tabBarIcon: ({ size, color }) => (
 						<Ionicons
