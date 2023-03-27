@@ -3,13 +3,12 @@ import { FC } from 'react'
 import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { MessageItem } from '~components/ui/MessageItem/MessageItem'
 import { messages } from '~data/messages'
-import { TMessage } from '~interfaces/message.types'
 
 import { MessageNavigationComponent } from './messageNavigation.types'
 
 export const MessagesScreen: FC = () => {
 	const { navigate } = useNavigation<MessageNavigationComponent>()
-	const handlePress = (id: TMessage) => navigate('ChatScreen', { user: id })
+	const handlePress = (id: string) => navigate('ChatScreen', { user: id })
 
 	return (
 		<>

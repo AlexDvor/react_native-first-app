@@ -1,9 +1,8 @@
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
-import { TMessage } from '~interfaces/message.types'
 
 export type MessageRootStackParamList = {
 	MessageScreen: undefined
-	ChatScreen: { user: TMessage }
+	ChatScreen: { user: string }
 }
 
 export type ChatProps = StackScreenProps<
