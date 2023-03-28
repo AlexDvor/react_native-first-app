@@ -5,19 +5,6 @@ export const widthScreenDevice = width
 export const heightScreenDevice = height
 
 export const COLORS = {
-	// primary: '#7F5DF0', // Light purple
-	// secondary: '#5D2DFD', // Dark purple
-
-	// white: '#fff',
-	// black: '#000000',
-	// green: '#37E39F',
-	// red: '#F9A8BA',
-	// gray: '#6A6A6A',
-	// lightGray: '#dbdbdb',
-	// lightGray1: '#f5f6fa',
-
-	//title color
-
 	// Button color
 	primaryBtn: '#F2968F',
 	secondaryBtn: '#111c1e',
@@ -65,10 +52,8 @@ export const FONTS = {
 		fontFamily: 'OpenSans-Bold',
 		fontSize: SIZES.h1,
 		lineHeight: 36,
-	}, // poppins 700 400
-	// h2: { fontFamily: 'Roboto-Bold', fontSize: SIZES.h2, lineHeight: 30 },
-	// h3: { fontFamily: 'Roboto-Bold', fontSize: SIZES.h3, lineHeight: 22 },
-	// h4: { fontFamily: 'Roboto-Bold', fontSize: SIZES.h4, lineHeight: 22 },
+	},
+
 	body1: {
 		fontFamily: 'OpenSans-Bold',
 		fontSize: SIZES.body1,
@@ -89,12 +74,6 @@ export const FONTS = {
 		fontSize: SIZES.body1,
 		lineHeight: 22,
 	},
-
-	// body5: {
-	// 	fontFamily: 'Roboto-Regular',
-	// 	fontSize: SIZES.body5,
-	// 	lineHeight: 22,
-	// },
 
 	buttonPrimaryFonts: {
 		fontFamily: 'OpenSans-Medium',
