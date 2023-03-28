@@ -36,9 +36,11 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 						)}
 					</View>
 				</View>
-
 				<ScrollableMenuList menu={menuData} />
-				<Gallery items={dataAnimals} navigateTo="AnimalProfileScreen" />
+
+				<View style={styles.galleryWrapper}>
+					<Gallery items={dataAnimals} navigateTo="AnimalProfileScreen" />
+				</View>
 			</View>
 		</SafeAreaView>
 	)
@@ -47,8 +49,8 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		marginTop: StatusBar.currentHeight && StatusBar.currentHeight,
 		marginHorizontal: 10,
-		marginTop: StatusBar.currentHeight && StatusBar.currentHeight + 10,
 	},
 	headerContainer: {
 		justifyContent: 'space-between',
@@ -75,5 +77,10 @@ const styles = StyleSheet.create({
 		height: 8,
 		backgroundColor: COLORS.notificationDotColor,
 		borderRadius: 50,
+	},
+
+	galleryWrapper: {
+		flex: 1,
+		alignItems: 'center',
 	},
 })

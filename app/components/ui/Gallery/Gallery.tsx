@@ -17,7 +17,7 @@ export const Gallery: FC<IGallery> = ({ items, navigateTo }) => {
 		<View style={styles.container}>
 			<FlatList
 				contentContainerStyle={{
-					alignItems: 'center',
+					alignItems: 'flex-start',
 					gap: 10,
 				}}
 				horizontal={false}

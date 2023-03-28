@@ -1,10 +1,15 @@
 import { FC } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Gallery } from '~components/ui/Gallery/Gallery'
+import { dataAnimals } from '~data/animals'
 
 export const FavoriteScreen: FC = () => {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>FavoriteScreen</Text>
+			<Gallery
+				items={dataAnimals.slice(0, 5)}
+				navigateTo="AnimalProfileScreen"
+			/>
 		</View>
 	)
 }
@@ -12,12 +17,8 @@ export const FavoriteScreen: FC = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
+		marginTop: StatusBar.currentHeight && StatusBar.currentHeight,
+		marginHorizontal: 10,
 		alignItems: 'center',
-	},
-
-	text: {
-		color: 'red',
-		fontSize: 25,
 	},
 })

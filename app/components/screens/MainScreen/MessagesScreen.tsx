@@ -30,12 +30,13 @@ const styles = StyleSheet.create({
 	titleScreen: {
 		fontSize: 16,
 		fontWeight: 'bold',
+		paddingVertical: 5,
 	},
 	container: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginTop: StatusBar.currentHeight && StatusBar.currentHeight + 10,
+		marginTop: StatusBar.currentHeight && StatusBar.currentHeight,
 	},
 
 	text: {
