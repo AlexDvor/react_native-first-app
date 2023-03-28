@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import MaterialIcon from '@expo/vector-icons/MaterialCommunityIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { FavoriteScreen } from '~components/screens/MainScreen/FavoriteScreen'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
 
@@ -16,6 +17,7 @@ const screenConfig = {
 
 export const MainStackNavigator = () => {
 	const { Navigator, Screen } = MainTabs
+
 	return (
 		<Navigator screenOptions={screenConfig} initialRouteName="Home">
 			<Screen
@@ -31,7 +33,7 @@ export const MainStackNavigator = () => {
 			<Screen
 				name="Chat"
 				component={MessageStackNavigator}
-				options={{
+				options={({ route }) => ({
 					tabBarIcon: ({ size, color }) => (
 						<Ionicons
 							name="chatbubble-ellipses-outline"
@@ -39,7 +41,14 @@ export const MainStackNavigator = () => {
 							color={color}
 						/>
 					),
-				}}
+					tabBarStyle: ((route) => {
+						const routeName = getFocusedRouteNameFromRoute(route) ?? ''
+						if (routeName === 'ChatScreen') {
+							return { display: 'none' }
+						}
+						return
+					})(route),
+				})}
 			/>
 			<Screen
 				name="Favorite"
