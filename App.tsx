@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import 'react-native-gesture-handler'
+import { RegisterScreen } from '~components/screens/AuthScreen/RegisterScreen'
 import { MainStackNavigator } from '~navigation/MainStackNavigator'
 
 export default function App() {
@@ -15,8 +16,9 @@ export default function App() {
 	}
 
 	return (
-		<NavigationContainer>
-			<MainStackNavigator />
-		</NavigationContainer>
+		<RegisterScreen></RegisterScreen>
+		// <NavigationContainer>
+		// 	<MainStackNavigator />
+		// </NavigationContainer>
 	)
 }
