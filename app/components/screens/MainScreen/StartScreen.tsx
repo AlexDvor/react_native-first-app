@@ -40,12 +40,14 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
+
 	backgroundImage: {
 		position: 'relative',
 		flex: 1,
 		resizeMode: 'cover',
 		justifyContent: 'flex-end',
 	},
+
 	gradient: {
 		flex: 1,
 		position: 'absolute',
@@ -54,10 +56,12 @@ const styles = StyleSheet.create({
 		top: 0,
 		height: '100%',
 	},
+
 	containerBtn: {
 		marginHorizontal: 30,
 		marginBottom: 50,
 	},
+
 	text: {
 		...FONTS.h1,
 		color: '#F8F8F8',
@@ -65,6 +69,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 30,
 		marginBottom: 60,
 	},
+
 	logoWrapper: {
 		flex: 1,
 		justifyContent: 'flex-start',

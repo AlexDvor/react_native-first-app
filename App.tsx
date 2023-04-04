@@ -1,7 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import 'react-native-gesture-handler'
+import { LoginScreen } from '~components/screens/AuthScreen/LoginScreen'
 import { RegisterScreen } from '~components/screens/AuthScreen/RegisterScreen'
+import { AuthStackNavigator } from '~navigation/AuthStackNavigator'
 import { MainStackNavigator } from '~navigation/MainStackNavigator'
 
 export default function App() {
@@ -16,9 +18,9 @@ export default function App() {
 	}
 
 	return (
-		<RegisterScreen></RegisterScreen>
-		// <NavigationContainer>
-		// 	<MainStackNavigator />
-		// </NavigationContainer>
+		<NavigationContainer>
+			{/* <MainStackNavigator /> */}
+			<AuthStackNavigator />
+		</NavigationContainer>
 	)
 }

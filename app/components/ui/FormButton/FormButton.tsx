@@ -1,36 +1,39 @@
 import { FC } from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { widthScreenDevice } from '~constants/theme'
+import { ButtonProps, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { COLORS } from '~constants/theme'
+import { TypeColorComponents } from '~interfaces/theme.types'
 
-interface FormButtonProps {
-	buttonTitle: string
+interface FormButtonProps extends ButtonProps {
+	backgroundColorButton?: TypeColorComponents
 }
 
-const FormButton: FC<FormButtonProps> = ({ buttonTitle, ...rest }) => {
+const FormButton: FC<FormButtonProps> = ({
+	title,
+	backgroundColorButton = 'primaryBtn',
+	...rest
+}) => {
+	const selectedColor = COLORS[backgroundColorButton]
 	return (
-		<TouchableOpacity style={styles.buttonContainer} {...rest}>
-			<Text style={styles.buttonText}>{buttonTitle}</Text>
+		<TouchableOpacity
+			style={{
+				marginTop: 10,
+				width: '100%',
+				height: 45,
+				backgroundColor: selectedColor,
+				padding: 10,
+				alignItems: 'center',
+				justifyContent: 'center',
+				borderRadius: 20,
+			}}
+			{...rest}
+		>
+			<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#ffffff' }}>
+				{title}
+			</Text>
 		</TouchableOpacity>
 	)
 }
 
 export default FormButton
 
-const styles = StyleSheet.create({
-	buttonContainer: {
-		marginTop: 10,
-		width: '100%',
-		height: 60,
-		backgroundColor: '#2e64e5',
-		padding: 10,
-		alignItems: 'center',
-		justifyContent: 'center',
-		borderRadius: 3,
-	},
-	buttonText: {
-		fontSize: 18,
-		fontWeight: 'bold',
-		color: '#ffffff',
-		// fontFamily: 'Lato-Regular',
-	},
-})
+const styles = StyleSheet.create({})
