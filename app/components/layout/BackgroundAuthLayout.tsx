@@ -7,6 +7,8 @@ interface BackgroundAuthLayoutProps {
 	children: JSX.Element | JSX.Element[]
 }
 
+// fix position img
+
 export const BackgroundAuthLayout: FC<BackgroundAuthLayoutProps> = ({
 	children,
 }) => {
