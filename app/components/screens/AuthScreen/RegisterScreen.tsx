@@ -13,6 +13,7 @@ import { BackgroundAuthLayout } from '~components/layout/BackgroundAuthLayout'
 import FormButton from '~components/ui/FormButton/FormButton'
 import FormInput from '~components/ui/FormInput/FormInput'
 import { Logo } from '~components/ui/Logo/Logo'
+import { useAuth } from '~hooks/useAuth'
 import { AuthNavigationComponent } from '~interfaces/auth.navigation.types'
 
 export const RegisterScreen: FC = () => {
@@ -21,6 +22,7 @@ export const RegisterScreen: FC = () => {
 	const [password, setPassword] = useState('')
 	const [isShowKeyBoard, setIsShowKeyBoard] = useState(false)
 	const { navigate } = useNavigation<AuthNavigationComponent>()
+	const { user } = useAuth()
 
 	const keyBoardHide = () => {
 		setIsShowKeyBoard(false), Keyboard.dismiss()
