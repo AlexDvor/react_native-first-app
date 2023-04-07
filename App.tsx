@@ -1,12 +1,7 @@
-import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import 'react-native-gesture-handler'
-import { Provider } from 'react-redux'
-import { LoginScreen } from '~components/screens/AuthScreen/LoginScreen'
-import { RegisterScreen } from '~components/screens/AuthScreen/RegisterScreen'
 import { AuthStackNavigator } from '~navigation/AuthStackNavigator'
-import { MainStackNavigator } from '~navigation/MainStackNavigator'
-import { store } from '~store/store'
+import MainProvider from '~provider/MainProvider'
 
 export default function App() {
 	const [fontsLoaded] = useFonts({
@@ -20,11 +15,8 @@ export default function App() {
 	}
 
 	return (
-		<NavigationContainer>
-			<Provider store={store}>
-				<AuthStackNavigator />
-			</Provider>
-			{/* <MainStackNavigator /> */}
-		</NavigationContainer>
+		<MainProvider>
+			<AuthStackNavigator />
+		</MainProvider>
 	)
 }
