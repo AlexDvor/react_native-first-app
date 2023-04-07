@@ -1,9 +1,11 @@
 import { useFonts } from 'expo-font'
 import 'react-native-gesture-handler'
 import { AuthStackNavigator } from '~navigation/AuthStackNavigator'
+import { MainStackNavigator } from '~navigation/MainStackNavigator'
 import MainProvider from '~provider/MainProvider'
 
 export default function App() {
+	const user = null
 	const [fontsLoaded] = useFonts({
 		'OpenSans-Regular': require('./app/assets/fonts/OpenSans-Regular.ttf'),
 		'OpenSans-Bold': require('./app/assets/fonts/OpenSans-Bold.ttf'),
@@ -16,7 +18,7 @@ export default function App() {
 
 	return (
 		<MainProvider>
-			<AuthStackNavigator />
+			{user ? <MainStackNavigator /> : <AuthStackNavigator />}
 		</MainProvider>
 	)
 }
