@@ -68,7 +68,13 @@ export const RegisterScreen: FC = () => {
 							/>
 
 							<View style={styles.buttonWrapper}>
-								<FormButton title="Sign Up" onPress={keyBoardHide} />
+								{/* <FormButton title="Sign Up" onPress={keyBoardHide} /> */}
+								<FormButton
+									title="Sign Up"
+									onPress={() => {
+										console.log('ffff')
+									}}
+								/>
 								<View style={styles.signInContainer}>
 									<Text style={[styles.textLink]}>Already have account</Text>
 									<TouchableOpacity onPress={() => navigate('SignIn')}>
