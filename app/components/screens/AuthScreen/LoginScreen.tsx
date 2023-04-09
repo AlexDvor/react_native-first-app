@@ -13,16 +13,18 @@ import { BackgroundAuthLayout } from '~components/layout/BackgroundAuthLayout'
 import FormButton from '~components/ui/FormButton/FormButton'
 import FormInput from '~components/ui/FormInput/FormInput'
 import { Logo } from '~components/ui/Logo/Logo'
+import { useKeyboardVisible } from '~hooks/useKeyboardVisible'
 import { AuthNavigationComponent } from '~interfaces/auth.navigation.types'
 
 export const LoginScreen: FC = () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	const [isShowKeyBoard, setIsShowKeyBoard] = useState(false)
+	const { isShowKeyBoard } = useKeyboardVisible()
+
 	const { navigate } = useNavigation<AuthNavigationComponent>()
 
 	const keyBoardHide = () => {
-		setIsShowKeyBoard(false), Keyboard.dismiss()
+		Keyboard.dismiss()
 	}
 
 	return (
@@ -43,7 +45,6 @@ export const LoginScreen: FC = () => {
 								autoCapitalize="none"
 								autoCorrect={false}
 								onChangeText={(userEmail) => setEmail(userEmail)}
-								onFocus={() => setIsShowKeyBoard(true)}
 							/>
 
 							<FormInput
@@ -52,7 +53,6 @@ export const LoginScreen: FC = () => {
 								iconType="lock"
 								secureTextEntry={true}
 								onChangeText={(userPassword) => setPassword(userPassword)}
-								onFocus={() => setIsShowKeyBoard(true)}
 							/>
 
 							<View style={styles.buttonWrapper}>

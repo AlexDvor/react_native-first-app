@@ -14,18 +14,19 @@ import FormButton from '~components/ui/FormButton/FormButton'
 import FormInput from '~components/ui/FormInput/FormInput'
 import { Logo } from '~components/ui/Logo/Logo'
 import { useAuth } from '~hooks/useAuth'
+import { useKeyboardVisible } from '~hooks/useKeyboardVisible'
 import { AuthNavigationComponent } from '~interfaces/auth.navigation.types'
 
 export const RegisterScreen: FC = () => {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	const [isShowKeyBoard, setIsShowKeyBoard] = useState(false)
 	const { navigate } = useNavigation<AuthNavigationComponent>()
+	const { isShowKeyBoard } = useKeyboardVisible()
 	const { user } = useAuth()
 
 	const keyBoardHide = () => {
-		setIsShowKeyBoard(false), Keyboard.dismiss()
+		Keyboard.dismiss()
 	}
 
 	return (
@@ -45,7 +46,6 @@ export const RegisterScreen: FC = () => {
 								autoCapitalize="none"
 								autoCorrect={false}
 								onChangeText={(userName) => setName(userName)}
-								onFocus={() => setIsShowKeyBoard(true)}
 							/>
 							<FormInput
 								iconType="email"
@@ -55,7 +55,6 @@ export const RegisterScreen: FC = () => {
 								autoCapitalize="none"
 								autoCorrect={false}
 								onChangeText={(userEmail) => setEmail(userEmail)}
-								onFocus={() => setIsShowKeyBoard(true)}
 							/>
 
 							<FormInput
@@ -64,7 +63,6 @@ export const RegisterScreen: FC = () => {
 								iconType="lock"
 								secureTextEntry={true}
 								onChangeText={(userPassword) => setPassword(userPassword)}
-								onFocus={() => setIsShowKeyBoard(true)}
 							/>
 
 							<View style={styles.buttonWrapper}>
