@@ -23,7 +23,7 @@ export const PostImageGalleryList: FC<PostImageGalleryListProps> = ({
 			}}
 			contentContainerStyle={{
 				gap: 12,
-				paddingBottom: 15,
+				paddingBottom: 20,
 				borderBottomWidth: 1,
 				borderBottomColor: COLORS.midGray,
 			}}
