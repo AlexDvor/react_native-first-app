@@ -2,6 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import MaterialIcon from '@expo/vector-icons/MaterialCommunityIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
+import { AddPostScreen } from '~components/screens/MainScreen/AddPostScreen'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
 
 import { FavoriteStackNavigator } from './FavoriteStackNavigator'
@@ -50,6 +51,17 @@ export const MainStackNavigator = () => {
 					})(route),
 				})}
 			/>
+
+			<Screen
+				name="AddPostScreen"
+				component={AddPostScreen}
+				options={{
+					tabBarIcon: ({ size, color }) => (
+						<Ionicons name="add-circle-outline" size={35} color={color} />
+					),
+				}}
+			/>
+
 			<Screen
 				name="Favorite"
 				component={FavoriteStackNavigator}

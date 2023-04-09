@@ -5,7 +5,7 @@ import { MainStackNavigator } from '~navigation/MainStackNavigator'
 import MainProvider from '~provider/MainProvider'
 
 export default function App() {
-	const user = null
+	const user = {}
 	const [fontsLoaded] = useFonts({
 		'OpenSans-Regular': require('./app/assets/fonts/OpenSans-Regular.ttf'),
 		'OpenSans-Bold': require('./app/assets/fonts/OpenSans-Bold.ttf'),

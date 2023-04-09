@@ -5,6 +5,9 @@ export const widthScreenDevice = width
 export const heightScreenDevice = height
 
 export const COLORS = {
+	//common
+	midGray: '#a1a09f',
+
 	// Button color
 	primaryBtn: '#F2968F',
 	secondaryBtn: '#111c1e',

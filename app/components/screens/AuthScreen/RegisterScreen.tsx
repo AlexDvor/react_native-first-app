@@ -10,8 +10,8 @@ import {
 	View,
 } from 'react-native'
 import { BackgroundAuthLayout } from '~components/layout/BackgroundAuthLayout'
-import FormButton from '~components/ui/FormButton/FormButton'
-import FormInput from '~components/ui/FormInput/FormInput'
+import FormButton from '~components/ui/FormComponents/FormButton/FormButton'
+import FormInput from '~components/ui/FormComponents/FormInput/FormInput'
 import { Logo } from '~components/ui/Logo/Logo'
 import { useAuth } from '~hooks/useAuth'
 import { useKeyboardVisible } from '~hooks/useKeyboardVisible'
