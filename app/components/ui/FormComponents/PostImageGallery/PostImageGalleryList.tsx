@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 import { COLORS } from '~constants/theme'
 
 import { PostImageGalleryItem } from './PostImageGalleryItem'
@@ -26,6 +26,7 @@ export const PostImageGalleryList: FC<PostImageGalleryListProps> = ({
 				paddingBottom: 20,
 				borderBottomWidth: 1,
 				borderBottomColor: COLORS.midGray,
+				marginBottom: 15,
 			}}
 		/>
 	)
