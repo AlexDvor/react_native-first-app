@@ -12,6 +12,7 @@ export const COLORS = {
 	primaryBtn: '#F2968F',
 	secondaryBtn: '#111c1e',
 	primaryTextColorBtn: '#FCFCFC',
+	disableBackgroundBtn: '#9c7775',
 
 	//Notification
 	notificationDotColor: '#F2968F',
@@ -27,15 +28,11 @@ export const COLORS = {
 	genderCardContainerColor: '#e2e8fe',
 	weightCardContainerColor: '#ffd9d8',
 	vaccineCardContainerColor: '#eaffe0',
+
+	//
+	placeholderTextColor: '#949494',
 }
 export const SIZES = {
-	// global sizes
-	// base: 8,
-	// font: 14,
-	// radius: 12,
-	// padding: 24,
-
-	// font sizes
 	h1: 32,
 	h2: 22,
 	h3: 16,
@@ -43,12 +40,6 @@ export const SIZES = {
 	body1: 16,
 	body2: 13,
 	body3: 12,
-	// body4: 14,
-	// body5: 12,
-
-	// app dimensions
-	// width,
-	// height
 }
 export const FONTS = {
 	h1: {
@@ -82,6 +73,12 @@ export const FONTS = {
 		fontFamily: 'OpenSans-Medium',
 		fontSize: 17,
 		lineHeight: 20,
+	},
+
+	inputFont: {
+		fontFamily: 'OpenSans-Regular',
+		fontSize: 14,
+		lineHeight: 14,
 	},
 }
 

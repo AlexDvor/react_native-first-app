@@ -1,6 +1,5 @@
 import { FC } from 'react'
-import { FlatList, StyleSheet } from 'react-native'
-import { COLORS } from '~constants/theme'
+import { StyleSheet, View } from 'react-native'
 
 import { PostImageGalleryItem } from './PostImageGalleryItem'
 
@@ -12,26 +11,29 @@ export const PostImageGalleryList: FC<PostImageGalleryListProps> = ({
 	quantityImages,
 }) => {
 	return (
-		<FlatList
-			horizontal={false}
-			numColumns={5}
-			data={quantityImages}
-			renderItem={({ item }) => <PostImageGalleryItem />}
-			keyExtractor={(item, idx) => idx.toString()}
-			columnWrapperStyle={{
-				gap: 12,
-			}}
-			contentContainerStyle={{
-				gap: 12,
-				paddingBottom: 20,
-				borderBottomWidth: 1,
-				borderBottomColor: COLORS.midGray,
-				marginBottom: 15,
-			}}
-		/>
+		<>
+			<View style={styles.container}>
+				{quantityImages.slice(0, 5).map((item, idx) => (
+					<PostImageGalleryItem key={idx} />
+				))}
+			</View>
+			<View style={[styles.container, styles.lastItem]}>
+				{quantityImages.slice(5).map((item, idx) => (
+					<PostImageGalleryItem key={idx + 5} />
+				))}
+			</View>
+		</>
 	)
 }
 
 const styles = StyleSheet.create({
-	container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+	container: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		columnGap: 10,
+	},
+	lastItem: {
+		marginTop: 10,
+	},
 })

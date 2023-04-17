@@ -2,9 +2,10 @@ import { FC, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { COLORS } from '~constants/theme'
+import { TFormState } from '~interfaces/form.state.types'
 
 interface DatePickerInputProps {
-	formState: React.Dispatch<React.SetStateAction<{}>>
+	formState: React.Dispatch<React.SetStateAction<TFormState>>
 	dateName: string
 }
 
@@ -38,7 +39,12 @@ export const DatePickerInput: FC<DatePickerInputProps> = ({
 				onCancel={hideDatePicker}
 				display="spinner"
 			/>
-			<Text style={styles.text}>
+			<Text
+				style={{
+					fontSize: 15,
+					color: !selectedDate ? COLORS.placeholderTextColor : 'black',
+				}}
+			>
 				{selectedDate
 					? selectedDate.toLocaleDateString()
 					: 'Select please date of birthday'}
@@ -53,9 +59,5 @@ const styles = StyleSheet.create({
 		borderBottomColor: COLORS.midGray,
 		marginBottom: 15,
 		padding: 15,
-	},
-
-	text: {
-		fontSize: 15,
 	},
 })

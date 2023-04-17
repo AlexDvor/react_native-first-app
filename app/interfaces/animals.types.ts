@@ -5,17 +5,27 @@ import { IUserProfile } from './user.types'
 interface IImage {
 	image: ImageSourcePropType
 }
+// 'Female' | 'Male'
 
 export interface IAnimalsData {
+	[key: string]:
+		| string
+		| number
+		| boolean
+		| IImage[]
+		| []
+		| IUserProfile
+		| string[]
+		| undefined
 	id: number
 	name: string
 	color: string
 	age: number
 	breed: string
 	imageUri: IImage[]
-	type: 'Dog' | 'Cat'
+	type: string
 	description: string
-	gender: 'Female' | 'Male'
+	gender: string
 	weight: number
 	height: number
 	vaccine: boolean

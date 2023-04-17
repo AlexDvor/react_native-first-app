@@ -2,36 +2,65 @@ import { FC, useEffect, useState } from 'react'
 import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { DatePickerInput } from '~components/ui/FormComponents/DatePickerInput/DatePickerInput'
 import FormButton from '~components/ui/FormComponents/FormButton/FormButton'
+import { PostDescriptionField } from '~components/ui/FormComponents/PostDesciptionField/PostDesciptionField'
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
 import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
-import { IAnimalsData } from '~interfaces/animals.types'
+import { TFormState } from '~interfaces/form.state.types'
 
-type TAnimal = 'Cat' | 'Dog' | null
+type TAnimal = 'Cat' | 'Dog' | ''
 
-type TFormState = IAnimalsData | { type?: TAnimal }
+const initialFormValue: TFormState = {
+	name: '',
+	color: '',
+	age: 0,
+	breed: '',
+	imageUri: [],
+	type: '',
+	description: '',
+	gender: '',
+	weight: 0,
+	vaccine: false,
+}
 
 export const AddPostScreen: FC = () => {
 	const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-	const [formValue, setFormValue] = useState<TFormState>({})
-	const [typeAnimal, setTypeAnimal] = useState<TAnimal>(null)
+	const [formValue, setFormValue] = useState<TFormState>(initialFormValue)
+	const [typeAnimal, setTypeAnimal] = useState<TAnimal>('')
+	const [isDisableSubmitBtn, setIsDisableSubmitBtn] = useState<boolean>(true)
+
+	console.log(formValue.imageUri)
 
 	useEffect(() => {
-		formValue?.type ? setTypeAnimal(formValue.type) : setTypeAnimal(null)
-		console.log('❌ ~ typeAnimal:', typeAnimal)
-		console.log('❌ ~ formValue:', formValue)
+		if (formValue.type === 'Dog' || formValue.type === 'Cat') {
+			return setTypeAnimal(formValue.type)
+		}
+		return setTypeAnimal('')
 	}, [formValue])
 
-	const handleSubmitForm = () => {}
+	useEffect(() => {
+		for (const key in formValue) {
+			if (!formValue[key]) {
+				return console.warn('Somethings is empty')
+			}
+		}
+	}, [formValue])
+
+	const handleSubmitForm = () => {
+		// console.log('state', formValue)
+	}
 
 	const selectCurrentListByType = () =>
 		typeAnimal === 'Dog' ? dogBreedsList : catBreedsList
 
 	return (
 		<View style={styles.container}>
-			<ScrollView style={{ width: '100%' }}>
+			<ScrollView
+				style={{ width: '100%' }}
+				showsVerticalScrollIndicator={false}
+			>
 				<PostImageGalleryList quantityImages={quantity} />
 				<View style={styles.selectWrapper}>
 					<PostInput
@@ -42,7 +71,7 @@ export const AddPostScreen: FC = () => {
 
 					<PostInput
 						placeholderText="Weight"
-						nameInput="Weight"
+						nameInput="weight"
 						formState={setFormValue}
 					/>
 					<PostInput
@@ -86,7 +115,18 @@ export const AddPostScreen: FC = () => {
 
 					<DatePickerInput formState={setFormValue} dateName="age" />
 
-					<FormButton title={'Submit'} />
+					<PostDescriptionField
+						formState={setFormValue}
+						nameInput="description"
+						placeholderText="Describe your friend"
+						maxLengthInput={400}
+					/>
+
+					<FormButton
+						title={'Submit'}
+						onPress={handleSubmitForm}
+						disabled={isDisableSubmitBtn}
+					/>
 				</View>
 			</ScrollView>
 		</View>
@@ -101,14 +141,13 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		alignItems: 'center',
-		marginTop: StatusBar.currentHeight && StatusBar.currentHeight + 10,
-		marginBottom: StatusBar.currentHeight && StatusBar.currentHeight,
-		// borderWidth: 1,
-		// borderColor: 'red',
+		marginTop: StatusBar.currentHeight && StatusBar.currentHeight + 15,
+		marginBottom: 10,
 		marginHorizontal: 20,
 	},
 
 	selectWrapper: {
 		width: '100%',
+		marginTop: 10,
 	},
 })

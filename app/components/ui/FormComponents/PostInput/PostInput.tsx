@@ -1,9 +1,10 @@
 import { FC } from 'react'
-import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native'
-import { COLORS } from '~constants/theme'
+import { StyleSheet, TextInput, View } from 'react-native'
+import { COLORS, FONTS } from '~constants/theme'
+import { TFormState } from '~interfaces/form.state.types'
 
 interface PostInputProps {
-	formState: React.Dispatch<React.SetStateAction<{}>>
+	formState: React.Dispatch<React.SetStateAction<TFormState>>
 	placeholderText: string
 	nameInput: string
 	maxLengthInput?: number
@@ -24,6 +25,7 @@ export const PostInput: FC<PostInputProps> = ({
 					formState((prev) => ({ ...prev, [nameInput]: value }))
 				}}
 				maxLength={maxLengthInput}
+				placeholderTextColor={COLORS.placeholderTextColor}
 			/>
 		</View>
 	)
@@ -34,10 +36,12 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: COLORS.midGray,
 		marginBottom: 15,
-		padding: 15,
+		paddingHorizontal: 10,
+		paddingTop: 10,
+		paddingBottom: 5,
 	},
 
 	input: {
-		fontSize: 15,
+		...FONTS.inputFont,
 	},
 })

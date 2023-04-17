@@ -10,16 +10,18 @@ interface FormButtonProps extends ButtonProps {
 const FormButton: FC<FormButtonProps> = ({
 	title,
 	backgroundColorButton = 'primaryBtn',
+	disabled,
 	...rest
 }) => {
 	const selectedColor = COLORS[backgroundColorButton]
 	return (
 		<TouchableOpacity
+			disabled={disabled}
 			style={{
 				marginTop: 10,
 				width: '100%',
 				height: 45,
-				backgroundColor: selectedColor,
+				backgroundColor: disabled ? COLORS.disableBackgroundBtn : selectedColor,
 				padding: 10,
 				alignItems: 'center',
 				justifyContent: 'center',
