@@ -3,13 +3,13 @@ import { StyleSheet, View } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 import { COLORS } from '~constants/theme'
 
-type AnimalData = {
+type ListProps = {
 	id?: number
 	name: string
 }
 
 interface SelectPickerProps {
-	listOption: AnimalData[]
+	listOption: ListProps[]
 	formState: React.Dispatch<React.SetStateAction<{}>>
 	placeholderText: string
 	nameInput: string

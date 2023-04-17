@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react'
-import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { DatePickerInput } from '~components/ui/FormComponents/DatePickerInput/DatePickerInput'
+import FormButton from '~components/ui/FormComponents/FormButton/FormButton'
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
+import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
@@ -29,36 +31,78 @@ export const AddPostScreen: FC = () => {
 
 	return (
 		<View style={styles.container}>
-			<PostImageGalleryList quantityImages={quantity} />
-			<View style={styles.selectWrapper}>
-				<SelectPicker
-					listOption={[{ name: 'Dog' }, { name: 'Cat' }]}
-					placeholderText="Select type Animal"
-					formState={setFormValue}
-					nameInput="type"
-					isDisabled={false}
-				/>
-				<SelectPicker
-					listOption={selectCurrentListByType()}
-					placeholderText={
-						typeAnimal
-							? `Select a ${typeAnimal} breed`
-							: 'Select a type animal first'
-					}
-					formState={setFormValue}
-					nameInput="breed"
-					isDisabled={!typeAnimal ? true : false}
-				/>
-				<DatePickerInput formState={setFormValue} dateName="age" />
-			</View>
+			<ScrollView style={{ width: '100%' }}>
+				<PostImageGalleryList quantityImages={quantity} />
+				<View style={styles.selectWrapper}>
+					<PostInput
+						placeholderText="Name"
+						nameInput="name"
+						formState={setFormValue}
+					/>
+
+					<PostInput
+						placeholderText="Weight"
+						nameInput="Weight"
+						formState={setFormValue}
+					/>
+					<PostInput
+						placeholderText="Color"
+						nameInput="color"
+						formState={setFormValue}
+					/>
+					<SelectPicker
+						listOption={[{ name: 'Female' }, { name: 'Male' }]}
+						placeholderText="Select gender Animal"
+						formState={setFormValue}
+						nameInput="gender"
+						isDisabled={false}
+					/>
+					<SelectPicker
+						listOption={[{ name: 'Dog' }, { name: 'Cat' }]}
+						placeholderText="Select type Animal"
+						formState={setFormValue}
+						nameInput="type"
+						isDisabled={false}
+					/>
+					<SelectPicker
+						listOption={selectCurrentListByType()}
+						placeholderText={
+							typeAnimal
+								? `Select a ${typeAnimal} breed`
+								: 'Select a type animal first'
+						}
+						formState={setFormValue}
+						nameInput="breed"
+						isDisabled={!typeAnimal ? true : false}
+					/>
+
+					<SelectPicker
+						listOption={[{ name: 'Yes' }, { name: 'No' }]}
+						placeholderText="Your animal has vaccine?"
+						formState={setFormValue}
+						nameInput="vaccine"
+						isDisabled={false}
+					/>
+
+					<DatePickerInput formState={setFormValue} dateName="age" />
+
+					<FormButton title={'Submit'} />
+				</View>
+			</ScrollView>
 		</View>
 	)
 }
 
 const styles = StyleSheet.create({
+	listWrapper: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 	container: {
 		alignItems: 'center',
 		marginTop: StatusBar.currentHeight && StatusBar.currentHeight + 10,
+		marginBottom: StatusBar.currentHeight && StatusBar.currentHeight,
 		// borderWidth: 1,
 		// borderColor: 'red',
 		marginHorizontal: 20,
