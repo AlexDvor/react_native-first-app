@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
-import { PickerSelect } from '~components/ui/FormComponents/PickerSelect'
+import DatePicker from 'react-native-date-picker'
+import { DatePickerInput } from '~components/ui/FormComponents/DatePickerInput/DatePickerInput'
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
+import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
 import { IAnimalsData } from '~interfaces/animals.types'
@@ -13,7 +15,6 @@ type TFormState = IAnimalsData | { type?: TAnimal }
 export const AddPostScreen: FC = () => {
 	const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 	const [formValue, setFormValue] = useState<TFormState>({})
-
 	const [typeAnimal, setTypeAnimal] = useState<TAnimal>(null)
 
 	useEffect(() => {
@@ -31,14 +32,14 @@ export const AddPostScreen: FC = () => {
 		<View style={styles.container}>
 			<PostImageGalleryList quantityImages={quantity} />
 			<View style={styles.selectWrapper}>
-				<PickerSelect
+				<SelectPicker
 					listOption={[{ name: 'Dog' }, { name: 'Cat' }]}
 					placeholderText="Select type Animal"
 					formState={setFormValue}
 					nameInput="type"
 					isDisabled={false}
 				/>
-				<PickerSelect
+				<SelectPicker
 					listOption={selectCurrentListByType()}
 					placeholderText={
 						typeAnimal
@@ -49,6 +50,7 @@ export const AddPostScreen: FC = () => {
 					nameInput="breed"
 					isDisabled={!typeAnimal ? true : false}
 				/>
+				<DatePickerInput />
 			</View>
 		</View>
 	)

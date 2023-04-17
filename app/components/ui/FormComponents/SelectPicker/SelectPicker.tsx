@@ -8,7 +8,7 @@ type AnimalData = {
 	name: string
 }
 
-interface PickerSelectProps {
+interface SelectPickerProps {
 	listOption: AnimalData[]
 	formState: React.Dispatch<React.SetStateAction<{}>>
 	placeholderText: string
@@ -16,7 +16,7 @@ interface PickerSelectProps {
 	isDisabled: boolean
 }
 
-export const PickerSelect: FC<PickerSelectProps> = ({
+export const SelectPicker: FC<SelectPickerProps> = ({
 	listOption,
 	formState,
 	placeholderText = 'Select value',
