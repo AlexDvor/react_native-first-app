@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from 'react'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
-import DatePicker from 'react-native-date-picker'
 import { DatePickerInput } from '~components/ui/FormComponents/DatePickerInput/DatePickerInput'
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
@@ -50,7 +49,7 @@ export const AddPostScreen: FC = () => {
 					nameInput="breed"
 					isDisabled={!typeAnimal ? true : false}
 				/>
-				<DatePickerInput />
+				<DatePickerInput formState={setFormValue} dateName="age" />
 			</View>
 		</View>
 	)

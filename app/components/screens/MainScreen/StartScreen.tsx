@@ -23,7 +23,7 @@ export const StartScreen: FC = () => {
 						style={styles.gradient}
 					/>
 					<View style={styles.logoWrapper}>
-						<Logo logoColor="#F8F8F8" />
+						{/* <Logo logoColor="#F8F8F8" /> */}
 					</View>
 
 					<Text style={styles.text}>Happiness is closer than you think</Text>

@@ -1997,6 +1997,13 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
+"@react-native-community/datetimepicker@6.7.3":
+  version "6.7.3"
+  resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-6.7.3.tgz#e6d75a42729265d8404d1d668c86926564abca2f"
+  integrity sha512-fXWbEdHMLW/e8cts3snEsbOTbnFXfUHeO2pkiDFX3fWpFoDtUrRWvn50xbY13IJUUKHDhoJ+mj24nMRVIXfX1A==
+  dependencies:
+    invariant "^2.2.4"
+
 "@react-native-community/picker@^1.8.1":
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.8.1.tgz#94f14f0aad98fa7592967b941be97deec95c3805"
@@ -7868,6 +7875,13 @@ react-native-lightbox-v2@0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/react-native-lightbox-v2/-/react-native-lightbox-v2-0.9.0.tgz#b97be4d892ebb959069c451948b11da390bc46d8"
   integrity sha512-Fc5VFHFj2vokS+OegyTsANKb1CYoUlOtAv+EBH5wtpJn1b5cey6jVXH7136G5+8OC9JmKWSgKHc5thFwOoZTUg==
+
+react-native-modal-datetime-picker@^15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-15.0.0.tgz#3c2b0a63467a3391dbc202871aa2807bc1a0d8d0"
+  integrity sha512-cHeFEYHUhyIk+Mt9C6RVseg/VMGR4XcxdU9SibF5RMCXiXhrwMkFy7203xg1S331pzCF/Oqhvi4Jh0pYMrTFtQ==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-parsed-text@0.0.22:
   version "0.0.22"
