@@ -5,7 +5,14 @@
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./app/assets/icon.png",
-
+		"plugins": [
+			[
+				"expo-image-picker",
+				{
+					"photosPermission": "The app accesses your photos to let you share them with your friends."
+				}
+			]
+		],
 		"userInterfaceStyle": "automatic",
 		"splash": {
 			"image": "./app/assets/splash.png",

@@ -1,17 +1,60 @@
 import { MaterialIcons } from '@expo/vector-icons'
-import { FC } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
+import { FC, useState } from 'react'
+import { Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { COLORS } from '~constants/theme'
 import { widthScreenDevice } from '~constants/theme'
+import { TFormState } from '~interfaces/form.state.types'
 
-export const PostImageGalleryItem: FC = () => {
+// delete img from FormState
+
+interface PostImageGalleryItemProps {
+	formState: React.Dispatch<React.SetStateAction<TFormState>>
+}
+
+export const PostImageGalleryItem: FC<PostImageGalleryItemProps> = ({
+	formState,
+}) => {
+	const [itemImage, setItemImage] = useState<string | null>(null)
+
+	const pickImage = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		})
+
+		if (result.assets !== null && !result.canceled) {
+			setItemImage(result.assets[0].uri)
+			formState((prev) => ({
+				...prev,
+				imageUri: [...prev.imageUri, result.assets[0].uri],
+			}))
+		}
+	}
+
+	const onHandleOnPress = () => {
+		if (itemImage) {
+			setItemImage(null)
+		} else {
+			pickImage()
+		}
+	}
 	return (
-		<TouchableOpacity style={styles.item}>
-			<MaterialIcons
-				name="add-photo-alternate"
-				size={30}
-				color={COLORS.midGray}
-			/>
+		<TouchableOpacity style={styles.item} onPress={onHandleOnPress}>
+			{itemImage ? (
+				<Image
+					source={{ uri: itemImage }}
+					style={{ width: '100%', height: '100%' }}
+				/>
+			) : (
+				<MaterialIcons
+					name="add-photo-alternate"
+					size={30}
+					color={COLORS.midGray}
+				/>
+			)}
 		</TouchableOpacity>
 	)
 }

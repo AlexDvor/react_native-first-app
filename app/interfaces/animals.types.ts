@@ -8,15 +8,7 @@ interface IImage {
 // 'Female' | 'Male'
 
 export interface IAnimalsData {
-	[key: string]:
-		| string
-		| number
-		| boolean
-		| IImage[]
-		| []
-		| IUserProfile
-		| string[]
-		| undefined
+	[key: string]: any
 	id: number
 	name: string
 	color: string

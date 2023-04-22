@@ -1,25 +1,28 @@
 import { FC } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { TFormState } from '~interfaces/form.state.types'
 
 import { PostImageGalleryItem } from './PostImageGalleryItem'
 
 interface PostImageGalleryListProps {
-	quantityImages: any[]
+	formState: React.Dispatch<React.SetStateAction<TFormState>>
 }
 
 export const PostImageGalleryList: FC<PostImageGalleryListProps> = ({
-	quantityImages,
+	formState,
 }) => {
+	const quantityImg = 10
+	const dataDefaultImg = new Array(quantityImg).fill(0)
 	return (
 		<>
 			<View style={styles.container}>
-				{quantityImages.slice(0, 5).map((item, idx) => (
-					<PostImageGalleryItem key={idx} />
+				{dataDefaultImg.slice(0, 5).map((item, index) => (
+					<PostImageGalleryItem key={index} formState={formState} />
 				))}
 			</View>
 			<View style={[styles.container, styles.lastItem]}>
-				{quantityImages.slice(5).map((item, idx) => (
-					<PostImageGalleryItem key={idx + 5} />
+				{dataDefaultImg.slice(5).map((item, index) => (
+					<PostImageGalleryItem key={index} formState={formState} />
 				))}
 			</View>
 		</>

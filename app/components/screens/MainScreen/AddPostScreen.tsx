@@ -2,12 +2,13 @@ import { FC, useEffect, useState } from 'react'
 import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { DatePickerInput } from '~components/ui/FormComponents/DatePickerInput/DatePickerInput'
 import FormButton from '~components/ui/FormComponents/FormButton/FormButton'
-import { PostDescriptionField } from '~components/ui/FormComponents/PostDesciptionField/PostDesciptionField'
+import { PostDescriptionField } from '~components/ui/FormComponents/PostDescriptionField/PostDescriptionField'
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
 import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
+import { useValidateForm } from '~hooks/useValidateForm'
 import { TFormState } from '~interfaces/form.state.types'
 
 type TAnimal = 'Cat' | 'Dog' | ''
@@ -26,29 +27,16 @@ const initialFormValue = {
 }
 
 export const AddPostScreen: FC = () => {
-	const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 	const [formValue, setFormValue] = useState<TFormState>(initialFormValue)
 	const [typeAnimal, setTypeAnimal] = useState<TAnimal>('')
-	const [isDisableSubmitBtn, setIsDisableSubmitBtn] = useState<boolean>(true)
-
-	const a = formValue
+	const { isValidFormState } = useValidateForm(formValue)
 
 	useEffect(() => {
+		console.log('❌ ~ formValue:', formValue)
 		if (formValue.type === 'Dog' || formValue.type === 'Cat') {
 			return setTypeAnimal(formValue.type)
 		}
 		return setTypeAnimal('')
-	}, [formValue])
-
-	useEffect(() => {
-		for (const key in formValue) {
-			if (!formValue[key]) {
-				setIsDisableSubmitBtn(true)
-				return
-			}
-		}
-
-		setIsDisableSubmitBtn(false)
 	}, [formValue])
 
 	const handleSubmitForm = () => {
@@ -64,7 +52,7 @@ export const AddPostScreen: FC = () => {
 				style={{ width: '100%' }}
 				showsVerticalScrollIndicator={false}
 			>
-				<PostImageGalleryList quantityImages={quantity} />
+				<PostImageGalleryList formState={setFormValue} />
 				<View style={styles.selectWrapper}>
 					<PostInput
 						placeholderText="Name"
@@ -128,7 +116,7 @@ export const AddPostScreen: FC = () => {
 					<FormButton
 						title={'Submit'}
 						onPress={handleSubmitForm}
-						disabled={isDisableSubmitBtn}
+						disabled={!isValidFormState}
 					/>
 				</View>
 			</ScrollView>
