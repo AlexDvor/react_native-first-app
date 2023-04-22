@@ -12,7 +12,7 @@ import { TFormState } from '~interfaces/form.state.types'
 
 type TAnimal = 'Cat' | 'Dog' | ''
 
-const initialFormValue: TFormState = {
+const initialFormValue = {
 	name: '',
 	color: '',
 	age: 0,
@@ -31,7 +31,7 @@ export const AddPostScreen: FC = () => {
 	const [typeAnimal, setTypeAnimal] = useState<TAnimal>('')
 	const [isDisableSubmitBtn, setIsDisableSubmitBtn] = useState<boolean>(true)
 
-	console.log(formValue.imageUri)
+	const a = formValue
 
 	useEffect(() => {
 		if (formValue.type === 'Dog' || formValue.type === 'Cat') {
@@ -43,13 +43,16 @@ export const AddPostScreen: FC = () => {
 	useEffect(() => {
 		for (const key in formValue) {
 			if (!formValue[key]) {
-				return console.warn('Somethings is empty')
+				setIsDisableSubmitBtn(true)
+				return
 			}
 		}
+
+		setIsDisableSubmitBtn(false)
 	}, [formValue])
 
 	const handleSubmitForm = () => {
-		// console.log('state', formValue)
+		console.log('state', formValue)
 	}
 
 	const selectCurrentListByType = () =>
