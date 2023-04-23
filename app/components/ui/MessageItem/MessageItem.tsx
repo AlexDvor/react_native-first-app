@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
 		height: 50,
 		borderRadius: 25,
 	},
+
 	textSection: {
 		flexDirection: 'column',
 		justifyContent: 'center',

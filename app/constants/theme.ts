@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native'
+import { StatusBar } from 'react-native'
 
 const { width, height } = Dimensions.get('window')
 export const widthScreenDevice = width
@@ -32,6 +33,14 @@ export const COLORS = {
 	//
 	placeholderTextColor: '#949494',
 }
+
+export const CONTAINER = {
+	mainContainer: {
+		marginTop: StatusBar.currentHeight && StatusBar.currentHeight,
+		marginHorizontal: 10,
+	},
+}
+
 export const SIZES = {
 	h1: 32,
 	h2: 22,
@@ -82,6 +91,6 @@ export const FONTS = {
 	},
 }
 
-const appTheme = { COLORS, SIZES, FONTS }
+const appTheme = { COLORS, SIZES, FONTS, CONTAINER }
 
 export default appTheme

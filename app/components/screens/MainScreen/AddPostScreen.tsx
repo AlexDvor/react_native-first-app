@@ -6,6 +6,7 @@ import { PostDescriptionField } from '~components/ui/FormComponents/PostDescript
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
 import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
+import { CONTAINER } from '~constants/theme'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
 import { useValidateForm } from '~hooks/useValidateForm'
@@ -130,10 +131,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	container: {
+		...CONTAINER.mainContainer,
 		alignItems: 'center',
-		marginTop: StatusBar.currentHeight && StatusBar.currentHeight + 15,
+		marginTop: StatusBar.currentHeight && StatusBar.currentHeight + 20,
 		marginBottom: 10,
-		marginHorizontal: 20,
 	},
 
 	selectWrapper: {

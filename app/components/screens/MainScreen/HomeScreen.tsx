@@ -5,7 +5,7 @@ import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Logo } from '~components/ui/Logo/Logo'
 import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenuList'
 import { menuData } from '~components/ui/ScrollableMenu/menu.data'
-import { COLORS } from '~constants/theme'
+import { COLORS, CONTAINER } from '~constants/theme'
 
 import { dataAnimals } from '../../../data/animals'
 import { DefaultHomeProps } from '../../../interfaces/home.navigation.types'
@@ -22,7 +22,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<View style={styles.container}>
 				<View style={styles.headerContainer}>
-					{/* <Logo logoColor={'#2B2B2E'} /> */}
+					<Logo logoColor={'#2B2B2E'} />
 
 					<View>
 						<View style={styles.iconWrapper}>
@@ -49,8 +49,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: StatusBar.currentHeight && StatusBar.currentHeight,
-		marginHorizontal: 10,
+		...CONTAINER.mainContainer,
 	},
 	headerContainer: {
 		justifyContent: 'space-between',

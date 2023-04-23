@@ -13,6 +13,7 @@ import { BackgroundAuthLayout } from '~components/layout/BackgroundAuthLayout'
 import FormButton from '~components/ui/FormComponents/FormButton/FormButton'
 import FormInput from '~components/ui/FormComponents/FormInput/FormInput'
 import { Logo } from '~components/ui/Logo/Logo'
+import { normalizeWords } from '~helper/string/normalizeWords'
 import { useAuth } from '~hooks/useAuth'
 import { useKeyboardVisible } from '~hooks/useKeyboardVisible'
 import { AuthNavigationComponent } from '~interfaces/auth.navigation.types'
@@ -45,7 +46,10 @@ export const RegisterScreen: FC = () => {
 								placeholder="Name"
 								autoCapitalize="none"
 								autoCorrect={false}
-								onChangeText={(userName) => setName(userName)}
+								onChangeText={(userName) =>
+									userName && setName(normalizeWords(userName, 'First Upper'))
+								}
+								inputMode="text"
 							/>
 							<FormInput
 								iconType="email"
@@ -54,7 +58,10 @@ export const RegisterScreen: FC = () => {
 								keyboardType="email-address"
 								autoCapitalize="none"
 								autoCorrect={false}
-								onChangeText={(userEmail) => setEmail(userEmail)}
+								onChangeText={(userEmail) =>
+									setEmail(userEmail.toLocaleLowerCase())
+								}
+								inputMode="email"
 							/>
 
 							<FormInput
@@ -66,11 +73,10 @@ export const RegisterScreen: FC = () => {
 							/>
 
 							<View style={styles.buttonWrapper}>
-								{/* <FormButton title="Sign Up" onPress={keyBoardHide} /> */}
 								<FormButton
 									title="Sign Up"
 									onPress={() => {
-										console.log('ffff')
+										console.log({ name, email, password })
 									}}
 								/>
 								<View style={styles.signInContainer}>

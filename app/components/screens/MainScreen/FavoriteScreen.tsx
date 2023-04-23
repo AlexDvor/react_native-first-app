@@ -1,6 +1,7 @@
 import { FC } from 'react'
-import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
+import { CONTAINER } from '~constants/theme'
 import { dataAnimals } from '~data/animals'
 
 export const FavoriteScreen: FC = () => {
@@ -16,9 +17,9 @@ export const FavoriteScreen: FC = () => {
 
 const styles = StyleSheet.create({
 	container: {
+		...CONTAINER.mainContainer,
 		flex: 1,
-		marginTop: StatusBar.currentHeight && StatusBar.currentHeight,
-		marginHorizontal: 10,
+
 		alignItems: 'center',
 	},
 })
