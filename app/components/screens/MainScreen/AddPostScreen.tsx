@@ -32,7 +32,6 @@ export const AddPostScreen: FC = () => {
 	const { isValidFormState } = useValidateForm(formValue)
 
 	useEffect(() => {
-		console.log('❌ ~ formValue:', formValue)
 		if (formValue.type === 'Dog' || formValue.type === 'Cat') {
 			return setTypeAnimal(formValue.type)
 		}

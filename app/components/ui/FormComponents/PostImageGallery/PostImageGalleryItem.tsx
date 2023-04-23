@@ -10,9 +10,11 @@ import { TFormState } from '~interfaces/form.state.types'
 
 interface PostImageGalleryItemProps {
 	formState: React.Dispatch<React.SetStateAction<TFormState>>
+	indexElement: number
 }
 
 export const PostImageGalleryItem: FC<PostImageGalleryItemProps> = ({
+	indexElement,
 	formState,
 }) => {
 	const [itemImage, setItemImage] = useState<string | null>(null)
@@ -34,9 +36,21 @@ export const PostImageGalleryItem: FC<PostImageGalleryItemProps> = ({
 		}
 	}
 
+	const removeImageUri = (index: number) => {
+		formState((prevState) => ({
+			...prevState,
+			imageUri: [
+				...prevState.imageUri.slice(0, index),
+				...prevState.imageUri.slice(index + 1),
+			],
+		}))
+	}
+
 	const onHandleOnPress = () => {
+		console.log('key', indexElement)
 		if (itemImage) {
 			setItemImage(null)
+			removeImageUri(indexElement)
 		} else {
 			pickImage()
 		}

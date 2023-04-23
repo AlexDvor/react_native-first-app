@@ -17,12 +17,20 @@ export const PostImageGalleryList: FC<PostImageGalleryListProps> = ({
 		<>
 			<View style={styles.container}>
 				{dataDefaultImg.slice(0, 5).map((item, index) => (
-					<PostImageGalleryItem key={index} formState={formState} />
+					<PostImageGalleryItem
+						key={index}
+						formState={formState}
+						indexElement={index}
+					/>
 				))}
 			</View>
 			<View style={[styles.container, styles.lastItem]}>
 				{dataDefaultImg.slice(5).map((item, index) => (
-					<PostImageGalleryItem key={index} formState={formState} />
+					<PostImageGalleryItem
+						key={index + 5}
+						indexElement={index + 5}
+						formState={formState}
+					/>
 				))}
 			</View>
 		</>
