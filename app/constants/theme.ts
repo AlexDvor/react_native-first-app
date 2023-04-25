@@ -32,6 +32,13 @@ export const COLORS = {
 
 	//
 	placeholderTextColor: '#949494',
+
+	//BottomTabNavigator
+
+	activeColorBtn: 'white',
+	inActiveColorBtn: '#9c7775',
+	activeBackgroundColor: '#F2968F',
+	backgroundTabNavigator: '#ffd9d8',
 }
 
 export const CONTAINER = {
