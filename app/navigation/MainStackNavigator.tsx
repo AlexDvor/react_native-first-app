@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import MaterialIcon from '@expo/vector-icons/MaterialCommunityIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Route, getFocusedRouteNameFromRoute } from '@react-navigation/native'
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { AddPostScreen } from '~components/screens/MainScreen/AddPostScreen'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
 import { tabBarNavigatorConfig } from '~config/tabBarNavigator.config'
@@ -11,19 +11,6 @@ import { HomeStackNavigator } from './HomeStackNavigator'
 import { MessageStackNavigator } from './MessageStackNavigator'
 
 const MainTabs = createBottomTabNavigator()
-
-const getTabBarActiveBackgroundColor = (
-	route: Route<string> | undefined
-): string | undefined => {
-	if (!route) return
-	const routeName = getFocusedRouteNameFromRoute(route)
-
-	if (routeName === 'Favorite') {
-		return 'red'
-	}
-
-	return 'white'
-}
 
 export const MainStackNavigator = () => {
 	const { Navigator, Screen } = MainTabs
@@ -51,6 +38,7 @@ export const MainStackNavigator = () => {
 							color={color}
 						/>
 					),
+
 					tabBarStyle: ((route) => {
 						const routeName = getFocusedRouteNameFromRoute(route) ?? ''
 						if (routeName === 'ChatScreen') {

@@ -35,10 +35,10 @@ export const COLORS = {
 
 	//BottomTabNavigator
 
-	activeColorBtn: 'white',
-	inActiveColorBtn: '#9c7775',
+	activeColorBtn: '#F2968F',
+	inActiveColorBtn: '#949494',
 	activeBackgroundColor: '#F2968F',
-	backgroundTabNavigator: '#ffd9d8',
+	backgroundTabNavigator: '#FCFCFC',
 }
 
 export const CONTAINER = {
