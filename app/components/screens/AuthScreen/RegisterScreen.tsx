@@ -17,6 +17,7 @@ import { normalizeWords } from '~helper/string/normalizeWords'
 import { useAuth } from '~hooks/useAuth'
 import { useKeyboardVisible } from '~hooks/useKeyboardVisible'
 import { AuthNavigationComponent } from '~interfaces/auth.navigation.types'
+import { AuthService } from '~services/auth/auth.services'
 
 export const RegisterScreen: FC = () => {
 	const [name, setName] = useState('')
@@ -77,6 +78,7 @@ export const RegisterScreen: FC = () => {
 									title="Sign Up"
 									onPress={() => {
 										console.log({ name, email, password })
+										AuthService.register(email, password)
 									}}
 								/>
 								<View style={styles.signInContainer}>
