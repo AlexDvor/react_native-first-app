@@ -4,8 +4,10 @@ import { FC } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
 import { widthScreenDevice } from '~constants/theme'
+import { useAuth } from '~hooks/useAuth'
 
 export const ProfileScreen: FC = () => {
+	const { user } = useAuth()
 	const sizeIcon = 32
 	const colorIcon = 'black'
 	return (
@@ -37,7 +39,7 @@ export const ProfileScreen: FC = () => {
 							/>
 						</View>
 
-						<Text style={styles.text}>Kate Lopez</Text>
+						<Text style={styles.text}>{user?.name || 'Undefined'}</Text>
 					</View>
 
 					<View style={styles.item}>
@@ -45,7 +47,7 @@ export const ProfileScreen: FC = () => {
 							<Entypo name="mobile" size={sizeIcon} color={colorIcon} />
 						</View>
 
-						<Text style={styles.text}>620 332 73</Text>
+						<Text style={styles.text}>{'Undefined'}</Text>
 					</View>
 
 					<View style={styles.item}>
@@ -53,7 +55,7 @@ export const ProfileScreen: FC = () => {
 							<Fontisto name="email" size={sizeIcon} color={colorIcon} />
 						</View>
 
-						<Text style={styles.text}>alexmatvichuk@gmail.com</Text>
+						<Text style={styles.text}>{user?.email}</Text>
 					</View>
 
 					<View style={styles.item}>

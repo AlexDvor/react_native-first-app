@@ -1,16 +1,16 @@
 import { NavigationContainer } from '@react-navigation/native'
-import { FC, ReactNode } from 'react'
+import { FC } from 'react'
 import { Provider } from 'react-redux'
 import { store } from '~store/store'
 
-interface MainProviderProps {
-	children: ReactNode
-}
+import AuthProvider from './AuthProvider'
 
-const MainProvider: FC<MainProviderProps> = ({ children }) => {
+const MainProvider: FC = () => {
 	return (
 		<Provider store={store}>
-			<NavigationContainer>{children}</NavigationContainer>
+			<NavigationContainer>
+				<AuthProvider />
+			</NavigationContainer>
 		</Provider>
 	)
 }

@@ -1,22 +1,25 @@
 import { FC } from 'react'
 import { ButtonProps, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { Loader } from '~components/ui/Loader/Loader'
 import { COLORS } from '~constants/theme'
 import { TypeColorComponents } from '~interfaces/theme.types'
 
 interface FormButtonProps extends ButtonProps {
 	backgroundColorButton?: TypeColorComponents
+	isFetching: boolean
 }
 
 const FormButton: FC<FormButtonProps> = ({
 	title,
 	backgroundColorButton = 'primaryBtn',
 	disabled,
+	isFetching = false,
 	...rest
 }) => {
 	const selectedColor = COLORS[backgroundColorButton]
 	return (
 		<TouchableOpacity
-			disabled={disabled}
+			disabled={disabled || isFetching}
 			style={{
 				marginTop: 10,
 				width: '100%',
@@ -29,9 +32,13 @@ const FormButton: FC<FormButtonProps> = ({
 			}}
 			{...rest}
 		>
-			<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#ffffff' }}>
-				{title}
-			</Text>
+			{isFetching ? (
+				<Loader />
+			) : (
+				<Text style={{ fontSize: 18, fontWeight: 'bold', color: '#ffffff' }}>
+					{title}
+				</Text>
+			)}
 		</TouchableOpacity>
 	)
 }

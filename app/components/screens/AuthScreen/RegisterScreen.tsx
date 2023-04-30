@@ -15,10 +15,12 @@ import FormInput from '~components/ui/FormComponents/FormInput/FormInput'
 import { Logo } from '~components/ui/Logo/Logo'
 import { normalizeWords } from '~helper/string/normalizeWords'
 import { useActions } from '~hooks/useActions'
+import { useAuth } from '~hooks/useAuth'
 import { useKeyboardVisible } from '~hooks/useKeyboardVisible'
 import { AuthNavigationComponent } from '~interfaces/auth.navigation.types'
 
 export const RegisterScreen: FC = () => {
+	const { isLoading } = useAuth()
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -35,7 +37,7 @@ export const RegisterScreen: FC = () => {
 				<TouchableWithoutFeedback onPress={keyBoardHide}>
 					<View style={styles.container}>
 						<View style={styles.logoWrapper}>
-							{/* <Logo logoColor={'#F8F8F8'} /> */}
+							<Logo logoColor={'#F8F8F8'} />
 						</View>
 
 						<View style={styles.formWrapper}>
@@ -75,6 +77,7 @@ export const RegisterScreen: FC = () => {
 								<FormButton
 									title="Sign Up"
 									onPress={() => register({ email, password, name })}
+									isFetching={isLoading}
 								/>
 								<View style={styles.signInContainer}>
 									<Text style={[styles.textLink]}>Already have account</Text>
