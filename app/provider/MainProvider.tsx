@@ -9,9 +9,9 @@ interface MainProviderProps {
 
 const MainProvider: FC<MainProviderProps> = ({ children }) => {
 	return (
-		<NavigationContainer>
-			<Provider store={store}>{children}</Provider>
-		</NavigationContainer>
+		<Provider store={store}>
+			<NavigationContainer>{children}</NavigationContainer>
+		</Provider>
 	)
 }
 

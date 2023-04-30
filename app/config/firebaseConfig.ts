@@ -8,6 +8,7 @@ import {
 	DB_STORAGE_BUCKET,
 } from '@env'
 import { initializeApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
 	apiKey: DB_API_KEY,
@@ -20,5 +21,6 @@ const firebaseConfig = {
 }
 
 const DB = initializeApp(firebaseConfig)
+export const auth = getAuth(DB)
 
 export default DB

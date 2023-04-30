@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { FC, useState } from 'react'
-import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Logo } from '~components/ui/Logo/Logo'
 import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenuList'
@@ -22,7 +22,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<View style={styles.container}>
 				<View style={styles.headerContainer}>
-					<Logo logoColor={'#2B2B2E'} />
+					{/* <Logo logoColor={'#2B2B2E'} /> */}
 
 					<View>
 						<View style={styles.iconWrapper}>

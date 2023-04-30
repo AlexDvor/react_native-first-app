@@ -14,10 +14,9 @@ import FormButton from '~components/ui/FormComponents/FormButton/FormButton'
 import FormInput from '~components/ui/FormComponents/FormInput/FormInput'
 import { Logo } from '~components/ui/Logo/Logo'
 import { normalizeWords } from '~helper/string/normalizeWords'
-import { useAuth } from '~hooks/useAuth'
+import { useActions } from '~hooks/useActions'
 import { useKeyboardVisible } from '~hooks/useKeyboardVisible'
 import { AuthNavigationComponent } from '~interfaces/auth.navigation.types'
-import { AuthService } from '~services/auth/auth.services'
 
 export const RegisterScreen: FC = () => {
 	const [name, setName] = useState('')
@@ -25,8 +24,7 @@ export const RegisterScreen: FC = () => {
 	const [password, setPassword] = useState('')
 	const { navigate } = useNavigation<AuthNavigationComponent>()
 	const { isShowKeyBoard } = useKeyboardVisible()
-	const { user } = useAuth()
-
+	const { register } = useActions()
 	const keyBoardHide = () => {
 		Keyboard.dismiss()
 	}
@@ -37,7 +35,7 @@ export const RegisterScreen: FC = () => {
 				<TouchableWithoutFeedback onPress={keyBoardHide}>
 					<View style={styles.container}>
 						<View style={styles.logoWrapper}>
-							<Logo logoColor={'#F8F8F8'} />
+							{/* <Logo logoColor={'#F8F8F8'} /> */}
 						</View>
 
 						<View style={styles.formWrapper}>
@@ -76,10 +74,7 @@ export const RegisterScreen: FC = () => {
 							<View style={styles.buttonWrapper}>
 								<FormButton
 									title="Sign Up"
-									onPress={() => {
-										console.log({ name, email, password })
-										AuthService.register(email, password)
-									}}
+									onPress={() => register({ email, password, name })}
 								/>
 								<View style={styles.signInContainer}>
 									<Text style={[styles.textLink]}>Already have account</Text>

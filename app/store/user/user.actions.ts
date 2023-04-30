@@ -1,30 +1,42 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { FirebaseError } from 'firebase/app'
 import { AuthService } from '~services/auth/auth.services'
 
 interface InterfaceEmailPassword {
 	email: string
 	password: string
+	name: string
 }
+
+//fix type IAuthResponse
 
 type IAuthResponse = any
 
 export const register = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
 	'auth/register',
-	async ({ email, password }, thunkAPI) => {
+	async ({ email, password, name }, thunkAPI) => {
 		try {
-			const response = await AuthService.register(email, password)
-			console.log('❌ ~ response:', response)
-			return response
+			const response = await AuthService.register(email, password, name)
+			return {
+				email: response.user.email,
+				id: response.user.uid,
+				name: response.user.displayName,
+			}
 		} catch (error) {
-			console.log(error)
+			if (error instanceof FirebaseError) {
+				return thunkAPI.rejectWithValue(error.code)
+			}
 			return thunkAPI.rejectWithValue(error)
 		}
 	}
 )
 
-export const login = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
+export const login = createAsyncThunk(
 	'auth/login',
-	async ({ email, password }, thunkAPI) => {
+	async (
+		{ email, password }: { email: string; password: string },
+		thunkAPI
+	) => {
 		try {
 			const response = await AuthService.login(email, password)
 			return response.data

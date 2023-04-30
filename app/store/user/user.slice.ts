@@ -1,11 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { IUserInitialState } from '~interfaces/user.types'
 
 import { login, register } from './user.actions'
 
-const initialState: IUserInitialState = {
+interface initialStateProps {
+	user: { name: string | null; id: string | null; email: string | null } | null
+	isLoading: boolean
+	error: string
+}
+
+const initialState: initialStateProps = {
 	user: null,
 	isLoading: false,
+	error: '',
 }
 
 export const userSlice = createSlice({
@@ -19,18 +25,23 @@ export const userSlice = createSlice({
 			})
 			.addCase(register.fulfilled, (state, { payload }) => {
 				state.isLoading = false
-				state.user = payload.user
+				state.user = payload
 			})
-			.addCase(register.rejected, (state) => {
+			.addCase(register.rejected, (state, { payload }) => {
 				state.isLoading = false
 				state.user = null
+				if (typeof payload === 'string') {
+					state.error = payload
+				} else {
+					state.error = 'An unknown error occurred during auth'
+				}
 			})
 			.addCase(login.pending, (state) => {
 				state.isLoading = true
 			})
 			.addCase(login.fulfilled, (state, { payload }) => {
 				state.isLoading = false
-				state.user = payload.user
+				state.user = payload
 			})
 			.addCase(login.rejected, (state) => {
 				state.isLoading = false
