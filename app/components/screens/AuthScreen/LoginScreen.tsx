@@ -13,10 +13,14 @@ import { BackgroundAuthLayout } from '~components/layout/BackgroundAuthLayout'
 import FormButton from '~components/ui/FormComponents/FormButton/FormButton'
 import FormInput from '~components/ui/FormComponents/FormInput/FormInput'
 import { Logo } from '~components/ui/Logo/Logo'
+import { useActions } from '~hooks/useActions'
+import { useAuth } from '~hooks/useAuth'
 import { useKeyboardVisible } from '~hooks/useKeyboardVisible'
 import { AuthNavigationComponent } from '~interfaces/auth.navigation.types'
 
 export const LoginScreen: FC = () => {
+	const { isLoading } = useAuth()
+	const { login } = useActions()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const { isShowKeyBoard } = useKeyboardVisible()
@@ -33,7 +37,7 @@ export const LoginScreen: FC = () => {
 				<TouchableWithoutFeedback onPress={keyBoardHide}>
 					<View style={styles.container}>
 						<View style={styles.logoWrapper}>
-							<Logo logoColor={'#F8F8F8'} />
+							{/* <Logo logoColor={'#F8F8F8'} /> */}
 						</View>
 
 						<View style={styles.formWrapper}>
@@ -56,7 +60,14 @@ export const LoginScreen: FC = () => {
 							/>
 
 							<View style={styles.buttonWrapper}>
-								<FormButton title="Sign In" onPress={keyBoardHide} />
+								<FormButton
+									title="Sign In"
+									onPress={() => {
+										keyBoardHide()
+										login({ email, password })
+									}}
+									isFetching={isLoading}
+								/>
 								<View style={styles.signInContainer}>
 									<Text style={[styles.textLink]}>Don't have an account?</Text>
 									<TouchableOpacity onPress={() => navigate('SignUp')}>

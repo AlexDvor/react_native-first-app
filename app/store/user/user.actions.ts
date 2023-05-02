@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { FirebaseError } from 'firebase/app'
+import { User } from 'firebase/auth'
 import { AuthService } from '~services/auth/auth.services'
 
 interface InterfaceEmailPassword {
@@ -16,11 +17,11 @@ export const register = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
 	'auth/register',
 	async ({ email, password, name }, thunkAPI) => {
 		try {
-			const response = await AuthService.register(email, password, name)
+			const { user } = await AuthService.register(email, password, name)
 			return {
-				email: response.user.email,
-				id: response.user.uid,
-				name: response.user.displayName,
+				email: user.email,
+				id: user.uid,
+				name: user.displayName,
 			}
 		} catch (error) {
 			if (error instanceof FirebaseError) {
@@ -31,15 +32,15 @@ export const register = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
 	}
 )
 
-export const login = createAsyncThunk(
+export const login = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
 	'auth/login',
 	async (
 		{ email, password }: { email: string; password: string },
 		thunkAPI
 	) => {
 		try {
-			const response = await AuthService.login(email, password)
-			return response.data
+			const { user } = await AuthService.login(email, password)
+			return { email: user.email, id: user.uid, name: user.displayName }
 		} catch (error) {
 			console.log(error)
 			return thunkAPI.rejectWithValue(error)
@@ -47,30 +48,25 @@ export const login = createAsyncThunk(
 	}
 )
 
-// export const logout = createAsyncThunk('auth/logout', async () => {
-// 	await AuthService.logout()
-// })
+export const singOut = createAsyncThunk('auth/singOut', async (_, thunkAPI) => {
+	try {
+		await AuthService.signOut
+	} catch (error) {
+		console.log(error)
+		return thunkAPI.rejectWithValue(error)
+	}
+})
 
-// export const checkAuth = createAsyncThunk<IAuthResponse>(
-// 	'auth/check-auth',
-// 	async (_, thunkAPI) => {
-// 		try {
-// 			const response = await AuthService.getNewTokens()
-// 			return response.data
-// 		} catch (error) {
-// 			if (
-// 				errorCatch(error) ===
-// 					'Refresh token was expired. Please make a new signin request' ||
-// 				errorCatch(error) === 'Refresh token is not in database!' ||
-// 				errorCatch(error) === 'Refresh Token is required!'
-// 			) {
-// 				toastr.error(
-// 					'Logout Auth',
-// 					'Your authorization is finished, please sign in again'
-// 				)
-// 				thunkAPI.dispatch(logout())
-// 			}
-// 			return thunkAPI.rejectWithValue(error)
-// 		}
-// 	}
-// )
+export const stateChangeUser = createAsyncThunk(
+	'auth/stateChangeUser',
+	async (_, thunkAPI) => {
+		try {
+			const user = await AuthService.authStateChangeUser()
+			console.log('❌ ~ stateChangeUser:', user)
+			return user
+		} catch (error) {
+			console.log(error)
+			return thunkAPI.rejectWithValue(error)
+		}
+	}
+)

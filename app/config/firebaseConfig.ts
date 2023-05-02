@@ -9,6 +9,7 @@ import {
 } from '@env'
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
 	apiKey: DB_API_KEY,
@@ -20,7 +21,7 @@ const firebaseConfig = {
 	measurementId: DB_MEASUREMENT_ID,
 }
 
-const DB = initializeApp(firebaseConfig)
-export const auth = getAuth(DB)
-
-export default DB
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
+const auth = getAuth(app)
+export { db, auth }

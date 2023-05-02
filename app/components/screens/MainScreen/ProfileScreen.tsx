@@ -4,10 +4,12 @@ import { FC } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
 import { widthScreenDevice } from '~constants/theme'
+import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
 
 export const ProfileScreen: FC = () => {
 	const { user } = useAuth()
+	const { singOut } = useActions()
 	const sizeIcon = 32
 	const colorIcon = 'black'
 	return (
@@ -74,6 +76,12 @@ export const ProfileScreen: FC = () => {
 					widthButton={250}
 					backgroundColorButton={'secondaryBtn'}
 				/>
+				<PrimaryButton
+					title={'SignOut'}
+					widthButton={250}
+					backgroundColorButton={'secondaryBtn'}
+					onPress={() => singOut()}
+				/>
 			</View>
 		</>
 	)
@@ -139,9 +147,10 @@ const styles = StyleSheet.create({
 	},
 
 	buttonsContainer: {
-		flex: 0.1,
+		flex: 0.2,
 		justifyContent: 'center',
 		width: widthScreenDevice,
 		alignItems: 'center',
+		gap: 10,
 	},
 })

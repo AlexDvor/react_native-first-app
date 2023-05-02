@@ -1,19 +1,19 @@
 import { FC } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { ButtonProps, Text, TouchableOpacity } from 'react-native'
 import { COLORS, FONTS } from '~constants/theme'
 import { TypeColorComponents } from '~interfaces/theme.types'
 
-interface IPrimaryBtn {
+interface IPrimaryBtn extends ButtonProps {
 	widthButton?: number
 	backgroundColorButton?: TypeColorComponents
 	title: string
-	onPress?: () => void
 }
 
 export const PrimaryButton: FC<IPrimaryBtn> = ({
 	title,
 	widthButton,
 	backgroundColorButton = 'primaryBtn',
+	...rest
 }) => {
 	const selectedColor = COLORS[backgroundColorButton]
 
@@ -27,6 +27,7 @@ export const PrimaryButton: FC<IPrimaryBtn> = ({
 				alignItems: 'center',
 				width: widthButton,
 			}}
+			{...rest}
 		>
 			<Text
 				style={{
