@@ -59,8 +59,12 @@ export const userSlice = createSlice({
 			})
 			.addCase(stateChangeUser.fulfilled, (state, { payload }) => {
 				state.isLoading = false
-				state.user = payload
-				state.stateChange = true
+				state.user = payload || null
+				if (payload) {
+					state.stateChange = true
+				} else {
+					state.stateChange = false
+				}
 			})
 			.addCase(stateChangeUser.rejected, (state) => {
 				state.isLoading = false

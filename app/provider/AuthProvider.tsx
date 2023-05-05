@@ -1,20 +1,21 @@
-import { FC, useEffect, useState } from 'react'
-import { auth } from '~config/firebaseConfig'
+import { FC, useEffect } from 'react'
 import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
+import { useAuthStateChanged } from '~hooks/useAuthStateChanged'
 import { AuthStackNavigator } from '~navigation/AuthStackNavigator'
 import { MainStackNavigator } from '~navigation/MainStackNavigator'
 
 const AuthProvider: FC = () => {
 	const { user, stateChange } = useAuth()
 	const { stateChangeUser } = useActions()
+	const { currentUser } = useAuthStateChanged()
 
 	useEffect(() => {
-		stateChangeUser()
-		console.log('currentUser', auth.currentUser?.email)
-		console.log('STATE', { stateChange, user })
-	}, [])
+		stateChangeUser(currentUser)
+	}, [currentUser])
 
-	return <>{user ? <MainStackNavigator /> : <AuthStackNavigator />}</>
+	return (
+		<>{user && stateChange ? <MainStackNavigator /> : <AuthStackNavigator />}</>
+	)
 }
 export default AuthProvider

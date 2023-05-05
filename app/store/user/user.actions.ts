@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { FirebaseError } from 'firebase/app'
-import { User } from 'firebase/auth'
 import { AuthService } from '~services/auth/auth.services'
 
 interface InterfaceEmailPassword {
@@ -8,6 +7,12 @@ interface InterfaceEmailPassword {
 	password: string
 	name: string
 }
+
+type AuthStateChanged = {
+	email: string | null
+	id: string
+	name: string | null
+} | null
 
 //fix type IAuthResponse
 
@@ -50,7 +55,7 @@ export const login = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
 
 export const singOut = createAsyncThunk('auth/singOut', async (_, thunkAPI) => {
 	try {
-		await AuthService.signOut
+		await AuthService.signOut()
 	} catch (error) {
 		console.log(error)
 		return thunkAPI.rejectWithValue(error)
@@ -59,11 +64,13 @@ export const singOut = createAsyncThunk('auth/singOut', async (_, thunkAPI) => {
 
 export const stateChangeUser = createAsyncThunk(
 	'auth/stateChangeUser',
-	async (_, thunkAPI) => {
+	async (data: AuthStateChanged, thunkAPI) => {
 		try {
-			const user = await AuthService.authStateChangeUser()
-			console.log('❌ ~ stateChangeUser:', user)
-			return user
+			if (data) {
+				return data
+			} else {
+				return null
+			}
 		} catch (error) {
 			console.log(error)
 			return thunkAPI.rejectWithValue(error)

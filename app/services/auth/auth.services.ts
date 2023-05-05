@@ -1,21 +1,11 @@
 import {
 	UserCredential,
 	createUserWithEmailAndPassword,
-	onAuthStateChanged,
 	signInWithEmailAndPassword,
 	signOut,
 	updateProfile,
 } from 'firebase/auth'
 import { auth } from '~config/firebaseConfig'
-
-type TAuthStateChanged =
-	| {
-			email: string
-			id: string
-			name: string
-	  }
-	| null
-	| undefined
 
 export const AuthService = {
 	async register(
@@ -57,28 +47,11 @@ export const AuthService = {
 		}
 	},
 
-	async signOut(): Promise<void> {
+	async signOut() {
 		try {
 			await signOut(auth)
 		} catch (error) {
 			throw error
 		}
-	},
-
-	async authStateChangeUser(): Promise<TAuthStateChanged> {
-		let userData
-		await onAuthStateChanged(auth, (user) => {
-			if (user) {
-				const userUpdatedProfile = {
-					email: user.email,
-					id: user.uid,
-					name: user.displayName,
-				}
-				userData = userUpdatedProfile
-			} else {
-				userData = null
-			}
-		})
-		return userData
 	},
 }
