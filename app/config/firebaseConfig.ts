@@ -22,7 +22,9 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
+console.log('❌ ~APP', app)
 const db = getFirestore(app)
 const auth = getAuth(app)
+console.log('❌ ~AUTH', auth)
 
-export { db, auth, firebaseConfig }
+export { db, auth }

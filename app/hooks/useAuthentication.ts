@@ -1,34 +1,44 @@
-import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import { useAsyncStorage } from '@react-native-async-storage/async-storage'
+import { signInWithCustomToken } from 'firebase/auth'
 import { useEffect, useState } from 'react'
-import { firebaseConfig } from '~config/firebaseConfig'
+import { asyncStorageConfig } from '~config/asyncStorage.config'
+import { auth } from '~config/firebaseConfig'
 
 const useAuthentication = () => {
-	const [authenticated, setAuthenticated] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
+	const [authenticated, setAuthenticated] = useState<boolean>(false)
+	const [isLoading, setIsLoading] = useState<boolean>(false)
+	const { removeItem, setItem, getItem } = useAsyncStorage(
+		asyncStorageConfig.storageName.userId
+	)
 
 	useEffect(() => {
 		const asyncFn = async () => {
 			try {
-				setIsLoading(true)
-				const config = firebaseConfig
-				initializeApp(config)
-				const auth = getAuth()
-
-				const unsubscribe = auth.onAuthStateChanged((user) => {
-					if (user) {
-						setAuthenticated(true)
-					} else {
-						setAuthenticated(false)
+				const storageToken = await getItem()
+				if (storageToken) {
+					const parseStorageToken = JSON.parse(storageToken)
+					if (parseStorageToken) {
+						setAuthenticated(parseStorageToken)
+						signInWithCustomToken(auth, parseStorageToken)
+							.then((userCredential) => {
+								// Користувач успішно аутентифікований
+								const user = userCredential.user
+								console.log('Authenticated user:', user.uid)
+							})
+							.catch((error) => {
+								console.error(error)
+							})
 					}
-				})
+				}
 
-				return unsubscribe
-			} catch (error) {
-				console.log(error)
-			} finally {
-				setIsLoading(false)
-			}
+				// if (storage) {
+				// 	const userCredential = await signInWithCustomToken(
+				// 		auth,
+				// 		storage.token
+				// 	)
+				// 	console.log('❌ ~ userCredential:', userCredential)
+				// }
+			} catch (error) {}
 		}
 		asyncFn()
 	}, [])

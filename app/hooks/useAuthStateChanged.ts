@@ -28,27 +28,41 @@ export const useAuthStateChanged = () => {
 	// }
 
 	useEffect(() => {
-		const authStateChanged = async () => {
-			try {
-				await onAuthStateChanged(auth, (user) => {
-					if (user) {
-						const userUpdatedProfile = {
-							email: user.email,
-							id: user.uid,
-							name: user.displayName,
-						}
+		// const authStateChanged = async () => {
+		// 	try {
+		// 		await onAuthStateChanged(auth, (user) => {
+		// 			if (user) {
+		// 				const userUpdatedProfile = {
+		// 					email: user.email,
+		// 					id: user.uid,
+		// 					name: user.displayName,
+		// 				}
 
-						setCurrentUser(userUpdatedProfile)
-					} else {
-						setCurrentUser(null)
-					}
-				})
-			} catch (error) {
-				console.log(error)
+		// 				setCurrentUser(userUpdatedProfile)
+		// 			} else {
+		// 				setCurrentUser(null)
+		// 			}
+		// 		})
+		// 	} catch (error) {
+		// 		console.log(error)
+		// 	}
+		// }
+
+		// authStateChanged()
+
+		const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
+			if (user) {
+				const userUpdatedProfile = {
+					email: user.email,
+					id: user.uid,
+					name: user.displayName,
+				}
+				setCurrentUser(userUpdatedProfile)
+			} else {
+				setCurrentUser(null)
 			}
-		}
-
-		authStateChanged()
+		})
+		return () => unregisterAuthObserver()
 	}, [])
 
 	return { currentUser }

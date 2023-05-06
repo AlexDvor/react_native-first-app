@@ -77,3 +77,19 @@ export const stateChangeUser = createAsyncThunk(
 		}
 	}
 )
+
+export const authentication = createAsyncThunk(
+	'auth/authentication',
+	async (data: AuthStateChanged, thunkAPI) => {
+		try {
+			if (data) {
+				return data
+			} else {
+				return null
+			}
+		} catch (error) {
+			console.log(error)
+			return thunkAPI.rejectWithValue(error)
+		}
+	}
+)

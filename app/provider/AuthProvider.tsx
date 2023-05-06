@@ -1,5 +1,4 @@
 import { FC, useEffect } from 'react'
-import { auth } from '~config/firebaseConfig'
 import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
 import { useAuthStateChanged } from '~hooks/useAuthStateChanged'
