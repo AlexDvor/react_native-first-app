@@ -40,6 +40,7 @@ export const AuthService = {
 				email,
 				password
 			)
+			console.log('❌ ~ userCredential1:', userCredential)
 
 			return userCredential
 		} catch (error) {

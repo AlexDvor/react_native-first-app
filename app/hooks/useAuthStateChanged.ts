@@ -1,3 +1,4 @@
+// import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 import { auth } from '~config/firebaseConfig'
@@ -10,11 +11,26 @@ type TAuthStateChanged = {
 
 export const useAuthStateChanged = () => {
 	const [currentUser, setCurrentUser] = useState<TAuthStateChanged | null>(null)
+	// const { removeItem, setItem, getItem } = useAsyncStorage('user')
+
+	// const getItemFromStorage = async () => {
+	// 	const res = await getItem()
+	// 	if (res) return JSON.parse(res)
+	// 	else return null
+	// }
+
+	// const removeItemFromStorage = async () => {
+	// 	await removeItem()
+	// }
+
+	// const writeItemToStorage = async (newValue: any | null) => {
+	// 	await setItem(JSON.stringify(newValue))
+	// }
 
 	useEffect(() => {
 		const authStateChanged = async () => {
 			try {
-				onAuthStateChanged(auth, (user) => {
+				await onAuthStateChanged(auth, (user) => {
 					if (user) {
 						const userUpdatedProfile = {
 							email: user.email,
@@ -28,7 +44,7 @@ export const useAuthStateChanged = () => {
 					}
 				})
 			} catch (error) {
-				console.log('❌ ~ useAuthStateChanged:', error)
+				console.log(error)
 			}
 		}
 
