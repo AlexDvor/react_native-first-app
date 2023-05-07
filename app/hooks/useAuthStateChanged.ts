@@ -1,7 +1,7 @@
 // import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect, useState } from 'react'
-import { auth } from '~config/firebaseConfig'
+import { FIREBASE_AUTH } from '~config/firebaseConfig'
 
 type TAuthStateChanged = {
 	email: string | null
@@ -50,7 +50,7 @@ export const useAuthStateChanged = () => {
 
 		// authStateChanged()
 
-		const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
+		const unregisterAuthObserver = onAuthStateChanged(FIREBASE_AUTH, (user) => {
 			if (user) {
 				const userUpdatedProfile = {
 					email: user.email,

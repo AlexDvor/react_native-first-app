@@ -5,7 +5,7 @@ import {
 	signOut,
 	updateProfile,
 } from 'firebase/auth'
-import { auth } from '~config/firebaseConfig'
+import { FIREBASE_AUTH } from '~config/firebaseConfig'
 
 export const AuthService = {
 	async register(
@@ -15,12 +15,12 @@ export const AuthService = {
 	): Promise<UserCredential> {
 		try {
 			const userCredential = await createUserWithEmailAndPassword(
-				auth,
+				FIREBASE_AUTH,
 				email,
 				password
 			)
 
-			const currentUser = auth.currentUser
+			const currentUser = FIREBASE_AUTH.currentUser
 
 			if (currentUser !== null) {
 				await updateProfile(currentUser, { displayName: name })
@@ -36,7 +36,7 @@ export const AuthService = {
 	async login(email: string, password: string): Promise<UserCredential> {
 		try {
 			const userCredential = await signInWithEmailAndPassword(
-				auth,
+				FIREBASE_AUTH,
 				email,
 				password
 			)
@@ -49,7 +49,7 @@ export const AuthService = {
 
 	async signOut() {
 		try {
-			await signOut(auth)
+			await signOut(FIREBASE_AUTH)
 		} catch (error) {
 			throw error
 		}

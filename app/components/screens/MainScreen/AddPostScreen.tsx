@@ -1,3 +1,5 @@
+import { addDoc, collection } from 'firebase/firestore'
+import { getStorage, ref } from 'firebase/storage'
 import { FC, useEffect, useState } from 'react'
 import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { DatePickerInput } from '~components/ui/FormComponents/DatePickerInput/DatePickerInput'
@@ -6,6 +8,8 @@ import { PostDescriptionField } from '~components/ui/FormComponents/PostDescript
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
 import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
+import { FIREBASE_DB } from '~config/firebaseConfig'
+import { FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { CONTAINER } from '~constants/theme'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
@@ -39,8 +43,24 @@ export const AddPostScreen: FC = () => {
 		return setTypeAnimal('')
 	}, [formValue])
 
-	const handleSubmitForm = () => {
-		console.log('state', formValue)
+	const handleSubmitForm = async () => {
+		// console.log('state0', formValue.imageUri[0])
+		if (!formValue.imageUri[0]) {
+			console.log('is empty')
+			return
+		}
+		console.log(formValue.imageUri[0])
+		// const storage = getStorage()
+		// const storageRef = ref(FIREBASE_STORAGE, formValue.imageUri[0])
+		// console.log('❌ ~ storageRef:', storageRef)
+
+		// try {
+		// 	const docRef = await addDoc(collection(FIREBASE_DB, 'animals'), formValue)
+		// 	// add the function to save docRef.id in profile of user
+		// 	// console.log('Document written with ID: ', docRef.id)
+		// } catch (e) {
+		// 	console.error('Error adding document: ', e)
+		// }
 	}
 
 	const selectCurrentListByType = () =>
@@ -116,7 +136,8 @@ export const AddPostScreen: FC = () => {
 					<FormButton
 						title={'Submit'}
 						onPress={handleSubmitForm}
-						disabled={!isValidFormState}
+						// disabled={!isValidFormState}
+						isFetching={false}
 					/>
 				</View>
 			</ScrollView>
