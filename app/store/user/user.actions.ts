@@ -14,8 +14,6 @@ type AuthStateChanged = {
 	name: string | null
 } | null
 
-//fix type IAuthResponse
-
 type IAuthResponse = any
 
 export const register = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
@@ -64,22 +62,6 @@ export const singOut = createAsyncThunk('auth/singOut', async (_, thunkAPI) => {
 
 export const stateChangeUser = createAsyncThunk(
 	'auth/stateChangeUser',
-	async (data: AuthStateChanged, thunkAPI) => {
-		try {
-			if (data) {
-				return data
-			} else {
-				return null
-			}
-		} catch (error) {
-			console.log(error)
-			return thunkAPI.rejectWithValue(error)
-		}
-	}
-)
-
-export const authentication = createAsyncThunk(
-	'auth/authentication',
 	async (data: AuthStateChanged, thunkAPI) => {
 		try {
 			if (data) {

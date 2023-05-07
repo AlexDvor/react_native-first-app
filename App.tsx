@@ -2,6 +2,10 @@ import { useFonts } from 'expo-font'
 import 'react-native-gesture-handler'
 import MainProvider from '~provider/MainProvider'
 
+//To Fix
+//1. FireBase Auth
+//2. Type IAuthResponse (User.Actions)
+
 export default function App() {
 	const [fontsLoaded] = useFonts({
 		'OpenSans-Regular': require('./app/assets/fonts/OpenSans-Regular.ttf'),
