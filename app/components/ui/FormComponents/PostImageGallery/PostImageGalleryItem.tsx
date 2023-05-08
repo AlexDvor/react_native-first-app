@@ -6,8 +6,6 @@ import { COLORS } from '~constants/theme'
 import { widthScreenDevice } from '~constants/theme'
 import { TFormState } from '~interfaces/form.state.types'
 
-// delete img from FormState
-
 interface PostImageGalleryItemProps {
 	formState: React.Dispatch<React.SetStateAction<TFormState>>
 	indexElement: number
@@ -19,7 +17,7 @@ export const PostImageGalleryItem: FC<PostImageGalleryItemProps> = ({
 }) => {
 	const [itemImage, setItemImage] = useState<string | null>(null)
 
-	const pickImage = async () => {
+	const pickImage = async (index: number) => {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
@@ -28,31 +26,34 @@ export const PostImageGalleryItem: FC<PostImageGalleryItemProps> = ({
 		})
 
 		if (result.assets !== null && !result.canceled) {
-			setItemImage(result.assets[0].uri)
+			const imageUri = result.assets[0].uri
+			const selectImage = { uri: imageUri, id: index }
+			setItemImage(imageUri)
 			formState((prev) => ({
 				...prev,
-				imageUri: [...prev.imageUri, result.assets[0].uri],
+				imageUri: [...prev.imageUri, selectImage],
 			}))
 		}
 	}
 
 	const removeImageUri = (index: number) => {
-		formState((prevState) => ({
-			...prevState,
-			imageUri: [
-				...prevState.imageUri.slice(0, index),
-				...prevState.imageUri.slice(index + 1),
-			],
-		}))
+		formState((prevState) => {
+			const newImageUri = prevState.imageUri.filter(
+				(item: any, i: number) => item.id !== index
+			)
+			return {
+				...prevState,
+				imageUri: newImageUri,
+			}
+		})
 	}
 
 	const onHandleOnPress = () => {
-		console.log('key', indexElement)
 		if (itemImage) {
 			setItemImage(null)
 			removeImageUri(indexElement)
 		} else {
-			pickImage()
+			pickImage(indexElement)
 		}
 	}
 	return (

@@ -1,18 +1,16 @@
-import { addDoc, collection } from 'firebase/firestore'
-import { getStorage, ref } from 'firebase/storage'
+import 'firebase/storage'
 import { FC, useEffect, useState } from 'react'
-import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StatusBar, StyleSheet, View } from 'react-native'
 import { DatePickerInput } from '~components/ui/FormComponents/DatePickerInput/DatePickerInput'
 import FormButton from '~components/ui/FormComponents/FormButton/FormButton'
 import { PostDescriptionField } from '~components/ui/FormComponents/PostDescriptionField/PostDescriptionField'
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
 import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
-import { FIREBASE_DB } from '~config/firebaseConfig'
-import { FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { CONTAINER } from '~constants/theme'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
+import { saveAnimalData, uploadImageAsync } from '~helper/blob/uploadImageAsync'
 import { useValidateForm } from '~hooks/useValidateForm'
 import { TFormState } from '~interfaces/form.state.types'
 
@@ -34,6 +32,7 @@ const initialFormValue = {
 export const AddPostScreen: FC = () => {
 	const [formValue, setFormValue] = useState<TFormState>(initialFormValue)
 	const [typeAnimal, setTypeAnimal] = useState<TAnimal>('')
+	const [isLoading, setIsLoading] = useState(false)
 	const { isValidFormState } = useValidateForm(formValue)
 
 	useEffect(() => {
@@ -44,24 +43,34 @@ export const AddPostScreen: FC = () => {
 	}, [formValue])
 
 	const handleSubmitForm = async () => {
-		// console.log('state0', formValue.imageUri[0])
-		if (!formValue.imageUri[0]) {
-			console.log('is empty')
-			return
+		console.log('State', formValue)
+		try {
+			setIsLoading(true)
+			const imageUri = formValue.imageUri[0]
+			const imageUrl = await uploadImageAsync(imageUri)
+			// await saveAnimalData(formValue, imageUrl)
+			// console.log('Animal data saved successfully')
+		} catch (error) {
+			console.log('❌ ~ error:', error)
+		} finally {
+			setIsLoading(false)
 		}
-		console.log(formValue.imageUri[0])
-		// const storage = getStorage()
-		// const storageRef = ref(FIREBASE_STORAGE, formValue.imageUri[0])
-		// console.log('❌ ~ storageRef:', storageRef)
-
-		// try {
-		// 	const docRef = await addDoc(collection(FIREBASE_DB, 'animals'), formValue)
-		// 	// add the function to save docRef.id in profile of user
-		// 	// console.log('Document written with ID: ', docRef.id)
-		// } catch (e) {
-		// 	console.error('Error adding document: ', e)
-		// }
 	}
+
+	// const handleSubmitForm = async () => {
+	// 	console.log('State', formValue)
+	// 	try {
+	// 		setIsLoading(true)
+	// 		const imageUri = formValue.imageUri[0]
+	// 		const imageUrl = await uploadImageAsync(imageUri)
+	// 		await saveAnimalData(formValue, imageUrl)
+	// 		console.log('Animal data saved successfully')
+	// 	} catch (error) {
+	// 		console.log('❌ ~ error:', error)
+	// 	} finally {
+	// 		setIsLoading(false)
+	// 	}
+	// }
 
 	const selectCurrentListByType = () =>
 		typeAnimal === 'Dog' ? dogBreedsList : catBreedsList
@@ -137,7 +146,7 @@ export const AddPostScreen: FC = () => {
 						title={'Submit'}
 						onPress={handleSubmitForm}
 						// disabled={!isValidFormState}
-						isFetching={false}
+						isFetching={isLoading}
 					/>
 				</View>
 			</ScrollView>
