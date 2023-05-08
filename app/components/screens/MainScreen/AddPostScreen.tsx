@@ -43,15 +43,13 @@ export const AddPostScreen: FC = () => {
 	}, [formValue])
 
 	const handleSubmitForm = async () => {
-		console.log('State', formValue)
 		try {
 			setIsLoading(true)
-			const imageUri = formValue.imageUri[0]
-			const imageUrl = await uploadImageAsync(imageUri)
-			// await saveAnimalData(formValue, imageUrl)
-			// console.log('Animal data saved successfully')
+			const imageUrl = await uploadImageAsync(formValue.imageUri)
+			const formData = { ...formValue, imageUri: imageUrl }
+			await saveAnimalData(formData)
 		} catch (error) {
-			console.log('❌ ~ error:', error)
+			console.log('❌ ~  handleSubmitForm  error:', error)
 		} finally {
 			setIsLoading(false)
 		}
