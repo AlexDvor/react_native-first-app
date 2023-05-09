@@ -6,6 +6,7 @@ import {
 	updateProfile,
 } from 'firebase/auth'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
+import { UserService } from '~services/user/user.services'
 
 export const AuthService = {
 	async register(
@@ -22,8 +23,9 @@ export const AuthService = {
 
 			const currentUser = FIREBASE_AUTH.currentUser
 
-			if (currentUser !== null) {
+			if (currentUser) {
 				await updateProfile(currentUser, { displayName: name })
+				await UserService.creatingOwnerProfile(currentUser?.uid)
 				return userCredential
 			}
 

@@ -7,14 +7,14 @@ import { PostDescriptionField } from '~components/ui/FormComponents/PostDescript
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
 import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
+import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { CONTAINER } from '~constants/theme'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
-import { saveAnimalData, uploadImageAsync } from '~helper/blob/uploadImageAsync'
+import { useAuth } from '~hooks/useAuth'
 import { useValidateForm } from '~hooks/useValidateForm'
 import { TFormState } from '~interfaces/form.state.types'
-
-type TAnimal = 'Cat' | 'Dog' | ''
+import { UserService } from '~services/user/user.services'
 
 const initialFormValue = {
 	name: '',
@@ -27,13 +27,15 @@ const initialFormValue = {
 	gender: '',
 	weight: 0,
 	vaccine: false,
+	owner: '',
 }
 
 export const AddPostScreen: FC = () => {
 	const [formValue, setFormValue] = useState<TFormState>(initialFormValue)
-	const [typeAnimal, setTypeAnimal] = useState<TAnimal>('')
+	const [typeAnimal, setTypeAnimal] = useState<'Cat' | 'Dog' | ''>('')
 	const [isLoading, setIsLoading] = useState(false)
 	const { isValidFormState } = useValidateForm(formValue)
+	const { user } = useAuth()
 
 	useEffect(() => {
 		if (formValue.type === 'Dog' || formValue.type === 'Cat') {
@@ -45,30 +47,27 @@ export const AddPostScreen: FC = () => {
 	const handleSubmitForm = async () => {
 		try {
 			setIsLoading(true)
-			const imageUrl = await uploadImageAsync(formValue.imageUri)
-			const formData = { ...formValue, imageUri: imageUrl }
-			await saveAnimalData(formData)
+			const userId = user?.id || FIREBASE_AUTH.currentUser?.uid
+			if (!userId) {
+				throw new Error('Something is wrong with userId')
+			}
+			// const imageUrl = await UserService.uploadImageAsync(formValue.imageUri)
+			// const formData = {
+			// 	...formValue,
+			// 	imageUri: imageUrl,
+			// 	owner: userId,
+			// }
+			// const animalId = await UserService.saveItemToCollectionAnimals(formData)
+			await UserService.addDataToProfile(userId, {
+				animals: ['a', 'd'],
+				messages: [{}],
+			})
 		} catch (error) {
-			console.log('❌ ~  handleSubmitForm  error:', error)
+			console.log(error)
 		} finally {
 			setIsLoading(false)
 		}
 	}
-
-	// const handleSubmitForm = async () => {
-	// 	console.log('State', formValue)
-	// 	try {
-	// 		setIsLoading(true)
-	// 		const imageUri = formValue.imageUri[0]
-	// 		const imageUrl = await uploadImageAsync(imageUri)
-	// 		await saveAnimalData(formValue, imageUrl)
-	// 		console.log('Animal data saved successfully')
-	// 	} catch (error) {
-	// 		console.log('❌ ~ error:', error)
-	// 	} finally {
-	// 		setIsLoading(false)
-	// 	}
-	// }
 
 	const selectCurrentListByType = () =>
 		typeAnimal === 'Dog' ? dogBreedsList : catBreedsList
