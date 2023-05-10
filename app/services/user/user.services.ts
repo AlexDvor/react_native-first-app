@@ -1,5 +1,14 @@
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
+import {
+	addDoc,
+	arrayRemove,
+	collection,
+	deleteField,
+	doc,
+	getDoc,
+	setDoc,
+	updateDoc,
+} from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
 
@@ -12,7 +21,7 @@ const PATH_NAME_ITEMS = 'animals'
 const PATH_NAME_USERS = 'users'
 
 export const UserService = {
-	async saveItemToCollectionAnimals(data: {}) {
+	async saveItemToCollectionAnimals(data: {}): Promise<string> {
 		try {
 			const docRef = await addDoc(collection(FIREBASE_DB, PATH_NAME_ITEMS), {
 				data,
@@ -23,7 +32,9 @@ export const UserService = {
 		}
 	},
 
-	async uploadImageAsync(imageUriArray: uploadImageAsyncParam[]) {
+	async uploadImageAsync(
+		imageUriArray: uploadImageAsyncParam[]
+	): Promise<string[]> {
 		if (imageUriArray.length === 0) {
 			console.log('You cannot submit the form without any photo ')
 			return []
@@ -51,7 +62,7 @@ export const UserService = {
 		}
 	},
 
-	async creatingOwnerProfile(userId: string, data?: {}) {
+	async creatingOwnerProfile(userId: string, data?: {}): Promise<void> {
 		if (!userId) return
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
@@ -61,7 +72,7 @@ export const UserService = {
 		}
 	},
 
-	async addDataToProfile(userId: string, data: {}) {
+	async addDataToProfile(userId: string, data: {}): Promise<void> {
 		if (!userId) return
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
@@ -70,4 +81,62 @@ export const UserService = {
 			throw error
 		}
 	},
+
+	async deleteFieldFromProfile(
+		userId: string,
+		fieldName: string
+	): Promise<void> {
+		if (!userId) return
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			await updateDoc(docRef, {
+				[fieldName]: deleteField(),
+			})
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async deleteItemFromProfile(
+		userId: string,
+		fromArray: string,
+		itemId: string
+	): Promise<void> {
+		if (!userId) return
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			//delete obj with id from array
+			await updateDoc(docRef, {
+				animals: arrayRemove({ id: '2', name: 'Miki' }),
+			})
+
+			// delete item from array
+
+			// 	await updateDoc(washingtonRef, {
+			// 		test: arrayRemove("east_coast")
+			//   });
+		} catch (error) {
+			console.log('❌ ~ error:', error)
+			throw error
+		}
+	},
 }
+
+// async saveItemToCollectionAnimals(data: {}) {
+// 	try {
+// 		const docRef = await addDoc(collection(FIREBASE_DB, PATH_NAME_ITEMS), {
+// 			data,
+// 		})
+
+// 		const docSnap = await getDoc(docRef)
+// 		if (docSnap.exists()) {
+// 			const createdItem = docSnap.data().data
+// 			return createdItem
+// 		} else {
+// 			return null
+// 		}
+
+// 		return docRef.id
+// 	} catch (error) {
+// 		throw error
+// 	}

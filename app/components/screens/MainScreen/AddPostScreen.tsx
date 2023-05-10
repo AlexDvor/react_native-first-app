@@ -19,30 +19,38 @@ import { UserService } from '~services/user/user.services'
 const initialFormValue = {
 	name: '',
 	color: '',
-	age: 0,
+	age: '',
 	breed: '',
 	imageUri: [],
 	type: '',
 	description: '',
 	gender: '',
-	weight: 0,
+	weight: '',
 	vaccine: false,
-	owner: '',
+	owner: { id: '', name: '', avatar: '' },
 }
 
 export const AddPostScreen: FC = () => {
 	const [formValue, setFormValue] = useState<TFormState>(initialFormValue)
-	const [typeAnimal, setTypeAnimal] = useState<'Cat' | 'Dog' | ''>('')
+	const [selectedTypeAnimal, setSelectedTypeAnimal] = useState<
+		'Cat' | 'Dog' | ''
+	>('')
 	const [isLoading, setIsLoading] = useState(false)
+	const [resetPicker, setResetPicker] = useState(false)
 	const { isValidFormState } = useValidateForm(formValue)
 	const { user } = useAuth()
 
 	useEffect(() => {
 		if (formValue.type === 'Dog' || formValue.type === 'Cat') {
-			return setTypeAnimal(formValue.type)
+			return setSelectedTypeAnimal(formValue.type)
 		}
-		return setTypeAnimal('')
+		return setSelectedTypeAnimal('')
 	}, [formValue])
+
+	const handleResetForm = () => {
+		setFormValue(initialFormValue)
+		setResetPicker(true)
+	}
 
 	const handleSubmitForm = async () => {
 		try {
@@ -51,17 +59,21 @@ export const AddPostScreen: FC = () => {
 			if (!userId) {
 				throw new Error('Something is wrong with userId')
 			}
-			// const imageUrl = await UserService.uploadImageAsync(formValue.imageUri)
-			// const formData = {
-			// 	...formValue,
-			// 	imageUri: imageUrl,
-			// 	owner: userId,
-			// }
-			// const animalId = await UserService.saveItemToCollectionAnimals(formData)
-			await UserService.addDataToProfile(userId, {
-				animals: ['a', 'd'],
-				messages: [{}],
-			})
+			const imageUrl = await UserService.uploadImageAsync(formValue.imageUri)
+			const formData = {
+				...formValue,
+				imageUri: imageUrl,
+				owner: {
+					user: userId,
+					name: FIREBASE_AUTH.currentUser?.displayName,
+					avatar: FIREBASE_AUTH.currentUser?.photoURL || null,
+				},
+			}
+			//save item to firebase and return animal id
+			const animalId = await UserService.saveItemToCollectionAnimals(formData)
+			// add information about animal to owner profile
+			await UserService.addDataToProfile(userId, { animals: [animalId] })
+			handleResetForm()
 		} catch (error) {
 			console.log(error)
 		} finally {
@@ -70,7 +82,7 @@ export const AddPostScreen: FC = () => {
 	}
 
 	const selectCurrentListByType = () =>
-		typeAnimal === 'Dog' ? dogBreedsList : catBreedsList
+		selectedTypeAnimal === 'Dog' ? dogBreedsList : catBreedsList
 
 	return (
 		<View style={styles.container}>
@@ -78,48 +90,60 @@ export const AddPostScreen: FC = () => {
 				style={{ width: '100%' }}
 				showsVerticalScrollIndicator={false}
 			>
-				<PostImageGalleryList formState={setFormValue} />
+				<PostImageGalleryList
+					formState={setFormValue}
+					resetPicker={resetPicker}
+					setResetPicker={setResetPicker}
+				/>
 				<View style={styles.selectWrapper}>
 					<PostInput
 						placeholderText="Name"
 						nameInput="name"
 						formState={setFormValue}
+						value={formValue.name}
 					/>
 
 					<PostInput
-						placeholderText="Weight"
+						placeholderText="Weight (in kilograms): 1.2, 3.5, 4"
 						nameInput="weight"
 						formState={setFormValue}
+						keyboardType="numeric"
+						value={formValue.weight.toString()}
 					/>
 					<PostInput
-						placeholderText="Color"
+						placeholderText="Color: White, Black, White-Black"
 						nameInput="color"
 						formState={setFormValue}
+						value={formValue.color}
 					/>
 					<SelectPicker
 						listOption={[{ name: 'Female' }, { name: 'Male' }]}
 						placeholderText="Select gender Animal"
 						formState={setFormValue}
 						nameInput="gender"
-						isDisabled={false}
+						resetPicker={resetPicker}
+						setResetPicker={setResetPicker}
 					/>
 					<SelectPicker
 						listOption={[{ name: 'Dog' }, { name: 'Cat' }]}
 						placeholderText="Select type Animal"
 						formState={setFormValue}
 						nameInput="type"
-						isDisabled={false}
+						resetPicker={resetPicker}
+						setResetPicker={setResetPicker}
 					/>
 					<SelectPicker
 						listOption={selectCurrentListByType()}
 						placeholderText={
-							typeAnimal
-								? `Select a ${typeAnimal} breed`
+							selectedTypeAnimal
+								? `Select a ${selectedTypeAnimal} breed`
 								: 'Select a type animal first'
 						}
 						formState={setFormValue}
 						nameInput="breed"
-						isDisabled={!typeAnimal ? true : false}
+						isDisabled={!selectedTypeAnimal ? true : false}
+						resetPicker={resetPicker}
+						setResetPicker={setResetPicker}
 					/>
 
 					<SelectPicker
@@ -128,21 +152,29 @@ export const AddPostScreen: FC = () => {
 						formState={setFormValue}
 						nameInput="vaccine"
 						isDisabled={false}
+						resetPicker={resetPicker}
+						setResetPicker={setResetPicker}
 					/>
 
-					<DatePickerInput formState={setFormValue} dateName="age" />
+					<DatePickerInput
+						formState={setFormValue}
+						dateName="age"
+						resetPicker={resetPicker}
+						setResetPicker={setResetPicker}
+					/>
 
 					<PostDescriptionField
 						formState={setFormValue}
 						nameInput="description"
 						placeholderText="Describe your friend"
 						maxLengthInput={400}
+						value={formValue.description}
 					/>
 
 					<FormButton
 						title={'Submit'}
 						onPress={handleSubmitForm}
-						// disabled={!isValidFormState}
+						disabled={!isValidFormState}
 						isFetching={isLoading}
 					/>
 				</View>

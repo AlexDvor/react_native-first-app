@@ -1,5 +1,5 @@
-import { FC, useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FC, useEffect, useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { COLORS } from '~constants/theme'
 import { TFormState } from '~interfaces/form.state.types'
@@ -7,14 +7,31 @@ import { TFormState } from '~interfaces/form.state.types'
 interface DatePickerInputProps {
 	formState: React.Dispatch<React.SetStateAction<TFormState>>
 	dateName: string
+	resetPicker: boolean
+	setResetPicker: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const DatePickerInput: FC<DatePickerInputProps> = ({
 	formState,
 	dateName,
+	resetPicker,
+	setResetPicker,
 }) => {
 	const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-	const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
+	const [isDatePickerVisible, setDatePickerVisibility] =
+		useState<boolean>(false)
+	const [resetDateTimePickerLocal, setResetDateTimePickerLocal] =
+		useState<boolean>(false)
+
+	useEffect(() => {
+		if (resetPicker) {
+			setSelectedDate(null)
+			setResetDateTimePickerLocal(true)
+			setResetPicker(false)
+		} else {
+			setResetDateTimePickerLocal(false)
+		}
+	}, [resetPicker])
 
 	const showDatePicker = () => {
 		setDatePickerVisibility(true)
@@ -38,6 +55,7 @@ export const DatePickerInput: FC<DatePickerInputProps> = ({
 				onConfirm={handleConfirm}
 				onCancel={hideDatePicker}
 				display="spinner"
+				key={resetDateTimePickerLocal ? 'resetDateTimePickerLocal' : ''}
 			/>
 			<Text
 				style={{

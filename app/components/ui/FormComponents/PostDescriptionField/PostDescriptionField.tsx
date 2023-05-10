@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { COLORS } from '~constants/theme'
 import { TFormState } from '~interfaces/form.state.types'
@@ -8,6 +8,7 @@ interface PostDescriptionFieldProps {
 	placeholderText: string
 	nameInput: string
 	maxLengthInput?: number
+	value: string
 }
 
 export const PostDescriptionField: FC<PostDescriptionFieldProps> = ({
@@ -15,10 +16,11 @@ export const PostDescriptionField: FC<PostDescriptionFieldProps> = ({
 	formState,
 	nameInput,
 	maxLengthInput = 20,
+	value,
 }) => {
 	const [text, setText] = useState('')
 
-	const characterCount = text.length
+	const characterCount = value ? text.length : 0
 
 	const onHandleChangeText = (text: string) => {
 		setText(text)
@@ -29,6 +31,7 @@ export const PostDescriptionField: FC<PostDescriptionFieldProps> = ({
 				style={styles.textIndicator}
 			>{`${characterCount}/${maxLengthInput}`}</Text>
 			<TextInput
+				value={value}
 				editable
 				multiline
 				inputMode="text"

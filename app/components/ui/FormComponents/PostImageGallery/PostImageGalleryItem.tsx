@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { COLORS } from '~constants/theme'
 import { widthScreenDevice } from '~constants/theme'
@@ -9,13 +9,24 @@ import { TFormState } from '~interfaces/form.state.types'
 interface PostImageGalleryItemProps {
 	formState: React.Dispatch<React.SetStateAction<TFormState>>
 	indexElement: number
+	resetPicker: boolean
+	setResetPicker: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const PostImageGalleryItem: FC<PostImageGalleryItemProps> = ({
 	indexElement,
 	formState,
+	resetPicker,
+	setResetPicker,
 }) => {
 	const [itemImage, setItemImage] = useState<string | null>(null)
+
+	useEffect(() => {
+		if (resetPicker) {
+			setItemImage(null)
+			setResetPicker(false)
+		}
+	}, [resetPicker])
 
 	const pickImage = async (index: number) => {
 		let result = await ImagePicker.launchImageLibraryAsync({

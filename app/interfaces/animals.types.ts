@@ -18,7 +18,7 @@ export interface IAnimalsData {
 	type: string
 	description: string
 	gender: string
-	weight: number
+	weight: number | string
 	height: number
 	vaccine: boolean
 	owner: IUserProfile

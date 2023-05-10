@@ -6,30 +6,38 @@ import { PostImageGalleryItem } from './PostImageGalleryItem'
 
 interface PostImageGalleryListProps {
 	formState: React.Dispatch<React.SetStateAction<TFormState>>
+	resetPicker: boolean
+	setResetPicker: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const PostImageGalleryList: FC<PostImageGalleryListProps> = ({
 	formState,
+	resetPicker,
+	setResetPicker,
 }) => {
 	const quantityImg = 10
 	const dataDefaultImg = new Array(quantityImg).fill(0)
 	return (
 		<>
 			<View style={styles.container}>
-				{dataDefaultImg.slice(0, 5).map((item, index) => (
+				{dataDefaultImg.slice(0, 5).map((_, index) => (
 					<PostImageGalleryItem
 						key={index}
 						formState={formState}
 						indexElement={index}
+						resetPicker={resetPicker}
+						setResetPicker={setResetPicker}
 					/>
 				))}
 			</View>
 			<View style={[styles.container, styles.lastItem]}>
-				{dataDefaultImg.slice(5).map((item, index) => (
+				{dataDefaultImg.slice(5).map((_, index) => (
 					<PostImageGalleryItem
 						key={index + 5}
 						indexElement={index + 5}
 						formState={formState}
+						resetPicker={resetPicker}
+						setResetPicker={setResetPicker}
 					/>
 				))}
 			</View>
