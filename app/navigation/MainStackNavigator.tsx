@@ -5,10 +5,7 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { AddPostScreen } from '~components/screens/MainScreen/AddPostScreen'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
 import { tabBarNavigatorConfig } from '~config/tabBarNavigator.config'
-import {
-	ChatScreenRouteProp,
-	MainTabsParamList,
-} from '~interfaces/main.navigation.types'
+import { MainTabsParamList } from '~interfaces/tab.navigation.types'
 
 import { FavoriteStackNavigator } from './FavoriteStackNavigator'
 import { HomeStackNavigator } from './HomeStackNavigator'
@@ -43,7 +40,7 @@ export const MainStackNavigator = () => {
 						/>
 					),
 
-					tabBarStyle: ((route: ChatScreenRouteProp) => {
+					tabBarStyle: ((route) => {
 						const routeName = getFocusedRouteNameFromRoute(route) ?? ''
 						if (routeName === 'ChatScreen') {
 							return { display: 'none' }

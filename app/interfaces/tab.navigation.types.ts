@@ -1,17 +1,15 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
-import { RouteProp } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
 
 import { FavoriteRootStackParamList } from './favorite.navigation.types'
+import { HomeRootStackParamList } from './home.navigation.types'
+import { MessageRootStackParamList } from './message.navigation.types'
 
 export type MainTabsParamList = {
-	Home: undefined
-	Chat: undefined
+	Home: HomeRootStackParamList
+	Chat: MessageRootStackParamList
 	AddPostScreen: undefined
 	Favorite: FavoriteRootStackParamList
 	Profile: undefined
 }
-
-export type ChatScreenRouteProp = RouteProp<MainTabsParamList, 'Chat'>
 
 export type MainStackNavigationProp = BottomTabNavigationProp<MainTabsParamList>

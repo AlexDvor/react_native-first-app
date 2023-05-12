@@ -1,8 +1,4 @@
-import {
-	NavigationProp,
-	ParamListBase,
-	useNavigation,
-} from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import 'firebase/storage'
 import { FC, useEffect, useState } from 'react'
@@ -13,21 +9,13 @@ import { PostDescriptionField } from '~components/ui/FormComponents/PostDescript
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
 import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
-import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { CONTAINER } from '~constants/theme'
-import { dataAnimals } from '~data/animals'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
 import { useAuth } from '~hooks/useAuth'
 import { useValidateForm } from '~hooks/useValidateForm'
+import { FavoriteRootStackParamList } from '~interfaces/favorite.navigation.types'
 import { TFormState } from '~interfaces/form.state.types'
-import { TNavigationComponent } from '~interfaces/home.navigation.types'
-import '~interfaces/main.navigation.types'
-import {
-	MainStackNavigationProp,
-	MainTabsParamList,
-} from '~interfaces/main.navigation.types'
-import { UserService } from '~services/user/user.services'
 
 const initialFormValue = {
 	name: '',
@@ -52,7 +40,7 @@ export const AddPostScreen: FC = () => {
 	const [resetPicker, setResetPicker] = useState(false)
 	const { isValidFormState } = useValidateForm(formValue)
 	const { user } = useAuth()
-	const navigation = useNavigation<StackNavigationProp<MainTabsParamList>>()
+	const navigation = useNavigation()
 
 	useEffect(() => {
 		if (formValue.type === 'Dog' || formValue.type === 'Cat') {
@@ -88,9 +76,7 @@ export const AddPostScreen: FC = () => {
 			// // add information about animal to owner profile
 			// await UserService.addDataToProfile(userId, { animals: [animalId] })
 			// handleResetForm()
-			navigation.navigate('Favorite', {
-				screen: 'FavoriteScreen',
-			})
+			navigation.navigate('Favorite', { screen: 'FavoriteScreen' })
 		} catch (error) {
 			console.log(error)
 		} finally {
