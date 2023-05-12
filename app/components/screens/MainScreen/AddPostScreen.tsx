@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
 import 'firebase/storage'
 import { FC, useEffect, useState } from 'react'
 import { ScrollView, StatusBar, StyleSheet, View } from 'react-native'
@@ -14,8 +13,8 @@ import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
 import { useAuth } from '~hooks/useAuth'
 import { useValidateForm } from '~hooks/useValidateForm'
-import { FavoriteRootStackParamList } from '~interfaces/favorite.navigation.types'
 import { TFormState } from '~interfaces/form.state.types'
+import { RootNavigationApp } from '~interfaces/tab.navigation.types'
 
 const initialFormValue = {
 	name: '',
@@ -40,7 +39,7 @@ export const AddPostScreen: FC = () => {
 	const [resetPicker, setResetPicker] = useState(false)
 	const { isValidFormState } = useValidateForm(formValue)
 	const { user } = useAuth()
-	const navigation = useNavigation()
+	const navigation = useNavigation<RootNavigationApp>()
 
 	useEffect(() => {
 		if (formValue.type === 'Dog' || formValue.type === 'Cat') {

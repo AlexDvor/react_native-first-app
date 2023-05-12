@@ -1,15 +1,23 @@
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { NavigationProp, NavigatorScreenParams } from '@react-navigation/native'
 
 import { FavoriteRootStackParamList } from './favorite.navigation.types'
 import { HomeRootStackParamList } from './home.navigation.types'
 import { MessageRootStackParamList } from './message.navigation.types'
 
+// export type MainTabsParamList = {
+// 	Home: HomeRootStackParamList
+// 	Chat: MessageRootStackParamList
+// 	AddPostScreen: undefined
+// 	Favorite: FavoriteRootStackParamList
+// 	Profile: undefined
+// }
+
 export type MainTabsParamList = {
-	Home: HomeRootStackParamList
-	Chat: MessageRootStackParamList
+	Home: NavigatorScreenParams<HomeRootStackParamList> | undefined
+	Chat: NavigatorScreenParams<MessageRootStackParamList> | undefined
 	AddPostScreen: undefined
-	Favorite: FavoriteRootStackParamList
+	Favorite: NavigatorScreenParams<FavoriteRootStackParamList> | undefined
 	Profile: undefined
 }
 
-export type MainStackNavigationProp = BottomTabNavigationProp<MainTabsParamList>
+export type RootNavigationApp = NavigationProp<MainTabsParamList>

@@ -1,11 +1,10 @@
-import { ImageSourcePropType, ImageURISource } from 'react-native'
+import { ImageSourcePropType } from 'react-native'
 
 import { IUserProfile } from './user.types'
 
 interface IImage {
 	image: ImageSourcePropType
 }
-// 'Female' | 'Male'
 
 export interface IAnimalsData {
 	[key: string]: any
