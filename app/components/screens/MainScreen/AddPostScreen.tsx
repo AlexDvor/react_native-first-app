@@ -1,3 +1,9 @@
+import {
+	NavigationProp,
+	ParamListBase,
+	useNavigation,
+} from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import 'firebase/storage'
 import { FC, useEffect, useState } from 'react'
 import { ScrollView, StatusBar, StyleSheet, View } from 'react-native'
@@ -9,11 +15,18 @@ import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { CONTAINER } from '~constants/theme'
+import { dataAnimals } from '~data/animals'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
 import { useAuth } from '~hooks/useAuth'
 import { useValidateForm } from '~hooks/useValidateForm'
 import { TFormState } from '~interfaces/form.state.types'
+import { TNavigationComponent } from '~interfaces/home.navigation.types'
+import '~interfaces/main.navigation.types'
+import {
+	MainStackNavigationProp,
+	MainTabsParamList,
+} from '~interfaces/main.navigation.types'
 import { UserService } from '~services/user/user.services'
 
 const initialFormValue = {
@@ -39,6 +52,7 @@ export const AddPostScreen: FC = () => {
 	const [resetPicker, setResetPicker] = useState(false)
 	const { isValidFormState } = useValidateForm(formValue)
 	const { user } = useAuth()
+	const navigation = useNavigation<StackNavigationProp<MainTabsParamList>>()
 
 	useEffect(() => {
 		if (formValue.type === 'Dog' || formValue.type === 'Cat') {
@@ -55,25 +69,28 @@ export const AddPostScreen: FC = () => {
 	const handleSubmitForm = async () => {
 		try {
 			setIsLoading(true)
-			const userId = user?.id || FIREBASE_AUTH.currentUser?.uid
-			if (!userId) {
-				throw new Error('Something is wrong with userId')
-			}
-			const imageUrl = await UserService.uploadImageAsync(formValue.imageUri)
-			const formData = {
-				...formValue,
-				imageUri: imageUrl,
-				owner: {
-					user: userId,
-					name: FIREBASE_AUTH.currentUser?.displayName,
-					avatar: FIREBASE_AUTH.currentUser?.photoURL || null,
-				},
-			}
-			//save item to firebase and return animal id
-			const animalId = await UserService.saveItemToCollectionAnimals(formData)
-			// add information about animal to owner profile
-			await UserService.addDataToProfile(userId, { animals: [animalId] })
-			handleResetForm()
+			// const userId = user?.id || FIREBASE_AUTH.currentUser?.uid
+			// if (!userId) {
+			// 	throw new Error('Something is wrong with userId')
+			// }
+			// const imageUrl = await UserService.uploadImageAsync(formValue.imageUri)
+			// const formData = {
+			// 	...formValue,
+			// 	imageUri: imageUrl,
+			// 	owner: {
+			// 		user: userId,
+			// 		name: FIREBASE_AUTH.currentUser?.displayName,
+			// 		avatar: FIREBASE_AUTH.currentUser?.photoURL || null,
+			// 	},
+			// }
+			// //save item to firebase and return animal id
+			// const animalId = await UserService.saveItemToCollectionAnimals(formData)
+			// // add information about animal to owner profile
+			// await UserService.addDataToProfile(userId, { animals: [animalId] })
+			// handleResetForm()
+			navigation.navigate('Favorite', {
+				screen: 'FavoriteScreen',
+			})
 		} catch (error) {
 			console.log(error)
 		} finally {
@@ -174,7 +191,7 @@ export const AddPostScreen: FC = () => {
 					<FormButton
 						title={'Submit'}
 						onPress={handleSubmitForm}
-						disabled={!isValidFormState}
+						// disabled={!isValidFormState}
 						isFetching={isLoading}
 					/>
 				</View>

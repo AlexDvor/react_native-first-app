@@ -1,5 +1,3 @@
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
-
 import { IAnimalsData } from './animals.types'
 
 export type FavoriteRootStackParamList = {

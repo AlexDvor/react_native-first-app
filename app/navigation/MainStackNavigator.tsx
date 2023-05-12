@@ -5,12 +5,16 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { AddPostScreen } from '~components/screens/MainScreen/AddPostScreen'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
 import { tabBarNavigatorConfig } from '~config/tabBarNavigator.config'
+import {
+	ChatScreenRouteProp,
+	MainTabsParamList,
+} from '~interfaces/main.navigation.types'
 
 import { FavoriteStackNavigator } from './FavoriteStackNavigator'
 import { HomeStackNavigator } from './HomeStackNavigator'
 import { MessageStackNavigator } from './MessageStackNavigator'
 
-const MainTabs = createBottomTabNavigator()
+const MainTabs = createBottomTabNavigator<MainTabsParamList>()
 
 export const MainStackNavigator = () => {
 	const { Navigator, Screen } = MainTabs
@@ -39,7 +43,7 @@ export const MainStackNavigator = () => {
 						/>
 					),
 
-					tabBarStyle: ((route) => {
+					tabBarStyle: ((route: ChatScreenRouteProp) => {
 						const routeName = getFocusedRouteNameFromRoute(route) ?? ''
 						if (routeName === 'ChatScreen') {
 							return { display: 'none' }
@@ -80,3 +84,4 @@ export const MainStackNavigator = () => {
 		</Navigator>
 	)
 }
+export { MainTabsParamList }
