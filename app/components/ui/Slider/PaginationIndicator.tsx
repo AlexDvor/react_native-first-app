@@ -3,7 +3,7 @@ import { Animated, ImageSourcePropType, StyleSheet, View } from 'react-native'
 import { widthScreenDevice } from '~constants/theme'
 
 interface PaginationIndicatorProps {
-	data: { image: ImageSourcePropType }[]
+	data: ImageSourcePropType[]
 	scrollX: any
 	index: number
 }

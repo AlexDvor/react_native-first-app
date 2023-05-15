@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { FC, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FONTS, widthScreenDevice } from '~constants/theme'
+import calculateAge from '~helper/number/calculateAgeInYears'
 import { IAnimalsData } from '~interfaces/animals.types'
 import {
 	THomeScreenName,
@@ -18,6 +19,9 @@ interface IGalleryItemProps {
 export const GalleryItem: FC<IGalleryItemProps> = ({ item, navigateTo }) => {
 	const [isFavorite, setIsFavorite] = useState(true)
 	const { navigate } = useNavigation<TNavigationComponent>()
+	const dayOfBirthday = item.age.day
+	const monthOfBirthday = item.age.month
+	const yearOfBirthday = item.age.year
 
 	return (
 		<TouchableOpacity
@@ -25,7 +29,11 @@ export const GalleryItem: FC<IGalleryItemProps> = ({ item, navigateTo }) => {
 			onPress={() => navigate(navigateTo, { item: item })}
 		>
 			<View style={styles.imageWrapper}>
-				<Image style={styles.image} source={item.imageUri[0].image}></Image>
+				<Image
+					style={styles.image}
+					source={{ uri: String(item.imageUri[0]) }}
+				></Image>
+				{/* <Image style={styles.image} source={item.imageUri[0].image}></Image> */}
 			</View>
 
 			<View style={styles.icon}>
@@ -38,8 +46,14 @@ export const GalleryItem: FC<IGalleryItemProps> = ({ item, navigateTo }) => {
 
 			<View style={styles.infoContainer}>
 				<View style={styles.info}>
-					<Text style={styles.name}>{`${item.name}-${item.id}`}</Text>
-					<Text style={styles.age}>{`${item.age} years`}</Text>
+					<Text style={styles.name}>{`${item.name}`}</Text>
+					<Text style={styles.age}>
+						{`${calculateAge(
+							dayOfBirthday,
+							monthOfBirthday,
+							yearOfBirthday
+						)} years`}
+					</Text>
 				</View>
 
 				<Text style={styles.breed}>{item.breed}</Text>

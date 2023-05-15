@@ -12,7 +12,7 @@ import { PaginationIndicator } from './PaginationIndicator'
 import { SliderItem } from './SliderItem'
 
 interface ISliderProps {
-	imageData: { image: ImageSourcePropType }[]
+	imageData: ImageSourcePropType[]
 }
 
 export const Slider: FC<ISliderProps> = ({ imageData }) => {
@@ -45,7 +45,7 @@ export const Slider: FC<ISliderProps> = ({ imageData }) => {
 		<>
 			{imageData.length === 1 ? (
 				<>
-					<SliderItem image={imageData[0].image} />
+					<SliderItem image={imageData[0]} />
 				</>
 			) : (
 				<>
@@ -59,7 +59,7 @@ export const Slider: FC<ISliderProps> = ({ imageData }) => {
 						onScroll={handleOnScroll}
 						onViewableItemsChanged={handleOnViewableItemsChange}
 						viewabilityConfig={viewabilityConfig}
-						renderItem={({ item }) => <SliderItem image={item.image} />}
+						renderItem={({ item }) => <SliderItem image={item} />}
 					/>
 
 					<PaginationIndicator

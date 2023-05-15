@@ -2,18 +2,14 @@ import { ImageSourcePropType } from 'react-native'
 
 import { IUserProfile } from './user.types'
 
-interface IImage {
-	image: ImageSourcePropType
-}
-
 export interface IAnimalsData {
 	[key: string]: any
 	id: number
 	name: string
 	color: string
-	age: number
+	age: { year: number; month: number; day: number }
 	breed: string
-	imageUri: IImage[]
+	imageUri: ImageSourcePropType[]
 	type: string
 	description: string
 	gender: string

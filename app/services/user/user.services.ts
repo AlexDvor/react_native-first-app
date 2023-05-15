@@ -1,16 +1,19 @@
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
 import {
+	DocumentData,
 	addDoc,
 	arrayRemove,
 	collection,
 	deleteField,
 	doc,
 	getDoc,
+	getDocs,
 	setDoc,
 	updateDoc,
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
+import { IAnimalsData } from '~interfaces/animals.types'
 
 type uploadImageAsyncParam = {
 	uri: string
@@ -117,6 +120,23 @@ export const UserService = {
 			//   });
 		} catch (error) {
 			console.log('❌ ~ error:', error)
+			throw error
+		}
+	},
+
+	async getFavoriteCollection(): Promise<DocumentData[]> {
+		try {
+			const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
+			const querySnapshot = await getDocs(collectionRef)
+			const data = querySnapshot.docs.map((doc) => {
+				const docData = doc.data().data
+				const docId = doc.id
+				return { ...docData, id: docId }
+			})
+			console.log('❌ ~ data:', data)
+			return data
+		} catch (error) {
+			console.log(error)
 			throw error
 		}
 	},

@@ -11,6 +11,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { COLORS } from '~constants/theme'
 import { widthScreenDevice } from '~constants/theme'
+import calculateAge from '~helper/number/calculateAgeInYears'
 import { IAnimalsData } from '~interfaces/animals.types'
 
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
@@ -25,6 +26,9 @@ interface IAnimalProfileCard {
 export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 	const scrollCurrentRef = useRef(null)
 	const sizeIcon = 18
+	const dayOfBirthday = item.age.day
+	const monthOfBirthday = item.age.month
+	const yearOfBirthday = item.age.year
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
@@ -46,7 +50,9 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 					<View style={styles.featureWrapper}>
 						<View style={[styles.featureItem, styles.ageBackColor]}>
 							<Text>Age</Text>
-							<Text style={styles.featureValue}>{item.age}</Text>
+							<Text style={styles.featureValue}>
+								{calculateAge(dayOfBirthday, monthOfBirthday, yearOfBirthday)}
+							</Text>
 						</View>
 						<View style={[styles.featureItem, styles.genderBackColor]}>
 							<Text>Gender</Text>
@@ -66,10 +72,17 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 
 					<View style={styles.ownerWrapper}>
 						<View style={styles.ownerImageWrapper}>
-							<Image
-								style={{ width: '100%', height: '100%' }}
-								source={require('../../../assets/images/owner.jpg')}
-							></Image>
+							{item.owner.avatar ? (
+								<Image
+									style={{ width: '100%', height: '100%' }}
+									source={require('../../../assets/images/owner.jpg')}
+								></Image>
+							) : (
+								<Image
+									style={{ width: '100%', height: '100%' }}
+									source={require('../../../assets/images/default_user.png')}
+								></Image>
+							)}
 						</View>
 						<View style={styles.ownerContainer}>
 							<Text style={styles.ownerName}>Kate</Text>

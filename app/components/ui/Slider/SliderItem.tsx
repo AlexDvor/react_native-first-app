@@ -9,7 +9,7 @@ interface ISliderItemProps {
 export const SliderItem: FC<ISliderItemProps> = ({ image }) => {
 	return (
 		<View style={[styles.imageWrapper, styles.relative]}>
-			<Image style={styles.image} source={image} />
+			<Image style={styles.image} source={{ uri: String(image) }} />
 		</View>
 	)
 }

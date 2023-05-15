@@ -42,8 +42,19 @@ export const DatePickerInput: FC<DatePickerInputProps> = ({
 	}
 
 	const handleConfirm = (date: Date) => {
+		const selectedYear = date.getFullYear()
+		const selectedMonth = date.getMonth()
+		const selectedDay = date.getDate()
+
 		setSelectedDate(date)
-		formState((prev) => ({ ...prev, [dateName]: date }))
+		formState((prev) => ({
+			...prev,
+			[dateName]: {
+				year: selectedYear,
+				month: selectedMonth,
+				day: selectedDay,
+			},
+		}))
 		hideDatePicker()
 	}
 

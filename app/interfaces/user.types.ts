@@ -1,6 +1,7 @@
 export interface IUserProfile {
 	id: number
 	name: string
+	avatar: string | null
 }
 
 export interface IUserInitialState {
