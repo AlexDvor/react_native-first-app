@@ -1,6 +1,5 @@
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
 import {
-	DocumentData,
 	addDoc,
 	arrayRemove,
 	collection,
@@ -124,7 +123,7 @@ export const UserService = {
 		}
 	},
 
-	async getFavoriteCollection(): Promise<DocumentData[]> {
+	async getFavoriteCollection(): Promise<IAnimalsData[]> {
 		try {
 			const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
 			const querySnapshot = await getDocs(collectionRef)

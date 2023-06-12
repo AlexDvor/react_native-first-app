@@ -1,48 +1,41 @@
-import { IAnimalsData } from '~interfaces/animals.types'
+export type TAnimalsData = {
+	name: string
+	color: string
+	age: { year: number; month: number; day: number }
+	breed: string
+	imageUri: string[]
+	type: string
+	description: string
+	gender: string
+	weight: number
+	vaccine: boolean
+	owner: { id: number; name: string; avatar: string | null }
+}
 
-//delete behavior option
-
-export const dataAnimals: IAnimalsData[] = [
+export const dataAnimals: TAnimalsData[] = [
 	{
-		id: 1,
-		name: 'Miki',
-		age: { year: 2022, month: 9, day: 15 },
+		name: 'Jerry',
+		age: { year: 2022, month: 2, day: 15 },
 		imageUri: [
-			{ image: require('../assets/images/animals/Photo_3.png') },
-			{ image: require('../assets/images/animals/Photo_1.png') },
-			{ image: require('../assets/images/animals/Photo_5.png') },
-			{ image: require('../assets/images/animals/Photo_2.png') },
-			{ image: require('../assets/images/animals/Photo_6.png') },
+			require('../assets/images/animals/Photo_1.png'),
+			require('../assets/images/animals/Photo_2.png'),
 		],
 
-		type: 'cat',
-		breed: 'British Longhair',
+		type: 'dog',
+		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles',
 		gender: 'Male',
 		weight: 3,
 		vaccine: false,
-		owner: { id: 11, name: 'Alex' },
+		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
 	},
 
 	{
-		id: 2,
 		name: 'Gary',
-		age: { year: 2023, month: 1, day: 1 },
-		imageUri: [
-			{ image: require('../assets/images/animals/Photo_1.png') },
-			{ image: require('../assets/images/animals/test_1.png') },
-			{ image: require('../assets/images/animals/test_2.png') },
-			{ image: require('../assets/images/animals/test_3.png') },
-		],
+		age: { year: 2023, month: 0, day: 1 },
+		imageUri: [require('../assets/images/animals/Photo_1.png')],
 		type: 'dog',
 		breed: 'Australian Terrier',
 		description:
@@ -50,22 +43,14 @@ export const dataAnimals: IAnimalsData[] = [
 		gender: 'Female',
 		weight: 8,
 		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
+		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
 	},
 
 	{
-		id: 3,
 		name: 'Wolf',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_5.png') }],
+		imageUri: [require('../assets/images/animals/Photo_5.png')],
 		type: 'dog',
 		breed: 'Samoyed',
 		description:
@@ -73,22 +58,14 @@ export const dataAnimals: IAnimalsData[] = [
 		gender: 'Male',
 		weight: 12,
 		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
+		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
 	},
 
 	{
-		id: 4,
 		name: 'Killer',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_6.png') }],
+		imageUri: [require('../assets/images/animals/Photo_6.png')],
 		type: 'cat',
 		breed: 'Australian Terrier',
 		description:
@@ -96,21 +73,13 @@ export const dataAnimals: IAnimalsData[] = [
 		gender: 'Male',
 		weight: 3,
 		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
+		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
 	},
 	{
-		id: 5,
 		name: 'Peach',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_2.png') }],
+		imageUri: [require('../assets/images/animals/Photo_2.png')],
 		type: 'cat',
 		breed: 'Half-Breed',
 		description:
@@ -118,21 +87,13 @@ export const dataAnimals: IAnimalsData[] = [
 		gender: 'Male',
 		weight: 3,
 		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
+		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
 	},
 	{
-		id: 6,
 		name: 'Buggy',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_4.png') }],
+		imageUri: [require('../assets/images/animals/Photo_4.png')],
 		type: 'cat',
 		breed: 'Jack Russell terrier',
 		description:
@@ -140,21 +101,13 @@ export const dataAnimals: IAnimalsData[] = [
 		gender: 'Male',
 		weight: 3,
 		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
+		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
 	},
 	{
-		id: 7,
 		name: 'Miki',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_3.png') }],
+		imageUri: [require('../assets/images/animals/Photo_3.png')],
 		type: 'cat',
 		breed: 'British Longhair',
 		description:
@@ -162,22 +115,14 @@ export const dataAnimals: IAnimalsData[] = [
 		gender: 'Male',
 		weight: 3,
 		vaccine: false,
-		owner: { id: 11, name: 'Alex' },
+		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
 	},
 
 	{
-		id: 8,
 		name: 'Gary',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_1.png') }],
+		imageUri: [require('../assets/images/animals/Photo_1.png')],
 		type: 'dog',
 		breed: 'Australian Terrier',
 		description:
@@ -185,22 +130,14 @@ export const dataAnimals: IAnimalsData[] = [
 		gender: 'Male',
 		weight: 8,
 		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
+		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
 	},
 
 	{
-		id: 9,
 		name: 'Wolf',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_5.png') }],
+		imageUri: [require('../assets/images/animals/Photo_5.png')],
 		type: 'dog',
 		breed: 'Samoyed',
 		description:
@@ -208,22 +145,14 @@ export const dataAnimals: IAnimalsData[] = [
 		gender: 'Male',
 		weight: 12,
 		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
+		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
 	},
 
 	{
-		id: 10,
 		name: 'Killer',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_6.png') }],
+		imageUri: [require('../assets/images/animals/Photo_6.png')],
 		type: 'cat',
 		breed: 'Australian Terrier',
 		description:
@@ -231,193 +160,7 @@ export const dataAnimals: IAnimalsData[] = [
 		gender: 'Male',
 		weight: 3,
 		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
+		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
-	},
-	{
-		id: 11,
-		name: 'Peach',
-		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_2.png') }],
-		type: 'cat',
-		breed: 'Half-Breed',
-		description:
-			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'Male',
-		weight: 3,
-		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
-		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
-	},
-	{
-		id: 12,
-		name: 'Buggy',
-		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_4.png') }],
-		type: 'cat',
-		breed: 'Jack Russell terrier',
-		description:
-			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'Male',
-		weight: 3,
-		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
-		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
-	},
-	{
-		id: 13,
-		name: 'Miki',
-		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_3.png') }],
-		type: 'cat',
-		breed: 'British Longhair',
-		description:
-			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'Male',
-		weight: 3,
-		vaccine: false,
-		owner: { id: 11, name: 'Alex' },
-		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
-	},
-
-	{
-		id: 14,
-		name: 'Gary',
-		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_1.png') }],
-		type: 'dog',
-		breed: 'Australian Terrier',
-		description:
-			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'Male',
-		weight: 8,
-		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
-		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
-	},
-
-	{
-		id: 15,
-		name: 'Wolf',
-		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_5.png') }],
-		type: 'dog',
-		breed: 'Samoyed',
-		description:
-			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'Male',
-		weight: 12,
-		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
-		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
-	},
-
-	{
-		id: 16,
-		name: 'Killer',
-		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_6.png') }],
-		type: 'cat',
-		breed: 'Australian Terrier',
-		description:
-			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'Male',
-		weight: 3,
-		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
-		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
-	},
-	{
-		id: 17,
-		name: 'Peach',
-		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_2.png') }],
-		type: 'cat',
-		breed: 'Half-Breed',
-		description:
-			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'Male',
-		weight: 3,
-		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
-		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
-	},
-	{
-		id: 18,
-		name: 'Buggy',
-		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [{ image: require('../assets/images/animals/Photo_4.png') }],
-		type: 'cat',
-		breed: 'Jack Russell terrier',
-		description:
-			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
-		gender: 'Female',
-		weight: 3,
-		vaccine: true,
-		owner: { id: 11, name: 'Alex' },
-		color: 'Grey',
-		behavior: [
-			'Leash trained',
-			'Friendly with cats',
-			'Active',
-			'Tries to eat things',
-		],
-		height: 42,
 	},
 ]
