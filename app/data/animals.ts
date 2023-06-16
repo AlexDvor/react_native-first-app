@@ -35,7 +35,7 @@ export const dataAnimals: TAnimalsData[] = [
 	{
 		name: 'Gary',
 		age: { year: 2023, month: 0, day: 1 },
-		imageUri: [require('../assets/images/animals/Photo_1.png')],
+		imageUri: [require('../assets/images/animals/Photo_2.png')],
 		type: 'dog',
 		breed: 'Australian Terrier',
 		description:
@@ -50,7 +50,7 @@ export const dataAnimals: TAnimalsData[] = [
 	{
 		name: 'Wolf',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [require('../assets/images/animals/Photo_5.png')],
+		imageUri: [require('../assets/images/animals/Photo_3.png')],
 		type: 'dog',
 		breed: 'Samoyed',
 		description:
@@ -65,7 +65,7 @@ export const dataAnimals: TAnimalsData[] = [
 	{
 		name: 'Killer',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [require('../assets/images/animals/Photo_6.png')],
+		imageUri: [require('../assets/images/animals/Photo_4.png')],
 		type: 'cat',
 		breed: 'Australian Terrier',
 		description:
@@ -79,7 +79,7 @@ export const dataAnimals: TAnimalsData[] = [
 	{
 		name: 'Peach',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [require('../assets/images/animals/Photo_2.png')],
+		imageUri: [require('../assets/images/animals/Photo_5.png')],
 		type: 'cat',
 		breed: 'Half-Breed',
 		description:
@@ -93,7 +93,7 @@ export const dataAnimals: TAnimalsData[] = [
 	{
 		name: 'Buggy',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [require('../assets/images/animals/Photo_4.png')],
+		imageUri: [require('../assets/images/animals/Photo_6.png')],
 		type: 'cat',
 		breed: 'Jack Russell terrier',
 		description:
@@ -107,7 +107,7 @@ export const dataAnimals: TAnimalsData[] = [
 	{
 		name: 'Miki',
 		age: { year: 2022, month: 2, day: 24 },
-		imageUri: [require('../assets/images/animals/Photo_3.png')],
+		imageUri: [require('../assets/images/animals/Photo_2.png')],
 		type: 'cat',
 		breed: 'British Longhair',
 		description:

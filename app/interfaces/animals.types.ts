@@ -4,7 +4,7 @@ import { IUserProfile } from './user.types'
 
 export interface IAnimalsData {
 	[key: string]: any
-	id: number
+	id: string
 	name: string
 	color: string
 	age: { year: number; month: number; day: number }

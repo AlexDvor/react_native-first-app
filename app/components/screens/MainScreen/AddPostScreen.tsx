@@ -2,7 +2,6 @@ import { useNavigation } from '@react-navigation/native'
 import 'firebase/storage'
 import { FC, useEffect, useState } from 'react'
 import { ScrollView, StatusBar, StyleSheet, View } from 'react-native'
-import { Image } from 'react-native'
 import { DatePickerInput } from '~components/ui/FormComponents/DatePickerInput/DatePickerInput'
 import FormButton from '~components/ui/FormComponents/FormButton/FormButton'
 import { PostDescriptionField } from '~components/ui/FormComponents/PostDescriptionField/PostDescriptionField'
@@ -14,8 +13,8 @@ import { CONTAINER } from '~constants/theme'
 import { dataAnimals } from '~data/animals'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
+import { FireBaseDefaultData } from '~helper/firebase/helperFireBaseData'
 import { submitPostFormToFireStorage } from '~helper/firebase/submitPostForm'
-import { createDefaultDataBase, uploadImagesToFireStore } from '~helper/helper'
 import { useAuth } from '~hooks/useAuth'
 import { useValidateForm } from '~hooks/useValidateForm'
 import { TFormState } from '~interfaces/form.state.types'
@@ -65,10 +64,9 @@ export const AddPostScreen: FC = () => {
 			if (!userId) {
 				throw new Error('Something is wrong with userId')
 			}
-			await createDefaultDataBase(dataAnimals, userId)
-			// await submitPostFormToFireStorage(formValue, userId)
-			// handleResetForm()
-			// navigation.navigate('Favorite', { screen: 'FavoriteScreen' })
+			await submitPostFormToFireStorage(formValue, userId)
+			handleResetForm()
+			navigation.navigate('Favorite', { screen: 'FavoriteScreen' })
 		} catch (error) {
 			console.log(error)
 		} finally {

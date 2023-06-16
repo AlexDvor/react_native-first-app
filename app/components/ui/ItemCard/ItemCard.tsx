@@ -85,7 +85,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 							)}
 						</View>
 						<View style={styles.ownerContainer}>
-							<Text style={styles.ownerName}>{item.name}</Text>
+							<Text style={styles.ownerName}>{item.owner.name}</Text>
 							<Text>Owner</Text>
 						</View>
 						<View

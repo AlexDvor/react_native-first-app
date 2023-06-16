@@ -1,5 +1,6 @@
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
 import {
+	DocumentData,
 	addDoc,
 	arrayRemove,
 	collection,
@@ -19,10 +20,39 @@ type uploadImageAsyncParam = {
 	id: number
 }
 
-const PATH_NAME_ITEMS = 'animals'
-const PATH_NAME_USERS = 'users'
+export const PATH_NAME_ITEMS = 'animals'
+export const PATH_NAME_USERS = 'users'
 
 export const UserService = {
+	async getAllCollection() {
+		try {
+			const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
+			const querySnapshot = await getDocs(collectionRef)
+			const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
+				const docData = doc.data()
+				const docId = doc.id
+				const formattedData: IAnimalsData = {
+					id: docId,
+					name: docData.name || '',
+					color: docData.color || '',
+					age: docData.age || { year: 0, month: 0, day: 0 },
+					breed: docData.breed || '',
+					imageUri: docData.imageUri || [],
+					type: docData.type || '',
+					description: docData.description || '',
+					gender: docData.gender || '',
+					weight: docData.weight || 0,
+					vaccine: docData.vaccine || false,
+					owner: docData.owner || {},
+					...docData,
+				}
+				return formattedData
+			})
+
+			return data
+		} catch (error) {}
+	},
+
 	async saveItemToCollectionAnimals(data: {}): Promise<string> {
 		try {
 			const docRef = await addDoc(collection(FIREBASE_DB, PATH_NAME_ITEMS), {
@@ -78,7 +108,7 @@ export const UserService = {
 		if (!userId) return
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
-			await setDoc(docRef, data)
+			await setDoc(docRef, data, { merge: true })
 		} catch (error) {
 			throw error
 		}
@@ -123,17 +153,18 @@ export const UserService = {
 		}
 	},
 
-	async getFavoriteCollection(): Promise<IAnimalsData[]> {
+	async getFavoriteCollection(userId: string): Promise<IAnimalsData[]> {
 		try {
-			const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
+			const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS, userId)
 			const querySnapshot = await getDocs(collectionRef)
 			const data = querySnapshot.docs.map((doc) => {
-				const docData = doc.data().data
-				const docId = doc.id
-				return { ...docData, id: docId }
+				const docData = doc.data()
+				// console.log('❌ ~ docData:', docData)
+				// const docId = doc.id
+				// return { ...docData, id: docId }
+				return { ...docData }
 			})
 			console.log('❌ ~ data:', data)
-			return data
 		} catch (error) {
 			console.log(error)
 			throw error
