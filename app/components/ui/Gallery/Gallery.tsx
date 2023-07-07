@@ -8,6 +8,7 @@ import { GalleryItem } from './GalleryItem'
 interface IGallery {
 	items: IAnimalsData[]
 	navigateTo: THomeScreenName
+	favoriteListId?: string[]
 }
 
 //add in last elements a marginBottom

@@ -8,13 +8,14 @@ import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { UserService } from '~services/user/user.services'
 
-export const FavoriteScreen: FC = () => {
+export const MyPetGalleryScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [favoritesList, setFavoriteList] = useState<IAnimalsData[]>([])
+
 	const navigation = useNavigation()
 	const { user } = useAuth()
+
 	const userId = user?.id || FIREBASE_AUTH.currentUser?.uid
-	console.log('favoritesList', favoritesList)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -44,7 +45,7 @@ export const FavoriteScreen: FC = () => {
 			)}
 			{favoritesList?.length === 0 && !isLoading && (
 				<View style={styles.messageContainer}>
-					<Text style={styles.message}>You don't have favorite animals</Text>
+					<Text style={styles.message}>You don't have your own animals</Text>
 				</View>
 			)}
 		</View>

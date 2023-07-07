@@ -10,6 +10,7 @@ import { MainTabsParamList } from '~interfaces/tab.navigation.types'
 import { FavoriteStackNavigator } from './FavoriteStackNavigator'
 import { HomeStackNavigator } from './HomeStackNavigator'
 import { MessageStackNavigator } from './MessageStackNavigator'
+import { ProfileStackNavigator } from './ProfileStackNavigator'
 
 const MainTabs = createBottomTabNavigator<MainTabsParamList>()
 
@@ -71,7 +72,7 @@ export const MainStackNavigator = () => {
 			/>
 			<Screen
 				name="Profile"
-				component={ProfileScreen}
+				component={ProfileStackNavigator}
 				options={{
 					tabBarIcon: ({ size, color }) => (
 						<MaterialIcon name="account-circle" size={size} color={color} />

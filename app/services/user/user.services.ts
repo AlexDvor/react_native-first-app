@@ -153,20 +153,29 @@ export const UserService = {
 		}
 	},
 
-	async getFavoriteCollection(userId: string): Promise<IAnimalsData[]> {
+	async getFavoriteCollection(userId: string) {
 		try {
-			const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS, userId)
-			const querySnapshot = await getDocs(collectionRef)
-			const data = querySnapshot.docs.map((doc) => {
-				const docData = doc.data()
-				// console.log('❌ ~ docData:', docData)
-				// const docId = doc.id
-				// return { ...docData, id: docId }
-				return { ...docData }
-			})
-			console.log('❌ ~ data:', data)
+			const userRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const userSnapshot = await getDoc(userRef)
+
+			if (userSnapshot.exists()) {
+				const idList = userSnapshot.data()?.animals || []
+				if (idList.length > 0) {
+					const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
+					const querySnapshot = await getDocs(collectionRef)
+					const data = querySnapshot.docs
+						.map((doc) => ({ ...doc.data(), id: doc.id }))
+						.filter((item) => idList.includes(item.id))
+					return data
+				} else {
+					console.log('No animals in favorites')
+					return []
+				}
+			} else {
+				console.log('User document not found')
+			}
 		} catch (error) {
-			console.log(error)
+			console.error(error)
 			throw error
 		}
 	},

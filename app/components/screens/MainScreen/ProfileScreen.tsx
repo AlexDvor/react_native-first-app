@@ -1,15 +1,18 @@
 import { AntDesign, Entypo, Fontisto, MaterialIcons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { FC } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
 import { widthScreenDevice } from '~constants/theme'
 import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
+import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
 
 export const ProfileScreen: FC = () => {
 	const { user } = useAuth()
 	const { singOut } = useActions()
+	const { navigate } = useNavigation<ProfileNavigationComponent>()
 	const sizeIcon = 32
 	const colorIcon = 'black'
 	return (
@@ -67,6 +70,20 @@ export const ProfileScreen: FC = () => {
 
 						<Text style={styles.text}>Password</Text>
 					</View>
+
+					<TouchableOpacity
+						style={styles.item}
+						onPress={() => navigate('MyPetGalleryScreen')}
+					>
+						<View style={styles.iconWrapper}>
+							<Image
+								style={{ width: sizeIcon, height: sizeIcon }}
+								source={require('../../../assets/icons/pet.png')}
+							></Image>
+						</View>
+
+						<Text style={styles.text}>Your Animals</Text>
+					</TouchableOpacity>
 				</View>
 			</View>
 

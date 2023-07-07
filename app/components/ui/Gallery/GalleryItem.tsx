@@ -12,7 +12,7 @@ import {
 
 interface IGalleryItemProps {
 	item: IAnimalsData
-	lastIdElements?: number[]
+	lastIdElements?: string[]
 	navigateTo: THomeScreenName
 }
 
@@ -33,7 +33,6 @@ export const GalleryItem: FC<IGalleryItemProps> = ({ item, navigateTo }) => {
 					style={styles.image}
 					source={{ uri: String(item.imageUri[0]) }}
 				></Image>
-				{/* <Image style={styles.image} source={item.imageUri[0].image}></Image> */}
 			</View>
 
 			<View style={styles.icon}>

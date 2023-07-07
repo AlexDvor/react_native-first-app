@@ -1,5 +1,5 @@
 export interface IUserProfile {
-	id: number
+	id: string
 	name: string
 	avatar: string | null
 }
