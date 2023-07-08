@@ -28,7 +28,7 @@ type uploadImageAsyncParam = {
 export const PATH_NAME_ITEMS = 'animals'
 export const PATH_NAME_USERS = 'users'
 export const PATH_OWN_ITEMS = 'ownAnimals'
-const userId = FIREBASE_AUTH.currentUser?.uid
+const USER_ID = FIREBASE_AUTH.currentUser?.uid
 
 export const UserService = {
 	async getAllCollection() {
@@ -118,6 +118,23 @@ export const UserService = {
 			await updateDoc(docRef, {
 				[PATH_OWN_ITEMS]: arrayUnion(itemId),
 			})
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async getOwnIdList(userId: string) {
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, USER_ID)
+			const docSnapshot = await getDoc(docRef)
+
+			if (docSnapshot.exists()) {
+				const userData = docSnapshot.data()
+				const idList = userData?.ownAnimals || []
+				return idList
+			} else {
+				throw new Error('You dont have own collection')
+			}
 		} catch (error) {
 			throw error
 		}
