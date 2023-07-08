@@ -11,7 +11,11 @@ import { Image, ImageSourcePropType } from 'react-native'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { TAnimalsData } from '~data/animals'
-import { PATH_NAME_ITEMS, PATH_NAME_USERS } from '~services/user/user.services'
+import {
+	PATH_NAME_ITEMS,
+	PATH_NAME_USERS,
+	PATH_OWN_ITEMS,
+} from '~services/user/user.services'
 
 export const FireBaseDefaultData = {
 	async uploadImages(imgArray: string[]) {
@@ -58,7 +62,7 @@ export const FireBaseDefaultData = {
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
 			await updateDoc(docRef, {
-				animals: arrayUnion(animalId),
+				[PATH_OWN_ITEMS]: arrayUnion(animalId),
 			})
 		} catch (error) {
 			console.log('addAnimalIdToUserProfile:', error)

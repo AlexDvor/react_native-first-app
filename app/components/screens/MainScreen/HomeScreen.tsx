@@ -17,6 +17,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 }: DefaultHomeProps) => {
 	const [hasNotification, setHasNotification] = useState(true)
 	const [allCollection, setAllCollection] = useState<IAnimalsData[]>([])
+	console.log('❌ ~ allCollection:', allCollection)
 	const [isLoading, setIsLoading] = useState(false)
 	const handleOnPressTypeMenu = () => {}
 	const handleOnPressItem = () => {}

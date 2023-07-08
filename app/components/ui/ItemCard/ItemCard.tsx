@@ -125,7 +125,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 				</View>
 
 				<View style={styles.buttonsWrapper}>
-					<FavoriteIcon />
+					<FavoriteIcon itemId={item.id} />
 					<PrimaryButton
 						title="Adopt Now"
 						widthButton={300}

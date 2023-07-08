@@ -3,6 +3,7 @@ import {
 	DocumentData,
 	addDoc,
 	arrayRemove,
+	arrayUnion,
 	collection,
 	deleteField,
 	doc,
@@ -12,7 +13,11 @@ import {
 	updateDoc,
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
+import {
+	FIREBASE_AUTH,
+	FIREBASE_DB,
+	FIREBASE_STORAGE,
+} from '~config/firebaseConfig'
 import { IAnimalsData } from '~interfaces/animals.types'
 
 type uploadImageAsyncParam = {
@@ -22,6 +27,8 @@ type uploadImageAsyncParam = {
 
 export const PATH_NAME_ITEMS = 'animals'
 export const PATH_NAME_USERS = 'users'
+export const PATH_OWN_ITEMS = 'ownAnimals'
+const userId = FIREBASE_AUTH.currentUser?.uid
 
 export const UserService = {
 	async getAllCollection() {
@@ -53,10 +60,10 @@ export const UserService = {
 		} catch (error) {}
 	},
 
-	async saveItemToCollectionAnimals(data: {}): Promise<string> {
+	async saveAnimalToGeneralCollection(data: {}): Promise<string> {
 		try {
 			const docRef = await addDoc(collection(FIREBASE_DB, PATH_NAME_ITEMS), {
-				data,
+				...data,
 			})
 			return docRef.id
 		} catch (error) {
@@ -104,11 +111,64 @@ export const UserService = {
 		}
 	},
 
-	async addDataToProfile(userId: string, data: {}): Promise<void> {
+	async addOwnAnimalToProfile(userId: string, itemId: string): Promise<void> {
 		if (!userId) return
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
-			await setDoc(docRef, data, { merge: true })
+			await updateDoc(docRef, {
+				[PATH_OWN_ITEMS]: arrayUnion(itemId),
+			})
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async getOwnCollection(userId: string) {
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docSnapshot = await getDoc(docRef)
+
+			if (docSnapshot.exists()) {
+				const userData = docSnapshot.data()
+				const idList = userData?.ownAnimals || []
+
+				if (idList.length > 0) {
+					const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
+					const querySnapshot = await getDocs(collectionRef)
+					const data = querySnapshot.docs
+						.map((doc) => ({ ...doc.data(), id: doc.id }))
+						.filter((item) => idList.includes(item.id))
+					return data
+				}
+			} else {
+				throw new Error('You dont have own collection')
+			}
+			return []
+		} catch (error) {
+			throw error
+		}
+	},
+
+	// async removeOwnAnimalFromProfile(
+	// 	userId: string,
+	// 	itemId: string
+	// ): Promise<void> {
+	// 	if (!userId) return
+	// 	try {
+	// 		const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+	// 		await updateDoc(docRef, {
+	// 			favorites: arrayRemove(itemId),
+	// 		})
+	// 	} catch (error) {
+	// 		throw error
+	// 	}
+	// },
+
+	async addOFavoriteItemToProfile(id: string): Promise<void> {
+		if (!userId) return
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			await setDoc(docRef, { favorite: [id] }, { merge: true })
 		} catch (error) {
 			throw error
 		}

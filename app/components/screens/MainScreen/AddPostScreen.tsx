@@ -64,6 +64,10 @@ export const AddPostScreen: FC = () => {
 			if (!userId) {
 				throw new Error('Something is wrong with userId')
 			}
+			// await FireBaseDefaultData.createDefaultDataBase(
+			// 	dataAnimals.slice(0, 4),
+			// 	userId
+			// )
 			await submitPostFormToFireStorage(formValue, userId)
 			handleResetForm()
 			navigation.navigate('Favorite', { screen: 'FavoriteScreen' })

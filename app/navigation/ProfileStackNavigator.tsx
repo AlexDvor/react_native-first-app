@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 import { FC } from 'react'
-import { MyPetGalleryScreen } from '~components/screens/MainScreen/MyPetGalleryScreen'
+import { MyPetGalleryScreen } from '~components/screens/MainScreen/NestedScreen/MyPetGalleryScreen'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
 
 type ProfileRootStackParamList = {

@@ -18,9 +18,9 @@ export const submitPostFormToFireStorage = async (
 			},
 		}
 		//save item to firebase and return animal id
-		const animalId = await UserService.saveItemToCollectionAnimals(formData)
+		const animalId = await UserService.saveAnimalToGeneralCollection(formData)
 		// add information about animal to owner profile
-		await UserService.addDataToProfile(userId, { animals: [animalId] })
+		await UserService.addOwnAnimalToProfile(userId, animalId)
 	} catch (error) {
 		throw error
 	}

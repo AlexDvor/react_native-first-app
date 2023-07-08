@@ -10,7 +10,7 @@ import { UserService } from '~services/user/user.services'
 
 export const MyPetGalleryScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
-	const [favoritesList, setFavoriteList] = useState<IAnimalsData[]>([])
+	const [petList, setPetList] = useState<IAnimalsData[]>([])
 
 	const navigation = useNavigation()
 	const { user } = useAuth()
@@ -23,10 +23,10 @@ export const MyPetGalleryScreen: FC = () => {
 				try {
 					if (!userId) return
 					setIsLoading(true)
-					const response = await UserService.getFavoriteCollection(userId)
-					setFavoriteList(response as IAnimalsData[])
+					const response = await UserService.getOwnCollection(userId)
+					setPetList(response as IAnimalsData[])
 				} catch (error) {
-					setFavoriteList([])
+					setPetList([])
 				} finally {
 					setIsLoading(false)
 				}
@@ -40,10 +40,10 @@ export const MyPetGalleryScreen: FC = () => {
 	return (
 		<View style={styles.container}>
 			{isLoading ? <Text>...Loading</Text> : null}
-			{favoritesList?.length > 0 && !isLoading && (
-				<Gallery items={favoritesList} navigateTo="AnimalProfileScreen" />
+			{petList?.length > 0 && !isLoading && (
+				<Gallery items={petList} navigateTo="AnimalProfileScreen" />
 			)}
-			{favoritesList?.length === 0 && !isLoading && (
+			{petList?.length === 0 && !isLoading && (
 				<View style={styles.messageContainer}>
 					<Text style={styles.message}>You don't have your own animals</Text>
 				</View>
