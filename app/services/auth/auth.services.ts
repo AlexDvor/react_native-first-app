@@ -25,7 +25,7 @@ export const AuthService = {
 
 			if (currentUser) {
 				await updateProfile(currentUser, { displayName: name })
-				await UserService.creatingOwnerProfile(currentUser?.uid)
+				await UserService.creatingOwnerProfile()
 				return userCredential
 			}
 

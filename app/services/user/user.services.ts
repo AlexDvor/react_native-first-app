@@ -28,7 +28,7 @@ type uploadImageAsyncParam = {
 export const PATH_NAME_ITEMS = 'animals'
 export const PATH_NAME_USERS = 'users'
 export const PATH_OWN_ITEMS = 'ownAnimals'
-const USER_ID = FIREBASE_AUTH.currentUser?.uid
+const PROFILE_ID = FIREBASE_AUTH.currentUser?.uid
 
 export const UserService = {
 	async getAllCollection() {
@@ -101,20 +101,20 @@ export const UserService = {
 		}
 	},
 
-	async creatingOwnerProfile(userId: string, data?: {}): Promise<void> {
-		if (!userId) return
+	async creatingOwnerProfile(data?: {}): Promise<void> {
+		if (!PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
 			await setDoc(docRef, {})
 		} catch (error) {
 			throw error
 		}
 	},
 
-	async addOwnAnimalToProfile(userId: string, itemId: string): Promise<void> {
-		if (!userId) return
+	async addOwnAnimalToProfile(itemId: string): Promise<void> {
+		if (!PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
 			await updateDoc(docRef, {
 				[PATH_OWN_ITEMS]: arrayUnion(itemId),
 			})
@@ -123,9 +123,10 @@ export const UserService = {
 		}
 	},
 
-	async getOwnIdList(userId: string) {
+	async getOwnIdList() {
+		if (!PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, USER_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -140,9 +141,10 @@ export const UserService = {
 		}
 	},
 
-	async getOwnCollection(userId: string) {
+	async getOwnCollection() {
+		if (!PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -166,38 +168,32 @@ export const UserService = {
 		}
 	},
 
-	// async removeOwnAnimalFromProfile(
-	// 	userId: string,
-	// 	itemId: string
-	// ): Promise<void> {
-	// 	if (!userId) return
-	// 	try {
-	// 		const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
-	// 		await updateDoc(docRef, {
-	// 			favorites: arrayRemove(itemId),
-	// 		})
-	// 	} catch (error) {
-	// 		throw error
-	// 	}
-	// },
+	async removeOwnAnimalFromProfile(itemId: string): Promise<void> {
+		if (!PROFILE_ID) return
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
+			await updateDoc(docRef, {
+				favorites: arrayRemove(itemId),
+			})
+		} catch (error) {
+			throw error
+		}
+	},
 
 	async addOFavoriteItemToProfile(id: string): Promise<void> {
-		if (!userId) return
+		if (!PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
 			await setDoc(docRef, { favorite: [id] }, { merge: true })
 		} catch (error) {
 			throw error
 		}
 	},
 
-	async deleteFieldFromProfile(
-		userId: string,
-		fieldName: string
-	): Promise<void> {
-		if (!userId) return
+	async deleteFieldFromProfile(fieldName: string): Promise<void> {
+		if (!PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
 			await updateDoc(docRef, {
 				[fieldName]: deleteField(),
 			})
@@ -207,13 +203,12 @@ export const UserService = {
 	},
 
 	async deleteItemFromProfile(
-		userId: string,
 		fromArray: string,
 		itemId: string
 	): Promise<void> {
-		if (!userId) return
+		if (!PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
 			//delete obj with id from array
 			await updateDoc(docRef, {
 				animals: arrayRemove({ id: '2', name: 'Miki' }),
@@ -231,8 +226,9 @@ export const UserService = {
 	},
 
 	async getFavoriteCollection(userId: string) {
+		if (!PROFILE_ID) return
 		try {
-			const userRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const userRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
 			const userSnapshot = await getDoc(userRef)
 
 			if (userSnapshot.exists()) {

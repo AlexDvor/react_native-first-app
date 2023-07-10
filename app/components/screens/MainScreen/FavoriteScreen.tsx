@@ -22,7 +22,7 @@ export const FavoriteScreen: FC = () => {
 				try {
 					if (!userId) return
 					setIsLoading(true)
-					const response = await UserService.getFavoriteCollection(userId)
+					const response = await UserService.getFavoriteCollection()
 					setFavoriteList(response as IAnimalsData[])
 				} catch (error) {
 					setFavoriteList([])

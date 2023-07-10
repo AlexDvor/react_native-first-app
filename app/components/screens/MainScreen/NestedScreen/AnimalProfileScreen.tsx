@@ -1,21 +1,33 @@
 import { FC, useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { Card } from '~components/ui/ItemCard/ItemCard'
+import { useAuth } from '~hooks/useAuth'
 import { UserService } from '~services/user/user.services'
 
 import { ProfileAnimalProps } from '../../../../interfaces/home.navigation.types'
 
 export const AnimalProfileScreen: FC<ProfileAnimalProps> = ({ route }) => {
 	const [isOwner, setIsOwner] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 	const animalData = route.params.item
 	const currentId = animalData.id
 
 	useEffect(() => {
 		const fetchCollection = async () => {
-			const response = UserService.getOwnIdList()
 			try {
+				setIsLoading(true)
+				const idList = await UserService.getOwnIdList()
+				const isOwnerCard = idList.some((item: string) => item === currentId)
+
+				if (isOwnerCard) {
+					setIsOwner(true)
+				} else {
+					setIsLoading(false)
+				}
 			} catch (error) {
+				console.log('❌ ~ error:', error)
 			} finally {
+				setIsLoading(false)
 			}
 		}
 		fetchCollection()
@@ -23,7 +35,11 @@ export const AnimalProfileScreen: FC<ProfileAnimalProps> = ({ route }) => {
 
 	return (
 		<>
-			<Card item={animalData} />
+			{!isLoading ? (
+				<Card item={animalData} isOwnerCard={isOwner} />
+			) : (
+				<Text>...Loading</Text>
+			)}
 		</>
 	)
 }

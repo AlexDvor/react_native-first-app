@@ -11,19 +11,16 @@ import { UserService } from '~services/user/user.services'
 export const MyPetGalleryScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [petList, setPetList] = useState<IAnimalsData[]>([])
-
 	const navigation = useNavigation()
 	const { user } = useAuth()
-
 	const userId = user?.id || FIREBASE_AUTH.currentUser?.uid
-
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			const fetchCollection = async () => {
 				try {
 					if (!userId) return
 					setIsLoading(true)
-					const response = await UserService.getOwnCollection(userId)
+					const response = await UserService.getOwnCollection()
 					setPetList(response as IAnimalsData[])
 				} catch (error) {
 					setPetList([])

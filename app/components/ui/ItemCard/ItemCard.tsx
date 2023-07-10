@@ -13,6 +13,7 @@ import { COLORS } from '~constants/theme'
 import { widthScreenDevice } from '~constants/theme'
 import calculateAge from '~helper/number/calculateAgeInYears'
 import { IAnimalsData } from '~interfaces/animals.types'
+import { UserService } from '~services/user/user.services'
 
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
 import { PrimaryButton } from '../PrimaryButton/PrimaryButton'
@@ -21,14 +22,23 @@ import { Slider } from '../Slider/Slider'
 
 interface IAnimalProfileCard {
 	item: IAnimalsData
+	isOwnerCard: boolean
 }
 
-export const Card: FC<IAnimalProfileCard> = ({ item }) => {
+export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const scrollCurrentRef = useRef(null)
 	const sizeIcon = 18
 	const dayOfBirthday = item.age.day
 	const monthOfBirthday = item.age.month
 	const yearOfBirthday = item.age.year
+
+	const removeAnimalFromOwnCollection = () => {
+		try {
+			console.log('iddd', item.id)
+			// const response = await UserService.removeOwnAnimalFromProfile()
+		} catch (error) {}
+	}
+	const addAnimalToFavoriteList = () => {}
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
@@ -125,12 +135,25 @@ export const Card: FC<IAnimalProfileCard> = ({ item }) => {
 				</View>
 
 				<View style={styles.buttonsWrapper}>
-					<FavoriteIcon itemId={item.id} />
-					<PrimaryButton
-						title="Adopt Now"
-						widthButton={300}
-						backgroundColorButton={'secondaryBtn'}
-					></PrimaryButton>
+					{isOwnerCard ? null : <FavoriteIcon itemId={item.id} />}
+
+					{isOwnerCard ? (
+						<PrimaryButton
+							title="Delete Animal"
+							widthButton={300}
+							backgroundColorButton={'secondaryBtn'}
+							handlePress={removeAnimalFromOwnCollection}
+						></PrimaryButton>
+					) : (
+						<PrimaryButton
+							title="Adopt Now"
+							widthButton={300}
+							backgroundColorButton={'secondaryBtn'}
+							handlePress={() => {
+								console.log('ffff')
+							}}
+						></PrimaryButton>
+					)}
 				</View>
 			</ScrollView>
 		</SafeAreaView>

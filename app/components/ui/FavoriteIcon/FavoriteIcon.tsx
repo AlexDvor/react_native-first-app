@@ -27,7 +27,7 @@ export const FavoriteIcon: FC<IFavoriteIconProps> = ({
 
 	const handleTouch = async () => {
 		try {
-			await UserService.addOFavoriteItemToProfile({ favorite: [itemId] })
+			await UserService.addOFavoriteItemToProfile(itemId)
 		} catch (error) {
 			console.log(error)
 		}

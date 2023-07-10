@@ -7,18 +7,21 @@ interface IPrimaryBtn extends ButtonProps {
 	widthButton?: number
 	backgroundColorButton?: TypeColorComponents
 	title: string
+	handlePress: () => void
 }
 
 export const PrimaryButton: FC<IPrimaryBtn> = ({
 	title,
 	widthButton,
 	backgroundColorButton = 'primaryBtn',
+	handlePress,
 	...rest
 }) => {
 	const selectedColor = COLORS[backgroundColorButton]
 
 	return (
 		<TouchableOpacity
+			onPress={handlePress}
 			style={{
 				backgroundColor: selectedColor,
 				height: 50,
