@@ -1,5 +1,5 @@
 import { Feather, Ionicons } from '@expo/vector-icons'
-import React, { FC, useRef } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import {
 	Image,
 	SafeAreaView,
@@ -26,16 +26,17 @@ interface IAnimalProfileCard {
 }
 
 export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
+	const [isLoading, setIsLoading] = useState(false)
+
 	const scrollCurrentRef = useRef(null)
 	const sizeIcon = 18
 	const dayOfBirthday = item.age.day
 	const monthOfBirthday = item.age.month
 	const yearOfBirthday = item.age.year
 
-	const removeAnimalFromOwnCollection = () => {
+	const removeAnimalFromOwnColl = async () => {
 		try {
-			console.log('iddd', item.id)
-			// const response = await UserService.removeOwnAnimalFromProfile()
+			await UserService.removeOwnAnimalFromProfile(item.id)
 		} catch (error) {}
 	}
 	const addAnimalToFavoriteList = () => {}
@@ -142,7 +143,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 							title="Delete Animal"
 							widthButton={300}
 							backgroundColorButton={'secondaryBtn'}
-							handlePress={removeAnimalFromOwnCollection}
+							handlePress={removeAnimalFromOwnColl}
 						></PrimaryButton>
 					) : (
 						<PrimaryButton

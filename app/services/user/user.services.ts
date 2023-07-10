@@ -5,6 +5,7 @@ import {
 	arrayRemove,
 	arrayUnion,
 	collection,
+	deleteDoc,
 	deleteField,
 	doc,
 	getDoc,
@@ -60,12 +61,32 @@ export const UserService = {
 		} catch (error) {}
 	},
 
-	async saveAnimalToGeneralCollection(data: {}): Promise<string> {
+	async saveAnimalToGeneralColl(data: {}): Promise<string> {
 		try {
 			const docRef = await addDoc(collection(FIREBASE_DB, PATH_NAME_ITEMS), {
 				...data,
 			})
 			return docRef.id
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async removeAnimalFromGeneralColl(animalId: string): Promise<void> {
+		try {
+			if (!animalId) {
+				throw new Error('Animal ID is required')
+			}
+			const docRef = doc(FIREBASE_DB, PATH_NAME_ITEMS, animalId)
+			const docSnapshot = await getDoc(docRef)
+
+			if (!docSnapshot.exists()) {
+				throw new Error('Animal document not found')
+			}
+
+			await deleteDoc(docRef)
+
+			console.log('Animal removed from general collection')
 		} catch (error) {
 			throw error
 		}
@@ -100,6 +121,8 @@ export const UserService = {
 			throw error
 		}
 	},
+
+	//////// removing and adding own animals to own animal list
 
 	async creatingOwnerProfile(data?: {}): Promise<void> {
 		if (!PROFILE_ID) return
@@ -141,7 +164,7 @@ export const UserService = {
 		}
 	},
 
-	async getOwnCollection() {
+	async getOwnColl() {
 		if (!PROFILE_ID) return
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
@@ -172,13 +195,32 @@ export const UserService = {
 		if (!PROFILE_ID) return
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
-			await updateDoc(docRef, {
-				favorites: arrayRemove(itemId),
-			})
+			const docSnapshot = await getDoc(docRef)
+
+			if (docSnapshot.exists()) {
+				const userData = docSnapshot.data()
+				const ownAnimalList = userData?.ownAnimals || []
+
+				if (ownAnimalList.includes(itemId)) {
+					await updateDoc(docRef, {
+						[PATH_OWN_ITEMS]: arrayRemove(itemId),
+					})
+					await this.removeAnimalFromGeneralColl(itemId)
+					console.log('Animal removed from from Profile')
+				} else {
+					console.log('Item ID not found in ownAnimalList')
+				}
+			} else {
+				throw new Error('User document not found')
+			}
 		} catch (error) {
 			throw error
 		}
 	},
+
+	////////
+
+	/////////// removing and adding animals to favorite list
 
 	async addOFavoriteItemToProfile(id: string): Promise<void> {
 		if (!PROFILE_ID) return
@@ -225,7 +267,7 @@ export const UserService = {
 		}
 	},
 
-	async getFavoriteCollection(userId: string) {
+	async getFavoriteColl() {
 		if (!PROFILE_ID) return
 		try {
 			const userRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
@@ -253,22 +295,3 @@ export const UserService = {
 		}
 	},
 }
-
-// async saveItemToCollectionAnimals(data: {}) {
-// 	try {
-// 		const docRef = await addDoc(collection(FIREBASE_DB, PATH_NAME_ITEMS), {
-// 			data,
-// 		})
-
-// 		const docSnap = await getDoc(docRef)
-// 		if (docSnap.exists()) {
-// 			const createdItem = docSnap.data().data
-// 			return createdItem
-// 		} else {
-// 			return null
-// 		}
-
-// 		return docRef.id
-// 	} catch (error) {
-// 		throw error
-// 	}
