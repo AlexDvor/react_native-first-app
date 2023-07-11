@@ -8,7 +8,7 @@ import { PostDescriptionField } from '~components/ui/FormComponents/PostDescript
 import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
 import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
-import { FIREBASE_AUTH } from '~config/firebaseConfig'
+import { FIREBASE_PROFILE_ID } from '~config/firebaseConfig'
 import { CONTAINER } from '~constants/theme'
 import { dataAnimals } from '~data/animals'
 import { catBreedsList } from '~data/cat.breeds'
@@ -42,7 +42,6 @@ export const AddPostScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [resetPicker, setResetPicker] = useState(false)
 	const { isValidFormState } = useValidateForm(formValue)
-	const { user } = useAuth()
 	const navigation = useNavigation<RootNavigationApp>()
 
 	useEffect(() => {
@@ -60,15 +59,11 @@ export const AddPostScreen: FC = () => {
 	const handleSubmitForm = async () => {
 		try {
 			setIsLoading(true)
-			const userId = user?.id || FIREBASE_AUTH.currentUser?.uid
-			if (!userId) {
+			if (!FIREBASE_PROFILE_ID) {
 				throw new Error('Something is wrong with userId')
 			}
-			// await FireBaseDefaultData.createDefaultDataBase(
-			// 	dataAnimals.slice(0, 4),
-			// 	userId
-			// )
-			await submitPostFormToFireStorage(formValue, userId)
+			// await FireBaseDefaultData.createDefaultDataBase(dataAnimals.slice(0.1))
+			await submitPostFormToFireStorage(formValue)
 			handleResetForm()
 			navigation.navigate('Favorite', { screen: 'FavoriteScreen' })
 		} catch (error) {

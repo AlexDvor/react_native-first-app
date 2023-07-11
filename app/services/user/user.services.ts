@@ -15,8 +15,8 @@ import {
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import {
-	FIREBASE_AUTH,
 	FIREBASE_DB,
+	FIREBASE_PROFILE_ID,
 	FIREBASE_STORAGE,
 } from '~config/firebaseConfig'
 import { IAnimalsData } from '~interfaces/animals.types'
@@ -29,7 +29,7 @@ type uploadImageAsyncParam = {
 export const PATH_NAME_ITEMS = 'animals'
 export const PATH_NAME_USERS = 'users'
 export const PATH_OWN_ITEMS = 'ownAnimals'
-const PROFILE_ID = FIREBASE_AUTH.currentUser?.uid
+export const PATH_FAVORITE_ITEMS = 'favorites'
 
 export const UserService = {
 	async getAllCollection() {
@@ -125,9 +125,9 @@ export const UserService = {
 	//////// removing and adding own animals to own animal list
 
 	async creatingOwnerProfile(data?: {}): Promise<void> {
-		if (!PROFILE_ID) return
+		if (!FIREBASE_PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
 			await setDoc(docRef, {})
 		} catch (error) {
 			throw error
@@ -135,9 +135,10 @@ export const UserService = {
 	},
 
 	async addOwnAnimalToProfile(itemId: string): Promise<void> {
-		if (!PROFILE_ID) return
+		if (!FIREBASE_PROFILE_ID) return
+
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
 			await updateDoc(docRef, {
 				[PATH_OWN_ITEMS]: arrayUnion(itemId),
 			})
@@ -147,9 +148,9 @@ export const UserService = {
 	},
 
 	async getOwnIdList() {
-		if (!PROFILE_ID) return
+		if (!FIREBASE_PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -165,9 +166,9 @@ export const UserService = {
 	},
 
 	async getOwnColl() {
-		if (!PROFILE_ID) return
+		if (!FIREBASE_PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -192,9 +193,9 @@ export const UserService = {
 	},
 
 	async removeOwnAnimalFromProfile(itemId: string): Promise<void> {
-		if (!PROFILE_ID) return
+		if (!FIREBASE_PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -222,59 +223,59 @@ export const UserService = {
 
 	/////////// removing and adding animals to favorite list
 
-	async addOFavoriteItemToProfile(id: string): Promise<void> {
-		if (!PROFILE_ID) return
+	async toggleFavoriteList(id: string): Promise<void> {
+		if (!FIREBASE_PROFILE_ID) return
+
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
-			await setDoc(docRef, { favorite: [id] }, { merge: true })
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const docSnapshot = await getDoc(docRef)
+
+			if (docSnapshot.exists()) {
+				const userData = docSnapshot.data()
+				const idList = userData?.favorites || []
+				if (idList.includes(id)) {
+					await updateDoc(docRef, {
+						[PATH_FAVORITE_ITEMS]: arrayRemove(id),
+					})
+					console.log(`Remove animal with ${id} from favorite list `)
+				} else {
+					await updateDoc(docRef, {
+						[PATH_FAVORITE_ITEMS]: arrayUnion(id),
+					})
+					console.log(`Add animal with ${id} from favorite list `)
+				}
+			}
 		} catch (error) {
 			throw error
 		}
 	},
 
-	async deleteFieldFromProfile(fieldName: string): Promise<void> {
-		if (!PROFILE_ID) return
+	async getFavoriteListIds() {
+		if (!FIREBASE_PROFILE_ID) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
-			await updateDoc(docRef, {
-				[fieldName]: deleteField(),
-			})
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const docSnapshot = await getDoc(docRef)
+
+			if (docSnapshot.exists()) {
+				const userData = docSnapshot.data()
+				const idList = userData?.favorites || []
+				return idList
+			} else {
+				throw new Error('You dont have own collection')
+			}
 		} catch (error) {
-			throw error
-		}
-	},
-
-	async deleteItemFromProfile(
-		fromArray: string,
-		itemId: string
-	): Promise<void> {
-		if (!PROFILE_ID) return
-		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
-			//delete obj with id from array
-			await updateDoc(docRef, {
-				animals: arrayRemove({ id: '2', name: 'Miki' }),
-			})
-
-			// delete item from array
-
-			// 	await updateDoc(washingtonRef, {
-			// 		test: arrayRemove("east_coast")
-			//   });
-		} catch (error) {
-			console.log('❌ ~ error:', error)
 			throw error
 		}
 	},
 
 	async getFavoriteColl() {
-		if (!PROFILE_ID) return
+		if (!FIREBASE_PROFILE_ID) return
 		try {
-			const userRef = doc(FIREBASE_DB, PATH_NAME_USERS, PROFILE_ID)
+			const userRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
 			const userSnapshot = await getDoc(userRef)
 
 			if (userSnapshot.exists()) {
-				const idList = userSnapshot.data()?.animals || []
+				const idList = userSnapshot.data()?.favorites || []
 				if (idList.length > 0) {
 					const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
 					const querySnapshot = await getDocs(collectionRef)
@@ -294,4 +295,41 @@ export const UserService = {
 			throw error
 		}
 	},
+
+	///////////
+
+	// async deleteFieldFromProfile(fieldName: string): Promise<void> {
+	// 	if (!FIREBASE_PROFILE_ID) return
+	// 	try {
+	// 		const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+	// 		await updateDoc(docRef, {
+	// 			[fieldName]: deleteField(),
+	// 		})
+	// 	} catch (error) {
+	// 		throw error
+	// 	}
+	// },
+
+	// async deleteItemFromProfile(
+	// 	fromArray: string,
+	// 	itemId: string
+	// ): Promise<void> {
+	// 	if (!FIREBASE_PROFILE_ID) return
+	// 	try {
+	// 		const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+	// 		//delete obj with id from array
+	// 		await updateDoc(docRef, {
+	// 			animals: arrayRemove({ id: '2', name: 'Miki' }),
+	// 		})
+
+	// 		// delete item from array
+
+	// 		// 	await updateDoc(washingtonRef, {
+	// 		// 		test: arrayRemove("east_coast")
+	// 		//   });
+	// 	} catch (error) {
+	// 		console.log('❌ ~ error:', error)
+	// 		throw error
+	// 	}
+	// },
 }

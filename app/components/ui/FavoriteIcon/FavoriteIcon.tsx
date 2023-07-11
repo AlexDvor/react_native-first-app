@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Fontisto'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { COLORS } from '~constants/theme'
 import { TypeColorComponents } from '~interfaces/theme.types'
@@ -22,16 +22,35 @@ export const FavoriteIcon: FC<IFavoriteIconProps> = ({
 	heightContainer = 50,
 	itemId,
 }) => {
+	const [isFavorite, setFavorite] = useState(false)
 	const selectedBgColor = COLORS[backgroundColorIcon]
 	const selectedColor = COLORS[colorIcon]
 
 	const handleTouch = async () => {
 		try {
-			await UserService.addOFavoriteItemToProfile(itemId)
+			await UserService.toggleFavoriteList(itemId)
+			setFavorite(!isFavorite)
 		} catch (error) {
 			console.log(error)
 		}
 	}
+
+	useEffect(() => {
+		const fetchFavoriteList = async () => {
+			try {
+				const idList = await UserService.getFavoriteListIds()
+				const response = idList.some((id: string) => id === itemId)
+
+				if (response) {
+					setFavorite(true)
+				}
+			} catch (error) {
+				console.log('fetchFavoriteList:', error)
+			}
+		}
+		fetchFavoriteList()
+	}, [itemId])
+
 	return (
 		<TouchableOpacity
 			onPress={handleTouch}
@@ -44,7 +63,11 @@ export const FavoriteIcon: FC<IFavoriteIconProps> = ({
 				alignItems: 'center',
 			}}
 		>
-			<Ionicons name="heart-alt" size={sizeIcon} color={selectedColor} />
+			{isFavorite ? (
+				<Ionicons name="heart" size={sizeIcon} color={selectedColor} />
+			) : (
+				<Ionicons name="heart-alt" size={sizeIcon} color={selectedColor} />
+			)}
 		</TouchableOpacity>
 	)
 }

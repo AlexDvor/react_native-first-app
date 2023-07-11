@@ -27,7 +27,6 @@ interface IAnimalProfileCard {
 
 export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const [isLoading, setIsLoading] = useState(false)
-
 	const scrollCurrentRef = useRef(null)
 	const sizeIcon = 18
 	const dayOfBirthday = item.age.day
@@ -36,10 +35,21 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 
 	const removeAnimalFromOwnColl = async () => {
 		try {
+			setIsLoading(true)
 			await UserService.removeOwnAnimalFromProfile(item.id)
-		} catch (error) {}
+		} catch (error) {
+		} finally {
+			setIsLoading(false)
+		}
 	}
-	const addAnimalToFavoriteList = () => {}
+	const addAnimalToFavoriteList = async () => {
+		try {
+			setIsLoading(true)
+		} catch (error) {
+		} finally {
+			setIsLoading(false)
+		}
+	}
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
@@ -151,7 +161,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 							widthButton={300}
 							backgroundColorButton={'secondaryBtn'}
 							handlePress={() => {
-								console.log('ffff')
+								console.log('This button dont have function')
 							}}
 						></PrimaryButton>
 					)}
