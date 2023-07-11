@@ -12,6 +12,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { COLORS } from '~constants/theme'
 import { widthScreenDevice } from '~constants/theme'
 import calculateAge from '~helper/number/calculateAgeInYears'
+import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { UserService } from '~services/user/user.services'
 
@@ -27,6 +28,7 @@ interface IAnimalProfileCard {
 
 export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const [isLoading, setIsLoading] = useState(false)
+	const { user } = useAuth()
 	const scrollCurrentRef = useRef(null)
 	const sizeIcon = 18
 	const dayOfBirthday = item.age.day
@@ -34,9 +36,10 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const yearOfBirthday = item.age.year
 
 	const removeAnimalFromOwnColl = async () => {
+		if (!user?.id) return
 		try {
 			setIsLoading(true)
-			await UserService.removeOwnAnimalFromProfile(item.id)
+			await UserService.removeOwnAnimalFromProfile(item.id, user.id)
 		} catch (error) {
 		} finally {
 			setIsLoading(false)
@@ -114,26 +117,28 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 								marginLeft: 'auto',
 							}}
 						>
-							<TouchableOpacity
-								style={{
-									width: 45,
-									height: 45,
-									backgroundColor: '#111c1e',
-									alignItems: 'center',
-									justifyContent: 'center',
-									borderRadius: 50,
-								}}
-							>
-								<Feather
-									name="message-circle"
-									size={25}
-									color={'#FCFCFC'}
+							{!isOwnerCard && (
+								<TouchableOpacity
 									style={{
-										height: 25,
-										width: 25,
+										width: 45,
+										height: 45,
+										backgroundColor: '#111c1e',
+										alignItems: 'center',
+										justifyContent: 'center',
+										borderRadius: 50,
 									}}
-								/>
-							</TouchableOpacity>
+								>
+									<Feather
+										name="message-circle"
+										size={25}
+										color={'#FCFCFC'}
+										style={{
+											height: 25,
+											width: 25,
+										}}
+									/>
+								</TouchableOpacity>
+							)}
 						</View>
 					</View>
 

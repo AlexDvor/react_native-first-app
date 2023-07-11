@@ -13,15 +13,14 @@ export const FavoriteScreen: FC = () => {
 	const [favoritesList, setFavoriteList] = useState<IAnimalsData[]>([])
 	const navigation = useNavigation()
 	const { user } = useAuth()
-	const userId = user?.id || FIREBASE_AUTH.currentUser?.uid
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			const fetchCollection = async () => {
 				try {
-					if (!userId) return
+					if (!user?.id) return
 					setIsLoading(true)
-					const response = await UserService.getFavoriteColl()
+					const response = await UserService.getFavoriteColl(user.id)
 					setFavoriteList(response as IAnimalsData[])
 				} catch (error) {
 					setFavoriteList([])

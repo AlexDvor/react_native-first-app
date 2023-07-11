@@ -25,7 +25,7 @@ export const AuthService = {
 
 			if (currentUser) {
 				await updateProfile(currentUser, { displayName: name })
-				await UserService.creatingOwnerProfile()
+				await UserService.creatingOwnerProfile(currentUser.uid)
 				return userCredential
 			}
 
@@ -45,6 +45,7 @@ export const AuthService = {
 
 			return userCredential
 		} catch (error) {
+			console.log('login:', error)
 			throw error
 		}
 	},

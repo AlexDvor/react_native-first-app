@@ -2,6 +2,7 @@ import Ionicons from '@expo/vector-icons/Fontisto'
 import { FC, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { COLORS } from '~constants/theme'
+import { useAuth } from '~hooks/useAuth'
 import { TypeColorComponents } from '~interfaces/theme.types'
 import { UserService } from '~services/user/user.services'
 
@@ -23,12 +24,14 @@ export const FavoriteIcon: FC<IFavoriteIconProps> = ({
 	itemId,
 }) => {
 	const [isFavorite, setFavorite] = useState(false)
+	const { user } = useAuth()
 	const selectedBgColor = COLORS[backgroundColorIcon]
 	const selectedColor = COLORS[colorIcon]
 
 	const handleTouch = async () => {
+		if (!user?.id) return
 		try {
-			await UserService.toggleFavoriteList(itemId)
+			await UserService.toggleFavoriteList(itemId, user.id)
 			setFavorite(!isFavorite)
 		} catch (error) {
 			console.log(error)
@@ -37,8 +40,9 @@ export const FavoriteIcon: FC<IFavoriteIconProps> = ({
 
 	useEffect(() => {
 		const fetchFavoriteList = async () => {
+			if (!user?.id) return
 			try {
-				const idList = await UserService.getFavoriteListIds()
+				const idList = await UserService.getFavoriteListIds(user.id)
 				const response = idList.some((id: string) => id === itemId)
 
 				if (response) {

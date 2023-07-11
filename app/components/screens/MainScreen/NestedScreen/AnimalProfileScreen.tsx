@@ -9,14 +9,16 @@ import { ProfileAnimalProps } from '../../../../interfaces/home.navigation.types
 export const AnimalProfileScreen: FC<ProfileAnimalProps> = ({ route }) => {
 	const [isOwner, setIsOwner] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const { user } = useAuth()
 	const animalData = route.params.item
 	const currentId = animalData.id
 
 	useEffect(() => {
 		const fetchCollection = async () => {
+			if (!user?.id) return
 			try {
 				setIsLoading(true)
-				const idList = await UserService.getOwnIdList()
+				const idList = await UserService.getOwnIdList(user.id)
 				const isOwnerCard = idList.some((item: string) => item === currentId)
 
 				if (isOwnerCard) {

@@ -45,7 +45,6 @@ export const login = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
 			const { user } = await AuthService.login(email, password)
 			return { email: user.email, id: user.uid, name: user.displayName }
 		} catch (error) {
-			console.log(error)
 			return thunkAPI.rejectWithValue(error)
 		}
 	}

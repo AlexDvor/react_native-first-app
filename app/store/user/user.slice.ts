@@ -49,7 +49,7 @@ export const userSlice = createSlice({
 				state.isLoading = false
 				state.user = payload
 			})
-			.addCase(login.rejected, (state) => {
+			.addCase(login.rejected, (state, { payload }) => {
 				state.isLoading = false
 				state.user = null
 			})

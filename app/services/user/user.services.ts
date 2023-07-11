@@ -14,11 +14,7 @@ import {
 	updateDoc,
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import {
-	FIREBASE_DB,
-	FIREBASE_PROFILE_ID,
-	FIREBASE_STORAGE,
-} from '~config/firebaseConfig'
+import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { IAnimalsData } from '~interfaces/animals.types'
 
 type uploadImageAsyncParam = {
@@ -124,21 +120,21 @@ export const UserService = {
 
 	//////// removing and adding own animals to own animal list
 
-	async creatingOwnerProfile(data?: {}): Promise<void> {
-		if (!FIREBASE_PROFILE_ID) return
+	async creatingOwnerProfile(userId: string): Promise<void> {
+		if (!userId) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
 			await setDoc(docRef, {})
 		} catch (error) {
 			throw error
 		}
 	},
 
-	async addOwnAnimalToProfile(itemId: string): Promise<void> {
-		if (!FIREBASE_PROFILE_ID) return
+	async addOwnAnimalToProfile(itemId: string, userId: string): Promise<void> {
+		if (!userId) return
 
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
 			await updateDoc(docRef, {
 				[PATH_OWN_ITEMS]: arrayUnion(itemId),
 			})
@@ -147,10 +143,11 @@ export const UserService = {
 		}
 	},
 
-	async getOwnIdList() {
-		if (!FIREBASE_PROFILE_ID) return
+	async getOwnIdList(userId: string) {
+		if (!userId) return
+
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -165,10 +162,10 @@ export const UserService = {
 		}
 	},
 
-	async getOwnColl() {
-		if (!FIREBASE_PROFILE_ID) return
+	async getOwnColl(userId: string) {
+		if (!userId) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -192,10 +189,13 @@ export const UserService = {
 		}
 	},
 
-	async removeOwnAnimalFromProfile(itemId: string): Promise<void> {
-		if (!FIREBASE_PROFILE_ID) return
+	async removeOwnAnimalFromProfile(
+		itemId: string,
+		userId: string
+	): Promise<void> {
+		if (!userId) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -223,11 +223,11 @@ export const UserService = {
 
 	/////////// removing and adding animals to favorite list
 
-	async toggleFavoriteList(id: string): Promise<void> {
-		if (!FIREBASE_PROFILE_ID) return
+	async toggleFavoriteList(id: string, userId: string): Promise<void> {
+		if (!userId) return
 
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -250,10 +250,10 @@ export const UserService = {
 		}
 	},
 
-	async getFavoriteListIds() {
-		if (!FIREBASE_PROFILE_ID) return
+	async getFavoriteListIds(userId: string) {
+		if (!userId) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -268,10 +268,10 @@ export const UserService = {
 		}
 	},
 
-	async getFavoriteColl() {
-		if (!FIREBASE_PROFILE_ID) return
+	async getFavoriteColl(userId: string) {
+		if (!userId) return
 		try {
-			const userRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const userRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
 			const userSnapshot = await getDoc(userRef)
 
 			if (userSnapshot.exists()) {

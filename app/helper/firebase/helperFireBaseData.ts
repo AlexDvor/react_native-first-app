@@ -9,11 +9,7 @@ import {
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { Image, ImageSourcePropType } from 'react-native'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
-import {
-	FIREBASE_DB,
-	FIREBASE_PROFILE_ID,
-	FIREBASE_STORAGE,
-} from '~config/firebaseConfig'
+import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { TAnimalsData } from '~data/animals'
 import {
 	PATH_NAME_ITEMS,
@@ -62,11 +58,11 @@ export const FireBaseDefaultData = {
 		}
 	},
 
-	async addAnimalIdToUserProfile(animalId: string | undefined) {
-		if (!FIREBASE_PROFILE_ID) return
+	async addAnimalIdToUserProfile(animalId: string | undefined, userId: string) {
+		if (!userId) return
 
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
 			await updateDoc(docRef, {
 				[PATH_OWN_ITEMS]: arrayUnion(animalId),
 			})
@@ -75,8 +71,8 @@ export const FireBaseDefaultData = {
 		}
 	},
 
-	async createDefaultDataBase(animalsData: TAnimalsData[]) {
-		if (!FIREBASE_PROFILE_ID) return
+	async createDefaultDataBase(animalsData: TAnimalsData[], userId: string) {
+		if (!userId) return
 		try {
 			for (const animal of animalsData) {
 				const imageUrl = await this.uploadImages(animal.imageUri)
@@ -84,14 +80,14 @@ export const FireBaseDefaultData = {
 					...animal,
 					imageUri: imageUrl,
 					owner: {
-						id: FIREBASE_PROFILE_ID,
+						id: userId,
 						name: FIREBASE_AUTH.currentUser?.displayName,
 						avatar: FIREBASE_AUTH.currentUser?.photoURL || null,
 					},
 				}
 
 				const animalId = await this.submitData(newAnimal)
-				await this.addAnimalIdToUserProfile(animalId)
+				await this.addAnimalIdToUserProfile(animalId, userId)
 			}
 		} catch (error) {
 			console.log('createDefaultDataBase', error)
