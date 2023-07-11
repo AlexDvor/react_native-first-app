@@ -1,4 +1,5 @@
 import { Feather, Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import React, { FC, useRef, useState } from 'react'
 import {
 	Image,
@@ -34,12 +35,14 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const dayOfBirthday = item.age.day
 	const monthOfBirthday = item.age.month
 	const yearOfBirthday = item.age.year
+	const { goBack } = useNavigation()
 
 	const removeAnimalFromOwnColl = async () => {
 		if (!user?.id) return
 		try {
 			setIsLoading(true)
 			await UserService.removeOwnAnimalFromProfile(item.id, user.id)
+			goBack()
 		} catch (error) {
 		} finally {
 			setIsLoading(false)

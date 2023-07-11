@@ -3,7 +3,6 @@ import MaterialIcon from '@expo/vector-icons/MaterialCommunityIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { AddPostScreen } from '~components/screens/MainScreen/AddPostScreen'
-import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
 import { tabBarNavigatorConfig } from '~config/tabBarNavigator.config'
 import { MainTabsParamList } from '~interfaces/tab.navigation.types'
 
