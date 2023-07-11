@@ -48,14 +48,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 			setIsLoading(false)
 		}
 	}
-	const addAnimalToFavoriteList = async () => {
-		try {
-			setIsLoading(true)
-		} catch (error) {
-		} finally {
-			setIsLoading(false)
-		}
-	}
+	const submitAdoptForm = async () => {}
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
