@@ -6,7 +6,7 @@ import { MyPetGalleryScreen } from '~components/screens/MainScreen/NestedScreen/
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
 import { IAnimalsData } from '~interfaces/animals.types'
 
-type ProfileRootStackParamList = {
+export type ProfileRootStackParamList = {
 	ProfileScreen: undefined
 	MyPetGalleryScreen: undefined
 	AnimalProfileScreen: { item: IAnimalsData }
@@ -20,7 +20,10 @@ const ProfileStack = createStackNavigator<ProfileRootStackParamList>()
 export const ProfileStackNavigator: FC = () => {
 	const { Navigator, Screen } = ProfileStack
 	return (
-		<Navigator screenOptions={{ headerShown: false }}>
+		<Navigator
+			screenOptions={{ headerShown: false }}
+			initialRouteName="ProfileScreen"
+		>
 			<Screen name="ProfileScreen" component={ProfileScreen}></Screen>
 			<Screen name="MyPetGalleryScreen" component={MyPetGalleryScreen}></Screen>
 			<Screen

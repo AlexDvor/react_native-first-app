@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useNavigation } from '@react-navigation/native'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FONTS, widthScreenDevice } from '~constants/theme'
 import calculateAge from '~helper/number/calculateAgeInYears'
@@ -14,10 +14,14 @@ interface IGalleryItemProps {
 	item: IAnimalsData
 	lastIdElements?: string[]
 	navigateTo: THomeScreenName
+	isFavorite: boolean | undefined
 }
 
-export const GalleryItem: FC<IGalleryItemProps> = ({ item, navigateTo }) => {
-	const [isFavorite, setIsFavorite] = useState(true)
+export const GalleryItem: FC<IGalleryItemProps> = ({
+	item,
+	navigateTo,
+	isFavorite,
+}) => {
 	const { navigate } = useNavigation<TNavigationComponent>()
 	const dayOfBirthday = item.age.day
 	const monthOfBirthday = item.age.month
@@ -35,13 +39,11 @@ export const GalleryItem: FC<IGalleryItemProps> = ({ item, navigateTo }) => {
 				></Image>
 			</View>
 
-			<View style={styles.icon}>
-				{isFavorite ? (
+			{isFavorite && (
+				<View style={styles.icon}>
 					<Ionicons name="star" size={13} color="white" />
-				) : (
-					<Ionicons name="star-outline" size={13} color="white" />
-				)}
-			</View>
+				</View>
+			)}
 
 			<View style={styles.infoContainer}>
 				<View style={styles.info}>

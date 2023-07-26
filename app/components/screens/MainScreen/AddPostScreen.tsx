@@ -62,10 +62,10 @@ export const AddPostScreen: FC = () => {
 			if (!user?.id) {
 				throw new Error('Something is wrong with userId')
 			}
-			await FireBaseDefaultData.createDefaultDataBase(dataAnimals, user.id)
-			// await submitPostFormToFireStorage(formValue)
-			// handleResetForm()
-			// navigation.navigate('Favorite', { screen: 'FavoriteScreen' })
+			// await FireBaseDefaultData.createDefaultDataBase(dataAnimals, user.id)
+			await submitPostFormToFireStorage(formValue, user.id)
+			handleResetForm()
+			navigation.navigate('Profile', { screen: 'MyPetGalleryScreen' })
 		} catch (error) {
 			console.log(error)
 		} finally {

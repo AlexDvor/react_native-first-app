@@ -1,13 +1,12 @@
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
-import { useAuth } from '~hooks/useAuth'
 import { TFormState } from '~interfaces/form.state.types'
 import { UserService } from '~services/user/user.services'
 
-const PROFILE_ID = FIREBASE_AUTH.currentUser?.uid
-
-export const submitPostFormToFireStorage = async (formValue: TFormState) => {
-	const { user } = useAuth()
-	if (!user?.id) return
+export const submitPostFormToFireStorage = async (
+	formValue: TFormState,
+	userId: string
+) => {
+	if (!userId) return
 
 	try {
 		const imageUrl = await UserService.uploadImageAsync(formValue.imageUri)
@@ -15,7 +14,7 @@ export const submitPostFormToFireStorage = async (formValue: TFormState) => {
 			...formValue,
 			imageUri: imageUrl,
 			owner: {
-				id: user.id,
+				id: userId,
 				name: FIREBASE_AUTH.currentUser?.displayName,
 				avatar: FIREBASE_AUTH.currentUser?.photoURL || null,
 			},
@@ -24,7 +23,7 @@ export const submitPostFormToFireStorage = async (formValue: TFormState) => {
 		const animalId = await UserService.saveAnimalToGeneralColl(formData)
 
 		// add information about animal to owner profile
-		await UserService.addOwnAnimalToProfile(animalId, user.id)
+		await UserService.addOwnAnimalToProfile(animalId, userId)
 	} catch (error) {
 		throw error
 	}

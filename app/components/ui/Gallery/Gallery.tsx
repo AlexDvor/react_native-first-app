@@ -8,12 +8,16 @@ import { GalleryItem } from './GalleryItem'
 interface IGallery {
 	items: IAnimalsData[]
 	navigateTo: THomeScreenName
-	favoriteListId?: string[]
+	favoriteListId?: string[] | null
 }
 
 //add in last elements a marginBottom
 
-export const Gallery: FC<IGallery> = ({ items, navigateTo }) => {
+export const Gallery: FC<IGallery> = ({
+	items,
+	navigateTo,
+	favoriteListId,
+}) => {
 	return (
 		<View style={styles.container}>
 			<FlatList
@@ -27,11 +31,13 @@ export const Gallery: FC<IGallery> = ({ items, navigateTo }) => {
 				renderItem={({ item, index }) => {
 					const lastElem = items.slice(-2)
 					const idsElem = lastElem.map((item) => item.id)
+					const isFavoriteItem = favoriteListId?.some((id) => id === item.id)
 					return (
 						<GalleryItem
 							item={item}
 							lastIdElements={idsElem}
 							navigateTo={navigateTo}
+							isFavorite={isFavoriteItem}
 						/>
 					)
 				}}

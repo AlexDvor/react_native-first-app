@@ -6,6 +6,7 @@ import { Logo } from '~components/ui/Logo/Logo'
 import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenuList'
 import { menuData } from '~components/ui/ScrollableMenu/menu.data'
 import { COLORS, CONTAINER } from '~constants/theme'
+import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { UserService } from '~services/user/user.services'
 
@@ -17,19 +18,24 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 }: DefaultHomeProps) => {
 	const [hasNotification, setHasNotification] = useState(true)
 	const [allCollection, setAllCollection] = useState<IAnimalsData[]>([])
-	console.log('❌ ~ allCollection:', allCollection)
+	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
 	const [isLoading, setIsLoading] = useState(false)
+	const { user } = useAuth()
+
 	const handleOnPressTypeMenu = () => {}
 	const handleOnPressItem = () => {}
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			const fetchCollection = async () => {
+				if (!user?.id) return
 				try {
 					setIsLoading(true)
-					const response = await UserService.getAllCollection()
-					if (response) {
-						setAllCollection(response)
+					const allCollection = await UserService.getAllCollection()
+					const idFavoriteList = await UserService.getFavoriteListIds(user?.id)
+					setFavoriteIdList(idFavoriteList)
+					if (allCollection) {
+						setAllCollection(allCollection)
 					}
 				} catch (error) {
 					setAllCollection([])
@@ -47,7 +53,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<View style={styles.container}>
 				<View style={styles.headerContainer}>
-					{/* <Logo logoColor={'#2B2B2E'} /> */}
+					<Logo logoColor={'#2B2B2E'} />
 
 					<View>
 						<View style={styles.iconWrapper}>
@@ -64,7 +70,11 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 				<ScrollableMenuList menu={menuData} />
 
 				<View style={styles.galleryWrapper}>
-					<Gallery items={allCollection} navigateTo="AnimalProfileScreen" />
+					<Gallery
+						items={allCollection}
+						navigateTo="AnimalProfileScreen"
+						favoriteListId={favoriteIdList}
+					/>
 				</View>
 			</View>
 		</SafeAreaView>
