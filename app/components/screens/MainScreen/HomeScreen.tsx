@@ -5,6 +5,7 @@ import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Logo } from '~components/ui/Logo/Logo'
 import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenuList'
 import { menuData } from '~components/ui/ScrollableMenu/menu.data'
+import { Spinner } from '~components/ui/Spinner/Spinner'
 import { COLORS, CONTAINER } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
@@ -70,11 +71,15 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 				<ScrollableMenuList menu={menuData} />
 
 				<View style={styles.galleryWrapper}>
-					<Gallery
-						items={allCollection}
-						navigateTo="AnimalProfileScreen"
-						favoriteListId={favoriteIdList}
-					/>
+					{isLoading && !allCollection ? (
+						<Spinner />
+					) : (
+						<Gallery
+							items={allCollection}
+							navigateTo="AnimalProfileScreen"
+							favoriteListId={favoriteIdList}
+						/>
+					)}
 				</View>
 			</View>
 		</SafeAreaView>

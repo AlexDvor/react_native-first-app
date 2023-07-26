@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
+import { Spinner } from '~components/ui/Spinner/Spinner'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { CONTAINER } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
@@ -36,7 +37,7 @@ export const FavoriteScreen: FC = () => {
 
 	return (
 		<View style={styles.container}>
-			{isLoading ? <Text>...Loading</Text> : null}
+			{isLoading ? <Spinner /> : null}
 			{favoritesList?.length > 0 && !isLoading && (
 				<Gallery items={favoritesList} navigateTo="AnimalProfileScreen" />
 			)}

@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
+import { Spinner } from '~components/ui/Spinner/Spinner'
 import { CONTAINER } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
@@ -35,7 +36,7 @@ export const MyPetGalleryScreen: FC = () => {
 
 	return (
 		<View style={styles.container}>
-			{isLoading ? <Text>...Loading</Text> : null}
+			{isLoading ? <Spinner /> : null}
 			{petList?.length > 0 && !isLoading && (
 				<Gallery items={petList} navigateTo="AnimalProfileScreen" />
 			)}
