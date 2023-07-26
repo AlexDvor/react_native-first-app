@@ -50,7 +50,7 @@ export const MyPetGalleryScreen: FC = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		...CONTAINER.mainContainer,
+		marginHorizontal: 10,
 		flex: 1,
 		alignItems: 'center',
 	},

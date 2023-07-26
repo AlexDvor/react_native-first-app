@@ -15,6 +15,7 @@ export const HomeStackNavigator: FC = () => {
 			<Screen
 				name="AnimalProfileScreen"
 				component={AnimalProfileScreen}
+				options={{ headerShown: true, title: 'Animal' }}
 			></Screen>
 		</Navigator>
 	)

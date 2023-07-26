@@ -10,7 +10,11 @@ export const FavoriteStackNavigator: FC = () => {
 	const { Navigator, Screen } = FavoriteStack
 	return (
 		<Navigator screenOptions={{ headerShown: false }}>
-			<Screen name="FavoriteScreen" component={FavoriteScreen}></Screen>
+			<Screen
+				name="FavoriteScreen"
+				component={FavoriteScreen}
+				options={{ title: 'Favorites', headerShown: true }}
+			></Screen>
 			<Screen
 				name="AnimalProfileScreen"
 				component={AnimalProfileScreen}

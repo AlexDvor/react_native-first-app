@@ -25,7 +25,11 @@ export const ProfileStackNavigator: FC = () => {
 			initialRouteName="ProfileScreen"
 		>
 			<Screen name="ProfileScreen" component={ProfileScreen}></Screen>
-			<Screen name="MyPetGalleryScreen" component={MyPetGalleryScreen}></Screen>
+			<Screen
+				name="MyPetGalleryScreen"
+				component={MyPetGalleryScreen}
+				options={{ headerShown: true, title: 'My Animals' }}
+			></Screen>
 			<Screen
 				name="AnimalProfileScreen"
 				component={AnimalProfileScreen}
