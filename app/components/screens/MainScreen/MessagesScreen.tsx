@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { FC } from 'react'
-import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
+import uuid from 'react-native-uuid'
 import { MessageItem } from '~components/ui/MessageItem/MessageItem'
 import { CONTAINER } from '~constants/theme'
 import { messages } from '~data/messages'
@@ -16,7 +17,7 @@ export const MessagesScreen: FC = () => {
 			<View style={styles.container}>
 				<Text style={styles.titleScreen}>Messages</Text>
 				<FlatList
-					data={messages}
+					data={[]}
 					keyExtractor={(item) => item.id}
 					renderItem={({ item }) => (
 						<MessageItem user={item} handleOnPress={handlePress} />

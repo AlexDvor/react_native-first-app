@@ -22,16 +22,17 @@ type uploadImageAsyncParam = {
 	id: number
 }
 
-export const PATH_NAME_ITEMS = 'animals'
-export const PATH_NAME_USERS = 'users'
-export const PATH_OWN_ITEMS = 'ownAnimals'
-export const PATH_FAVORITE_ITEMS = 'favorites'
-export const PATH_CHAT = 'chats'
+export const PATH_COLLECTION_ANIMALS = 'animals'
+export const PATH_COLLECTION_USERS = 'users'
+export const PATH_COLLECTION_CHAT = 'chats'
+export const PATH_ITEM_OWM_ANIMALS = 'ownAnimals'
+export const PATH_ITEM_FAVORITE = 'favorites'
+export const PATH_ITEM_CHAT = 'chat'
 
 export const UserService = {
 	async getCollection(animalType: string) {
 		try {
-			const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
+			const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
 			let querySnapshot
 			if (animalType === 'All') {
 				querySnapshot = await getDocs(collectionRef)
@@ -69,9 +70,12 @@ export const UserService = {
 
 	async saveAnimalToGeneralColl(data: {}): Promise<string> {
 		try {
-			const docRef = await addDoc(collection(FIREBASE_DB, PATH_NAME_ITEMS), {
-				...data,
-			})
+			const docRef = await addDoc(
+				collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS),
+				{
+					...data,
+				}
+			)
 			return docRef.id
 		} catch (error) {
 			throw error
@@ -83,7 +87,7 @@ export const UserService = {
 			if (!animalId) {
 				throw new Error('Animal ID is required')
 			}
-			const docRef = doc(FIREBASE_DB, PATH_NAME_ITEMS, animalId)
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_ANIMALS, animalId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (!docSnapshot.exists()) {
@@ -133,7 +137,7 @@ export const UserService = {
 	async creatingOwnerProfile(userId: string): Promise<void> {
 		if (!userId) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			await setDoc(docRef, {})
 		} catch (error) {
 			throw error
@@ -144,9 +148,9 @@ export const UserService = {
 		if (!userId) return
 
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			await updateDoc(docRef, {
-				[PATH_OWN_ITEMS]: arrayUnion(itemId),
+				[PATH_ITEM_OWM_ANIMALS]: arrayUnion(itemId),
 			})
 		} catch (error) {
 			throw error
@@ -157,7 +161,7 @@ export const UserService = {
 		if (!userId) return
 
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -175,7 +179,7 @@ export const UserService = {
 	async getOwnColl(userId: string) {
 		if (!userId) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -183,7 +187,7 @@ export const UserService = {
 				const idList = userData?.ownAnimals || []
 
 				if (idList.length > 0) {
-					const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
+					const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
 					const querySnapshot = await getDocs(collectionRef)
 					const data = querySnapshot.docs
 						.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -205,7 +209,7 @@ export const UserService = {
 	): Promise<void> {
 		if (!userId) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -214,7 +218,7 @@ export const UserService = {
 
 				if (ownAnimalList.includes(itemId)) {
 					await updateDoc(docRef, {
-						[PATH_OWN_ITEMS]: arrayRemove(itemId),
+						[PATH_ITEM_OWM_ANIMALS]: arrayRemove(itemId),
 					})
 					await this.removeAnimalFromGeneralColl(itemId)
 					console.log('Animal removed from from Profile')
@@ -237,7 +241,7 @@ export const UserService = {
 		if (!userId) return
 
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -245,12 +249,12 @@ export const UserService = {
 				const idList = userData?.favorites || []
 				if (idList.includes(id)) {
 					await updateDoc(docRef, {
-						[PATH_FAVORITE_ITEMS]: arrayRemove(id),
+						[PATH_ITEM_FAVORITE]: arrayRemove(id),
 					})
 					console.log(`Remove animal with ${id} from favorite list `)
 				} else {
 					await updateDoc(docRef, {
-						[PATH_FAVORITE_ITEMS]: arrayUnion(id),
+						[PATH_ITEM_FAVORITE]: arrayUnion(id),
 					})
 					console.log(`Add animal with ${id} from favorite list `)
 				}
@@ -263,7 +267,7 @@ export const UserService = {
 	async getFavoriteListIds(userId: string) {
 		if (!userId) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -281,13 +285,13 @@ export const UserService = {
 	async getFavoriteColl(userId: string) {
 		if (!userId) return
 		try {
-			const userRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const userRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const userSnapshot = await getDoc(userRef)
 
 			if (userSnapshot.exists()) {
 				const idList = userSnapshot.data()?.favorites || []
 				if (idList.length > 0) {
-					const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
+					const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
 					const querySnapshot = await getDocs(collectionRef)
 					const data = querySnapshot.docs
 						.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -307,6 +311,64 @@ export const UserService = {
 	},
 
 	/////////// CHAT
+
+	async getChatIdList(userId: string) {
+		if (!userId) return
+
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docSnapshot = await getDoc(docRef)
+
+			if (docSnapshot.exists()) {
+				const userData = docSnapshot.data()
+				const idList = userData?.chat || []
+				return idList
+			} else {
+				throw new Error('You dont have id list')
+			}
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async saveChatIdToProfile(chatId: string, userId: string): Promise<void> {
+		if (!userId) return
+
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			await updateDoc(docRef, {
+				[PATH_ITEM_CHAT]: arrayUnion(chatId),
+			})
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async removeChatIdFromProfile(chatId: string, userId: string): Promise<void> {
+		if (!userId) return
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docSnapshot = await getDoc(docRef)
+
+			if (docSnapshot.exists()) {
+				const userData = docSnapshot.data()
+				const chatIdList = userData?.chat || []
+
+				if (chatIdList.includes(chatId)) {
+					await updateDoc(docRef, {
+						[PATH_ITEM_CHAT]: arrayRemove(chatId),
+					})
+					console.log('ChatId removed from from Profile')
+				} else {
+					console.log('Item ID not found in chatIdList')
+				}
+			} else {
+				throw new Error('User document not found')
+			}
+		} catch (error) {
+			throw error
+		}
+	},
 
 	async saveMessageToChat(
 		chatID: string,
@@ -353,7 +415,7 @@ export const UserService = {
 	// async deleteFieldFromProfile(fieldName: string): Promise<void> {
 	// 	if (!FIREBASE_PROFILE_ID) return
 	// 	try {
-	// 		const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+	// 		const docRef = doc(FIREBASE_DB, PATH_СOLLECTION_USERS, FIREBASE_PROFILE_ID)
 	// 		await updateDoc(docRef, {
 	// 			[fieldName]: deleteField(),
 	// 		})
@@ -368,7 +430,7 @@ export const UserService = {
 	// ): Promise<void> {
 	// 	if (!FIREBASE_PROFILE_ID) return
 	// 	try {
-	// 		const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, FIREBASE_PROFILE_ID)
+	// 		const docRef = doc(FIREBASE_DB, PATH_СOLLECTION_USERS, FIREBASE_PROFILE_ID)
 	// 		//delete obj with id from array
 	// 		await updateDoc(docRef, {
 	// 			animals: arrayRemove({ id: '2', name: 'Miki' }),

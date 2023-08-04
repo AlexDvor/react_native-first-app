@@ -7,213 +7,213 @@ import { ChatProps } from '~interfaces/message.navigation.types'
 // Fix message and onSend types
 //
 
-const messageData = [
-	{
-		_id: 1,
-		text: 'My message',
-		createdAt: new Date(),
-		user: {
-			_id: 1,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 2,
-		text: 'Your message',
-		createdAt: new Date(),
-		user: {
-			_id: 2,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 3,
-		text: 'My message',
-		createdAt: new Date(),
-		user: {
-			_id: 1,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 4,
-		text: 'Your message',
-		createdAt: new Date(),
-		user: {
-			_id: 2,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 5,
-		text: 'My message',
-		createdAt: new Date(),
-		user: {
-			_id: 1,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 6,
-		text: 'Your message',
-		createdAt: new Date(),
-		user: {
-			_id: 2,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 7,
-		text: 'My message',
-		createdAt: new Date(),
-		user: {
-			_id: 1,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 8,
-		text: 'Your message',
-		createdAt: new Date(),
-		user: {
-			_id: 2,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 9,
-		text: 'My message',
-		createdAt: new Date(),
-		user: {
-			_id: 1,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 10,
-		text: 'Your message',
-		createdAt: new Date(),
-		user: {
-			_id: 2,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 11,
-		text: 'My message',
-		createdAt: new Date(),
-		user: {
-			_id: 1,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 12,
-		text: 'Your message',
-		createdAt: new Date(),
-		user: {
-			_id: 2,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 13,
-		text: 'My message',
-		createdAt: new Date(),
-		user: {
-			_id: 1,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 14,
-		text: 'Your message',
-		createdAt: new Date(),
-		user: {
-			_id: 2,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 15,
-		text: 'My message',
-		createdAt: new Date(),
-		user: {
-			_id: 1,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 16,
-		text: 'Your message',
-		createdAt: new Date(),
-		user: {
-			_id: 2,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 17,
-		text: 'My message',
-		createdAt: new Date(),
-		user: {
-			_id: 1,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 18,
-		text: 'Your message',
-		createdAt: new Date(),
-		user: {
-			_id: 2,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 19,
-		text: 'My message',
-		createdAt: new Date(),
-		user: {
-			_id: 1,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-	{
-		_id: 20,
-		text: 'Your message',
-		createdAt: new Date(),
-		user: {
-			_id: 2,
-			name: 'React Native',
-			avatar: 'https://placeimg.com/140/140/any',
-		},
-	},
-]
+// const messageData = [
+// 	{
+// 		_id: 1,
+// 		text: 'My message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 1,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 2,
+// 		text: 'Your message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 2,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 3,
+// 		text: 'My message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 1,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 4,
+// 		text: 'Your message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 2,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 5,
+// 		text: 'My message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 1,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 6,
+// 		text: 'Your message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 2,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 7,
+// 		text: 'My message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 1,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 8,
+// 		text: 'Your message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 2,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 9,
+// 		text: 'My message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 1,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 10,
+// 		text: 'Your message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 2,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 11,
+// 		text: 'My message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 1,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 12,
+// 		text: 'Your message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 2,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 13,
+// 		text: 'My message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 1,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 14,
+// 		text: 'Your message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 2,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 15,
+// 		text: 'My message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 1,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 16,
+// 		text: 'Your message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 2,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 17,
+// 		text: 'My message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 1,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 18,
+// 		text: 'Your message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 2,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 19,
+// 		text: 'My message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 1,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// 	{
+// 		_id: 20,
+// 		text: 'Your message',
+// 		createdAt: new Date(),
+// 		user: {
+// 			_id: 2,
+// 			name: 'React Native',
+// 			avatar: 'https://placeimg.com/140/140/any',
+// 		},
+// 	},
+// ]
 
 export const ChatScreen: FC<ChatProps> = ({ route }) => {
 	// const userData = route.params.user
 	const [messages, setMessages] = useState<any[]>([])
-	useEffect(() => setMessages(messageData), [])
+	useEffect(() => setMessages([]), [])
 
 	const onSend = useCallback((messages = []) => {
 		setMessages((previousMessages) =>
