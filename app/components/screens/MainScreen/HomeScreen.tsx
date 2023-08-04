@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState, useCallback } from 'react'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Logo } from '~components/ui/Logo/Logo'
@@ -12,6 +12,7 @@ import { IAnimalsData } from '~interfaces/animals.types'
 import { UserService } from '~services/user/user.services'
 
 import { DefaultHomeProps } from '../../../interfaces/home.navigation.types'
+import { useFocusEffect } from '@react-navigation/native'
 
 export type TSelectedAnimalType = 'All' | 'Dog' | 'Cat'
 
@@ -22,46 +23,39 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 
 	const hasNotification = true
 	const [allCollection, setAllCollection] = useState<IAnimalsData[]>([])
-
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
-
 	const [isLoading, setIsLoading] = useState(false)
-
 	const [selectedAnimalType, setSelectedAnimalType] =
 	useState<TSelectedAnimalType>('All')
-	
 	const { user } = useAuth()
 	
 	const handleOnPressTypeMenu = (animalType: TSelectedAnimalType) =>
 	setSelectedAnimalType(animalType)
 	
-	
-	
+
 	const handleOnPressItem = () => {}
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			const fetchCollection = async () => {
-				if (!user?.id) return
-				try {
-					setIsLoading(true)
-					const allCollection = await UserService.getAllCollection()
-					const idFavoriteList = await UserService.getFavoriteListIds(user?.id)
-					setFavoriteIdList(idFavoriteList)
-					if (allCollection) {
-						setAllCollection(allCollection)
-					}
-				} catch (error) {
-					setAllCollection([])
-				} finally {
-					setIsLoading(false)
+	useFocusEffect(
+		useCallback(() => {
+		  const fetchCollection = async () => {
+			 if (!user?.id) return;
+			 try {
+				setIsLoading(true);
+				const allCollection = await UserService.getCollection(selectedAnimalType);
+				const idFavoriteList = await UserService.getFavoriteListIds(user?.id);
+				setFavoriteIdList(idFavoriteList);
+				if (allCollection) {
+				  setAllCollection(allCollection);
 				}
-			}
-			fetchCollection()
-		})
-
-		return unsubscribe
-	}, [])
+			 } catch (error) {
+				setAllCollection([]);
+			 } finally {
+				setIsLoading(false);
+			 }
+		  };
+		  fetchCollection();
+		}, [selectedAnimalType])
+	 );
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
@@ -88,7 +82,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 				/>
 
 				<View style={styles.galleryWrapper}>
-					{isLoading && !allCollection ? (
+					{isLoading  ? (
 						<Spinner />
 					) : (
 						<Gallery

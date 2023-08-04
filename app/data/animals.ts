@@ -21,7 +21,7 @@ export const dataAnimals: TAnimalsData[] = [
 			require('../assets/images/animals/Photo_2.png'),
 		],
 
-		type: 'dog',
+		type: 'Dog',
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles',
@@ -36,7 +36,7 @@ export const dataAnimals: TAnimalsData[] = [
 		name: 'Gary',
 		age: { year: 2023, month: 0, day: 1 },
 		imageUri: [require('../assets/images/animals/Photo_2.png')],
-		type: 'dog',
+		type: 'Cat',
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
@@ -51,7 +51,7 @@ export const dataAnimals: TAnimalsData[] = [
 		name: 'Wolf',
 		age: { year: 2022, month: 2, day: 24 },
 		imageUri: [require('../assets/images/animals/Photo_3.png')],
-		type: 'dog',
+		type: 'Cat',
 		breed: 'Samoyed',
 		description:
 			'My dog is incredibly and unconditionally loyal to me. He loves me as much as I love him or sometimes more.',
@@ -66,7 +66,7 @@ export const dataAnimals: TAnimalsData[] = [
 		name: 'Killer',
 		age: { year: 2022, month: 2, day: 24 },
 		imageUri: [require('../assets/images/animals/Photo_4.png')],
-		type: 'cat',
+		type: 'Dog',
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles',
@@ -80,7 +80,7 @@ export const dataAnimals: TAnimalsData[] = [
 		name: 'Peach',
 		age: { year: 2022, month: 2, day: 24 },
 		imageUri: [require('../assets/images/animals/Photo_5.png')],
-		type: 'cat',
+		type: 'Dog',
 		breed: 'Half-Breed',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
@@ -94,7 +94,7 @@ export const dataAnimals: TAnimalsData[] = [
 		name: 'Buggy',
 		age: { year: 2022, month: 2, day: 24 },
 		imageUri: [require('../assets/images/animals/Photo_6.png')],
-		type: 'cat',
+		type: 'Dog',
 		breed: 'Jack Russell terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
@@ -108,7 +108,7 @@ export const dataAnimals: TAnimalsData[] = [
 		name: 'Miki',
 		age: { year: 2022, month: 2, day: 24 },
 		imageUri: [require('../assets/images/animals/Photo_2.png')],
-		type: 'cat',
+		type: 'Cat',
 		breed: 'British Longhair',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
@@ -123,7 +123,7 @@ export const dataAnimals: TAnimalsData[] = [
 		name: 'Gary',
 		age: { year: 2022, month: 2, day: 24 },
 		imageUri: [require('../assets/images/animals/Photo_1.png')],
-		type: 'dog',
+		type: 'Dog',
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
@@ -138,7 +138,7 @@ export const dataAnimals: TAnimalsData[] = [
 		name: 'Wolf',
 		age: { year: 2022, month: 2, day: 24 },
 		imageUri: [require('../assets/images/animals/Photo_5.png')],
-		type: 'dog',
+		type: 'Dog',
 		breed: 'Samoyed',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',
@@ -153,7 +153,7 @@ export const dataAnimals: TAnimalsData[] = [
 		name: 'Killer',
 		age: { year: 2022, month: 2, day: 24 },
 		imageUri: [require('../assets/images/animals/Photo_6.png')],
-		type: 'cat',
+		type: 'Dog',
 		breed: 'Australian Terrier',
 		description:
 			'The kindest Samoyed weve ever met. Likes to play with balls, is friends with other animals. Despite the white color, he loves rain and puddles.',

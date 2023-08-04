@@ -12,6 +12,7 @@ import {
 	getDocs,
 	setDoc,
 	updateDoc,
+	query, where
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
@@ -28,36 +29,46 @@ export const PATH_OWN_ITEMS = 'ownAnimals'
 export const PATH_FAVORITE_ITEMS = 'favorites'
 
 export const UserService = {
-	async getAllCollection() {
+	
+	async getCollection(animalType: string) {
+		
 		try {
-			const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
-			const querySnapshot = await getDocs(collectionRef)
-			const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
-				const docData = doc.data()
-				const docId = doc.id
-				const formattedData: IAnimalsData = {
-					id: docId,
-					name: docData.name || '',
-					color: docData.color || '',
-					age: docData.age || { year: 0, month: 0, day: 0 },
-					breed: docData.breed || '',
-					imageUri: docData.imageUri || [],
-					type: docData.type || '',
-					description: docData.description || '',
-					gender: docData.gender || '',
-					weight: docData.weight || 0,
-					vaccine: docData.vaccine || false,
-					owner: docData.owner || {},
-					...docData,
-				}
-				return formattedData
-			})
-
-			return data
+		  const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS);
+		  let querySnapshot;
+		  if (animalType === "All") {
+			 querySnapshot = await getDocs(collectionRef);
+		  } else {
+			 const q = query(collectionRef, where("type", "==", animalType));
+			 querySnapshot = await getDocs(q);
+		  }
+	 
+		  const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
+			 const docData = doc.data();
+			 const docId = doc.id;
+			 const formattedData: IAnimalsData = {
+				id: docId,
+				name: docData.name || "",
+				color: docData.color || "",
+				age: docData.age || { year: 0, month: 0, day: 0 },
+				breed: docData.breed || "",
+				imageUri: docData.imageUri || [],
+				type: docData.type || "",
+				description: docData.description || "",
+				gender: docData.gender || "",
+				weight: docData.weight || 0,
+				vaccine: docData.vaccine || false,
+				owner: docData.owner || {},
+				...docData,
+			 };
+			 return formattedData;
+		  });
+	 
+		  
+		  return data;
 		} catch (error) {
-			return []
+		  return [];
 		}
-	},
+	 },
 
 	async saveAnimalToGeneralColl(data: {}): Promise<string> {
 		try {
