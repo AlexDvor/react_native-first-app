@@ -1,18 +1,17 @@
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
 import {
-	DocumentData,
 	addDoc,
 	arrayRemove,
 	arrayUnion,
 	collection,
 	deleteDoc,
-	deleteField,
 	doc,
 	getDoc,
 	getDocs,
+	query,
 	setDoc,
 	updateDoc,
-	query, where
+	where,
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
@@ -27,48 +26,46 @@ export const PATH_NAME_ITEMS = 'animals'
 export const PATH_NAME_USERS = 'users'
 export const PATH_OWN_ITEMS = 'ownAnimals'
 export const PATH_FAVORITE_ITEMS = 'favorites'
+export const PATH_CHAT = 'chats'
 
 export const UserService = {
-	
 	async getCollection(animalType: string) {
-		
 		try {
-		  const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS);
-		  let querySnapshot;
-		  if (animalType === "All") {
-			 querySnapshot = await getDocs(collectionRef);
-		  } else {
-			 const q = query(collectionRef, where("type", "==", animalType));
-			 querySnapshot = await getDocs(q);
-		  }
-	 
-		  const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
-			 const docData = doc.data();
-			 const docId = doc.id;
-			 const formattedData: IAnimalsData = {
-				id: docId,
-				name: docData.name || "",
-				color: docData.color || "",
-				age: docData.age || { year: 0, month: 0, day: 0 },
-				breed: docData.breed || "",
-				imageUri: docData.imageUri || [],
-				type: docData.type || "",
-				description: docData.description || "",
-				gender: docData.gender || "",
-				weight: docData.weight || 0,
-				vaccine: docData.vaccine || false,
-				owner: docData.owner || {},
-				...docData,
-			 };
-			 return formattedData;
-		  });
-	 
-		  
-		  return data;
+			const collectionRef = collection(FIREBASE_DB, PATH_NAME_ITEMS)
+			let querySnapshot
+			if (animalType === 'All') {
+				querySnapshot = await getDocs(collectionRef)
+			} else {
+				const q = query(collectionRef, where('type', '==', animalType))
+				querySnapshot = await getDocs(q)
+			}
+
+			const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
+				const docData = doc.data()
+				const docId = doc.id
+				const formattedData: IAnimalsData = {
+					id: docId,
+					name: docData.name || '',
+					color: docData.color || '',
+					age: docData.age || { year: 0, month: 0, day: 0 },
+					breed: docData.breed || '',
+					imageUri: docData.imageUri || [],
+					type: docData.type || '',
+					description: docData.description || '',
+					gender: docData.gender || '',
+					weight: docData.weight || 0,
+					vaccine: docData.vaccine || false,
+					owner: docData.owner || {},
+					...docData,
+				}
+				return formattedData
+			})
+
+			return data
 		} catch (error) {
-		  return [];
+			return []
 		}
-	 },
+	},
 
 	async saveAnimalToGeneralColl(data: {}): Promise<string> {
 		try {
@@ -309,7 +306,49 @@ export const UserService = {
 		}
 	},
 
-	///////////
+	/////////// CHAT
+
+	async saveMessageToChat(
+		chatID: string,
+		message: { text: string; sender: string }
+	): Promise<string> {
+		try {
+			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
+			const messagesRef = collection(chatRef, 'messages')
+			const docRef = await addDoc(messagesRef, {
+				text: message.text,
+				sender: message.sender,
+				createdAt: new Date(),
+			})
+			return docRef.id
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async getChatMessages(
+		chatID: string
+	): Promise<{ id: string; text: string; sender: string; createdAt: Date }[]> {
+		try {
+			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
+			const messagesRef = collection(chatRef, 'messages')
+			const querySnapshot = await getDocs(messagesRef)
+			const messages = querySnapshot.docs.map((doc) => {
+				const docData = doc.data()
+				return {
+					id: doc.id,
+					text: docData.text || '',
+					sender: docData.sender || '',
+					createdAt: docData.createdAt
+						? docData.createdAt.toDate()
+						: new Date(0),
+				}
+			})
+			return messages
+		} catch (error) {
+			throw error
+		}
+	},
 
 	// async deleteFieldFromProfile(fieldName: string): Promise<void> {
 	// 	if (!FIREBASE_PROFILE_ID) return
