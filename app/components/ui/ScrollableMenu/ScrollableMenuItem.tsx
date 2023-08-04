@@ -1,16 +1,30 @@
 import { FC } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { TSelectedAnimalType } from '~components/screens/MainScreen/HomeScreen'
 
 import { IMenuData } from './menu.data'
 
 interface IScrollableMenuItem {
 	itemMenu: IMenuData
+	onPressTypeMenu: (animalType: TSelectedAnimalType) => void
+	selectedAnimalType: string
 }
 
-export const ScrollableMenuItem: FC<IScrollableMenuItem> = ({ itemMenu }) => {
+export const ScrollableMenuItem: FC<IScrollableMenuItem> = ({
+	itemMenu,
+	onPressTypeMenu,
+	selectedAnimalType,
+}) => {
+	
+	
+	
+
 	return (
 		<>
-			<TouchableOpacity style={styles.container}>
+			<TouchableOpacity
+				style={[styles.container, selectedAnimalType===itemMenu.title && styles.activeBtn]}
+				onPress={() => onPressTypeMenu(itemMenu.title)}
+			>
 				<Image source={itemMenu.image} style={styles.image}></Image>
 				<Text>{itemMenu.title}</Text>
 			</TouchableOpacity>
@@ -35,4 +49,8 @@ const styles = StyleSheet.create({
 		height: 32,
 		marginRight: 8,
 	},
+	activeBtn:{
+		backgroundColor:"#F2968F",
+		borderWidth:0
+	}
 })

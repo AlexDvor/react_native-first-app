@@ -54,7 +54,9 @@ export const UserService = {
 			})
 
 			return data
-		} catch (error) {}
+		} catch (error) {
+			return []
+		}
 	},
 
 	async saveAnimalToGeneralColl(data: {}): Promise<string> {

@@ -13,17 +13,30 @@ import { UserService } from '~services/user/user.services'
 
 import { DefaultHomeProps } from '../../../interfaces/home.navigation.types'
 
+export type TSelectedAnimalType = 'All' | 'Dog' | 'Cat'
+
 export const HomeScreen: FC<DefaultHomeProps> = ({
 	route,
 	navigation,
 }: DefaultHomeProps) => {
-	const [hasNotification, setHasNotification] = useState(true)
-	const [allCollection, setAllCollection] = useState<IAnimalsData[]>([])
-	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
-	const [isLoading, setIsLoading] = useState(false)
-	const { user } = useAuth()
 
-	const handleOnPressTypeMenu = () => {}
+	const hasNotification = true
+	const [allCollection, setAllCollection] = useState<IAnimalsData[]>([])
+
+	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
+
+	const [isLoading, setIsLoading] = useState(false)
+
+	const [selectedAnimalType, setSelectedAnimalType] =
+	useState<TSelectedAnimalType>('All')
+	
+	const { user } = useAuth()
+	
+	const handleOnPressTypeMenu = (animalType: TSelectedAnimalType) =>
+	setSelectedAnimalType(animalType)
+	
+	
+	
 	const handleOnPressItem = () => {}
 
 	useEffect(() => {
@@ -68,7 +81,11 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 						)}
 					</View>
 				</View>
-				<ScrollableMenuList menu={menuData} />
+				<ScrollableMenuList
+					menu={menuData}
+					onPressTypeMenu={handleOnPressTypeMenu}
+					selectedAnimalType={selectedAnimalType}
+				/>
 
 				<View style={styles.galleryWrapper}>
 					{isLoading && !allCollection ? (
