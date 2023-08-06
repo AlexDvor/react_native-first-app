@@ -1,5 +1,6 @@
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import React, { FC, useRef, useState } from 'react'
 import {
 	Image,
@@ -15,6 +16,11 @@ import { widthScreenDevice } from '~constants/theme'
 import calculateAge from '~helper/number/calculateAgeInYears'
 import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
+import { HomeRootStackParamList } from '~interfaces/home.navigation.types'
+import {
+	MessageNavigationComponent,
+	MessageRootStackParamList,
+} from '~interfaces/message.navigation.types'
 import { UserService } from '~services/user/user.services'
 
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
@@ -31,6 +37,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const { user } = useAuth()
 	const scrollCurrentRef = useRef(null)
+	const { navigate } = useNavigation<MessageNavigationComponent>()
 	const sizeIcon = 18
 	const dayOfBirthday = item.age.day
 	const monthOfBirthday = item.age.month
@@ -115,6 +122,9 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 						>
 							{!isOwnerCard && (
 								<TouchableOpacity
+									onPress={() =>
+										navigate('ChatScreen', { user: item.owner.id })
+									}
 									style={{
 										width: 45,
 										height: 45,
