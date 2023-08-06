@@ -9,6 +9,7 @@ import {
 	getDoc,
 	getDocs,
 	query,
+	serverTimestamp,
 	setDoc,
 	updateDoc,
 	where,
@@ -377,11 +378,14 @@ export const UserService = {
 		try {
 			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
 			const messagesRef = collection(chatRef, 'messages')
-			const docRef = await addDoc(messagesRef, {
+
+			const newMessage = {
 				text: message.text,
 				sender: message.sender,
-				createdAt: new Date(),
-			})
+				createdAt: serverTimestamp(),
+			}
+
+			const docRef = await addDoc(messagesRef, newMessage)
 			return docRef.id
 		} catch (error) {
 			throw error
