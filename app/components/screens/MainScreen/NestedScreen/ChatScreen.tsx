@@ -211,8 +211,10 @@ import { ChatProps } from '~interfaces/message.navigation.types'
 // ]
 
 export const ChatScreen: FC<ChatProps> = ({ route }) => {
-	// const userData = route.params.user
 	const [messages, setMessages] = useState<any[]>([])
+	console.log('❌ ~ messages:', messages)
+	const interlocutorId = route.params.user
+
 	useEffect(() => setMessages([]), [])
 
 	const onSend = useCallback((messages = []) => {
