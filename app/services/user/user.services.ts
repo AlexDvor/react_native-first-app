@@ -22,6 +22,15 @@ type uploadImageAsyncParam = {
 	uri: string
 	id: number
 }
+interface Message {
+	text: string
+	sender: string
+}
+
+interface ChatMessage extends Message {
+	id: string
+	createdAt: Date
+}
 
 export const PATH_COLLECTION_ANIMALS = 'animals'
 export const PATH_COLLECTION_USERS = 'users'
@@ -373,28 +382,33 @@ export const UserService = {
 
 	async saveMessageToChat(
 		chatID: string,
-		message: { text: string; sender: string }
+		interlocutorId: string,
+		message: Message
 	): Promise<string> {
 		try {
 			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
-			const messagesRef = collection(chatRef, 'messages')
-
-			const newMessage = {
+			const messageData = {
 				text: message.text,
 				sender: message.sender,
 				createdAt: serverTimestamp(),
 			}
 
-			const docRef = await addDoc(messagesRef, newMessage)
+			const participantsData = {
+				participants: [message.sender, interlocutorId],
+			}
+
+			await setDoc(chatRef, participantsData, { merge: true }) //
+
+			const messagesRef = collection(chatRef, 'messages')
+			const docRef = await addDoc(messagesRef, messageData)
+
 			return docRef.id
 		} catch (error) {
 			throw error
 		}
 	},
 
-	async getChatMessages(
-		chatID: string
-	): Promise<{ id: string; text: string; sender: string; createdAt: Date }[]> {
+	async getChatMessages(chatID: string): Promise<ChatMessage[]> {
 		try {
 			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
 			const messagesRef = collection(chatRef, 'messages')

@@ -57,6 +57,10 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	}
 	const submitAdoptForm = async () => {}
 
+	// const handleChatPress = () => navigate('ChatScreen', { user: item.owner.id })
+
+	const handleChatPress = () => navigate('ChatScreen', { user: item.owner.id })
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<ScrollView ref={scrollCurrentRef} style={{}}>
@@ -122,9 +126,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 						>
 							{!isOwnerCard && (
 								<TouchableOpacity
-									onPress={() =>
-										navigate('ChatScreen', { user: item.owner.id })
-									}
+									onPress={handleChatPress}
 									style={{
 										width: 45,
 										height: 45,
