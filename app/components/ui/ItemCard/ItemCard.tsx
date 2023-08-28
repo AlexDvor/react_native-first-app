@@ -59,7 +59,12 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 
 	// const handleChatPress = () => navigate('ChatScreen', { user: item.owner.id })
 
-	const handleChatPress = () => navigate('ChatScreen', { user: item.owner.id })
+	const handleChatPress = async () => {
+		try {
+			const chatId = await UserService.createChat(user?.id || '', item.owner.id)
+			navigate('ChatScreen', { chatId })
+		} catch (error) {}
+	}
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>

@@ -144,11 +144,11 @@ export const UserService = {
 
 	//////// removing and adding own animals to own animal list
 
-	async creatingOwnerProfile(userId: string): Promise<void> {
+	async creatingOwnerProfile(userId: string, name: string): Promise<void> {
 		if (!userId) return
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
-			await setDoc(docRef, {})
+			await setDoc(docRef, { name: name, avatar: '' })
 		} catch (error) {
 			throw error
 		}
@@ -380,9 +380,28 @@ export const UserService = {
 		}
 	},
 
+	async createChat(senderId: string, receiverId: string): Promise<string> {
+		try {
+			const participants = [senderId, receiverId]
+			const chatRef = doc(FIREBASE_DB, 'chats', senderId + '_' + receiverId)
+
+			const chatData = {
+				participants,
+			}
+
+			await setDoc(chatRef, chatData)
+
+			await this.saveChatIdToProfile(chatRef.id, senderId)
+
+			return chatRef.id
+		} catch (error) {
+			throw error
+		}
+	},
+
 	async saveMessageToChat(
 		chatID: string,
-		interlocutorId: string,
+
 		message: Message
 	): Promise<string> {
 		try {
@@ -392,12 +411,6 @@ export const UserService = {
 				sender: message.sender,
 				createdAt: serverTimestamp(),
 			}
-
-			const participantsData = {
-				participants: [message.sender, interlocutorId],
-			}
-
-			await setDoc(chatRef, participantsData, { merge: true }) //
 
 			const messagesRef = collection(chatRef, 'messages')
 			const docRef = await addDoc(messagesRef, messageData)

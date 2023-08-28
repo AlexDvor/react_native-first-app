@@ -19,20 +19,16 @@ interface IMessage {
 export const ChatScreen: FC<ChatProps> = ({ route }) => {
 	const { user } = useAuth()
 	const [messages, setMessages] = useState<IMessage[]>([])
-	const interlocutorId = route.params.user
-	console.log('current User', user?.id)
+	const chatId = route.params.chatId
+	console.log('❌ ~ chatId:', chatId)
 
 	const onSend = useCallback(async (newMessages: IMessage[] = []) => {
 		const newMessagesData = await Promise.all(
 			newMessages.map(async (message) => {
-				const messageId = await UserService.saveMessageToChat(
-					user?.id || '',
-					interlocutorId,
-					{
-						text: message.text,
-						sender: message.user._id,
-					}
-				)
+				const messageId = await UserService.saveMessageToChat(chatId, {
+					text: message.text,
+					sender: message.user._id,
+				})
 
 				return {
 					_id: messageId,

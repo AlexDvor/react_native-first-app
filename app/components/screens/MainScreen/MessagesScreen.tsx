@@ -25,7 +25,7 @@ export const MessagesScreen: FC = () => {
 				const chatIdList = await UserService.getChatIdList(userId)
 
 				const chatList = await Promise.all(
-					chatIdList.map(async (chatId) => {
+					chatIdList.map(async (chatId: string) => {
 						const messages = await UserService.getChatMessages(chatId)
 						return {
 							id: chatId,

@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { FC } from 'react'
+import { ChatScreen } from '~components/screens/MainScreen/NestedScreen/ChatScreen'
 
 import { HomeScreen } from '../components/screens/MainScreen/HomeScreen'
 import { AnimalProfileScreen } from '../components/screens/MainScreen/NestedScreen/AnimalProfileScreen'
@@ -17,6 +18,7 @@ export const HomeStackNavigator: FC = () => {
 				component={AnimalProfileScreen}
 				options={{ headerShown: true, title: 'Animal' }}
 			></Screen>
+			<Screen name="ChatScreen" component={ChatScreen}></Screen>
 		</Navigator>
 	)
 }

@@ -2,7 +2,7 @@ import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 
 export type MessageRootStackParamList = {
 	MessageScreen: undefined
-	ChatScreen: { user: string }
+	ChatScreen: { chatId: string }
 }
 
 export type ChatProps = StackScreenProps<
