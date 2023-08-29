@@ -8,15 +8,16 @@ import { Spinner } from '~components/ui/Spinner/Spinner'
 import { CONTAINER } from '~constants/theme'
 import { messages } from '~data/messages'
 import { useAuth } from '~hooks/useAuth'
+import { IMessageList } from '~interfaces/message.types'
 import { UserService } from '~services/user/user.services'
 
 import { MessageNavigationComponent } from '../../../interfaces/message.navigation.types'
 
 export const MessagesScreen: FC = () => {
-	const [chats, setChats] = useState<any[]>([])
+	const [isLoading, setIsLoading] = useState<boolean>(false)
+	const [chats, setChats] = useState<IMessageList[]>([])
 	const { user } = useAuth()
 	const navigation = useNavigation<MessageNavigationComponent>()
-	const [isLoading, setIsLoading] = useState<boolean>(false)
 
 	const handlePress = (id: string) =>
 		navigation.navigate('ChatScreen', { chatId: id })
@@ -33,6 +34,7 @@ export const MessagesScreen: FC = () => {
 					const chatList = await Promise.all(
 						chatIdList.map(async (chatId: string) => {
 							const messages = await UserService.getChatMessages(chatId)
+							console.log('❌ ~ messages:', messages)
 							const firstMessage = messages[0]
 
 							const messageTimeDistance = formatDistanceToNow(
@@ -42,7 +44,7 @@ export const MessagesScreen: FC = () => {
 
 							return {
 								id: chatId,
-								messageText: messages[0].text,
+								messageText: messages[messages.length - 1].text,
 								messageTime: messageTimeDistance,
 								userImg: '',
 								userName: 'test',

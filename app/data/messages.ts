@@ -1,6 +1,4 @@
-import { TMessage } from '~interfaces/message.types'
-
-export const messages: TMessage[] = [
+export const messages = [
 	{
 		id: '1',
 		userName: 'Jenny Doe',

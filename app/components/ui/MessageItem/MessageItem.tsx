@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { TMessage } from '~interfaces/message.types'
+import { IMessageList } from '~interfaces/message.types'
 
 interface MessageItemProps {
-	user: TMessage
+	user: IMessageList
 	handleOnPress: (arg: string) => void
 }
 

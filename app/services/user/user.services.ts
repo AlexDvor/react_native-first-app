@@ -8,6 +8,7 @@ import {
 	doc,
 	getDoc,
 	getDocs,
+	orderBy,
 	query,
 	serverTimestamp,
 	setDoc,
@@ -15,8 +16,10 @@ import {
 	where,
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import uuid from 'react-native-uuid'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { IAnimalsData } from '~interfaces/animals.types'
+import { IChatScreenMessage, IMessageList } from '~interfaces/message.types'
 import { IUserData } from '~interfaces/user.types'
 
 type uploadImageAsyncParam = {
@@ -427,15 +430,17 @@ export const UserService = {
 
 	async saveMessageToChat(
 		chatID: string,
-
-		message: Message
+		message: Message,
+		senderId: string
 	): Promise<string> {
 		try {
 			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
 			const messageData = {
+				_id: uuid.v4(),
 				text: message.text,
 				sender: message.sender,
 				createdAt: serverTimestamp(),
+				user: { _id: senderId, avatar: 'https://placeimg.com/140/140/any' },
 			}
 
 			const messagesRef = collection(chatRef, 'messages')
@@ -447,47 +452,57 @@ export const UserService = {
 		}
 	},
 
-	async getChatMessages(chatID: string): Promise<IChatMessage[]> {
+	// async getChatMessages(chatID: string): Promise<IChatScreenMessage[]> {
+	// 	try {
+	// 		const chatRef = doc(FIREBASE_DB, 'chats', chatID)
+	// 		const messagesRef = collection(chatRef, 'messages')
+	// 		const querySnapshot = await getDocs(messagesRef)
+	// 		const messages = querySnapshot.docs.map((doc) => {
+	// 			const docData = doc.data()
+	// 			return {
+	// 				_id: doc.id,
+	// 				text: docData.text || '',
+	// 				sender: docData.sender || '',
+	// 				createdAt: docData.createdAt
+	// 					? docData.createdAt.toDate()
+	// 					: new Date(0),
+	// 				user: {
+	// 					_id: docData.sender || '',
+	// 					avatar: docData.user.avatar,
+	// 				},
+	// 			}
+	// 		})
+
+	// 		return messages
+	// 	} catch (error) {
+	// 		throw error
+	// 	}
+	// },
+
+	async getChatMessages(chatID: string): Promise<IChatScreenMessage[]> {
 		try {
 			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
 			const messagesRef = collection(chatRef, 'messages')
-			const querySnapshot = await getDocs(messagesRef)
-			const messages = querySnapshot.docs.map((doc) => {
+			const q = query(messagesRef, orderBy('createdAt')) // Створення запиту з сортуванням за полем 'createdAt'
+
+			const querySnapshot = await getDocs(q) // Отримання результатів запиту
+			const messages = querySnapshot.docs.map((doc): IChatScreenMessage => {
 				const docData = doc.data()
 				return {
-					id: doc.id,
+					_id: doc.id,
 					text: docData.text || '',
 					sender: docData.sender || '',
 					createdAt: docData.createdAt
 						? docData.createdAt.toDate()
 						: new Date(0),
+					user: {
+						_id: docData.sender || '',
+						avatar: docData.user.avatar,
+					},
 				}
 			})
 
-			return messages
-		} catch (error) {
-			throw error
-		}
-	},
-
-	async getProfileMessages(chatID: string): Promise<IChatMessage[]> {
-		try {
-			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
-			const messagesRef = collection(chatRef, 'participants')
-			const querySnapshot = await getDocs(messagesRef)
-			const messages = querySnapshot.docs.map((doc) => {
-				const docData = doc.data()
-				return {
-					id: doc.id,
-					text: docData.text || '',
-					sender: docData.sender || '',
-					createdAt: docData.createdAt
-						? docData.createdAt.toDate()
-						: new Date(0),
-				}
-			})
-			console.log('❌ ~ messages:', messages)
-			return messages
+			return messages.reverse()
 		} catch (error) {
 			throw error
 		}
