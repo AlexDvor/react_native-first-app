@@ -1,8 +1,10 @@
 export interface IUserProfile {
 	id: string
 	name: string
-	avatar: string | null
+	avatar: string | null | undefined
 }
+
+export type IUserData = Pick<IUserProfile, 'avatar' | 'name'>
 
 export interface IUserInitialState {
 	user: IUserProfile | null

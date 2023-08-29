@@ -17,6 +17,7 @@ import {
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { IAnimalsData } from '~interfaces/animals.types'
+import { IUserData } from '~interfaces/user.types'
 
 type uploadImageAsyncParam = {
 	uri: string
@@ -26,10 +27,12 @@ interface Message {
 	text: string
 	sender: string
 }
-
 interface ChatMessage extends Message {
 	id: string
 	createdAt: Date
+}
+interface IOwnerData extends IUserData {
+	userId: string
 }
 
 export const PATH_COLLECTION_ANIMALS = 'animals'
@@ -40,6 +43,22 @@ export const PATH_ITEM_FAVORITE = 'favorites'
 export const PATH_ITEM_CHAT = 'chat'
 
 export const UserService = {
+	// async  getUserData(userId: string) {
+	//   try {
+	//     const userDocRef = doc(FIREBASE_DB, 'users', userId);
+	//     const userDocSnapshot = await getDoc(userDocRef);
+
+	//     if (userDocSnapshot.exists()) {
+	//       const userData = userDocSnapshot.data();
+	//       return userData;
+	//     } else {
+	//       throw new Error('User not found');
+	//     }
+	//   } catch (error) {
+	//     throw error;
+	//   }
+	// },
+
 	async getCollection(animalType: string) {
 		try {
 			const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
@@ -144,11 +163,12 @@ export const UserService = {
 
 	//////// removing and adding own animals to own animal list
 
-	async creatingOwnerProfile(userId: string, name: string): Promise<void> {
+	async creatingOwnerProfile(userData: IOwnerData): Promise<void> {
+		const { userId, avatar, name } = userData
 		if (!userId) return
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
-			await setDoc(docRef, { name: name, avatar: '' })
+			await setDoc(docRef, { name, avatar })
 		} catch (error) {
 			throw error
 		}
