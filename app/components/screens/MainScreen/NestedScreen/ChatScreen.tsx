@@ -4,7 +4,7 @@ import { StatusBar, StyleSheet, View } from 'react-native'
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat'
 import { useAuth } from '~hooks/useAuth'
 import { ChatProps } from '~interfaces/message.navigation.types'
-import { UserService } from '~services/user/user.services'
+import { IChatMessage, UserService } from '~services/user/user.services'
 
 interface IMessage {
 	_id: string
@@ -18,11 +18,25 @@ interface IMessage {
 
 export const ChatScreen: FC<ChatProps> = ({ route }) => {
 	const { user } = useAuth()
-	const [messages, setMessages] = useState<IMessage[]>([])
-	const chatId = route.params.chatId
-	console.log('❌ ~ chatId:', chatId)
+	const [messages, setMessages] = useState<IChatMessage[]>([])
+	console.log('❌ ~ messfages:', messages)
 
-	const onSend = useCallback(async (newMessages: IMessage[] = []) => {
+	const chatId = route.params.chatId
+
+	useEffect(() => {
+		const fetchChatMessages = async () => {
+			try {
+				const fetchedMessages = await UserService.getChatMessages(chatId)
+				setMessages(fetchedMessages)
+			} catch (error) {
+				console.error('Error fetching chat messages:', error)
+			}
+		}
+
+		fetchChatMessages()
+	}, [])
+
+	const onSend = useCallback(async (newMessages: IChatMessage[] = []) => {
 		const newMessagesData = await Promise.all(
 			newMessages.map(async (message) => {
 				const messageId = await UserService.saveMessageToChat(chatId, {

@@ -8,23 +8,31 @@ interface MessageItemProps {
 }
 
 export const MessageItem: FC<MessageItemProps> = ({ user, handleOnPress }) => {
+	const { id, messageText, messageTime, userImg, userName } = user
 	return (
 		<TouchableOpacity
 			style={styles.container}
-			onPress={() => handleOnPress(user.id)}
+			onPress={() => handleOnPress(id)}
 		>
 			<View style={styles.userInfo}>
 				<View style={styles.userImageWrapper}>
-					<Image style={styles.userImage} source={user.userImg} />
+					{userImg ? (
+						<Image style={styles.userImage} source={userImg} />
+					) : (
+						<Image
+							style={styles.userImage}
+							source={require('../../../assets/images/default_user.png')}
+						/>
+					)}
 				</View>
 
 				<View style={styles.textSection}>
 					<View style={styles.userInfoText}>
-						<Text style={styles.userName}>{user.userName}</Text>
-						<Text style={styles.postTime}>{user.messageTime}</Text>
+						<Text style={styles.userName}>{userName}</Text>
+						<Text style={styles.postTime}>{messageTime}</Text>
 					</View>
 
-					<Text style={styles.messageText}>{user.messageText}</Text>
+					<Text style={styles.messageText}>{messageText}</Text>
 				</View>
 			</View>
 		</TouchableOpacity>

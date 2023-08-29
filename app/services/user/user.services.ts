@@ -27,9 +27,10 @@ interface Message {
 	text: string
 	sender: string
 }
-interface ChatMessage extends Message {
-	id: string
+export interface IChatMessage extends Message {
+	_id: string
 	createdAt: Date
+	user: { _id: string }
 }
 interface IOwnerData extends IUserData {
 	userId: string
@@ -361,14 +362,19 @@ export const UserService = {
 		}
 	},
 
-	async saveChatIdToProfile(chatId: string, userId: string): Promise<void> {
-		if (!userId) return
+	async saveChatIdToProfile(
+		chatId: string,
+		senderId: string,
+		receiverId: string
+	): Promise<void> {
+		if (!senderId) return
 
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
-			await updateDoc(docRef, {
-				[PATH_ITEM_CHAT]: arrayUnion(chatId),
-			})
+			const senderDocRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, senderId)
+			const receiverDocRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, receiverId)
+
+			await updateDoc(senderDocRef, { [PATH_ITEM_CHAT]: arrayUnion(chatId) })
+			await updateDoc(receiverDocRef, { [PATH_ITEM_CHAT]: arrayUnion(chatId) })
 		} catch (error) {
 			throw error
 		}
@@ -411,7 +417,7 @@ export const UserService = {
 
 			await setDoc(chatRef, chatData)
 
-			await this.saveChatIdToProfile(chatRef.id, senderId)
+			await this.saveChatIdToProfile(chatRef.id, senderId, receiverId)
 
 			return chatRef.id
 		} catch (error) {
@@ -441,7 +447,7 @@ export const UserService = {
 		}
 	},
 
-	async getChatMessages(chatID: string): Promise<ChatMessage[]> {
+	async getChatMessages(chatID: string): Promise<IChatMessage[]> {
 		try {
 			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
 			const messagesRef = collection(chatRef, 'messages')
@@ -457,6 +463,30 @@ export const UserService = {
 						: new Date(0),
 				}
 			})
+
+			return messages
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async getProfileMessages(chatID: string): Promise<IChatMessage[]> {
+		try {
+			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
+			const messagesRef = collection(chatRef, 'participants')
+			const querySnapshot = await getDocs(messagesRef)
+			const messages = querySnapshot.docs.map((doc) => {
+				const docData = doc.data()
+				return {
+					id: doc.id,
+					text: docData.text || '',
+					sender: docData.sender || '',
+					createdAt: docData.createdAt
+						? docData.createdAt.toDate()
+						: new Date(0),
+				}
+			})
+			console.log('❌ ~ messages:', messages)
 			return messages
 		} catch (error) {
 			throw error

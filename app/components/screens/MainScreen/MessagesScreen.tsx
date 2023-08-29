@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
+import { formatDistanceToNow } from 'date-fns'
 import { FC, useEffect, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import uuid from 'react-native-uuid'
@@ -12,10 +13,10 @@ import { MessageNavigationComponent } from '../../../interfaces/message.navigati
 
 export const MessagesScreen: FC = () => {
 	const [chats, setChats] = useState<any[]>([])
-	console.log('❌ ~ chats:', chats)
+
 	const { user } = useAuth()
 	const { navigate } = useNavigation<MessageNavigationComponent>()
-	const handlePress = (id: string) => navigate('ChatScreen', { user: id })
+	const handlePress = (id: string) => navigate('ChatScreen', { chatId: id })
 
 	useEffect(() => {
 		const fetchChatData = async () => {
@@ -27,15 +28,24 @@ export const MessagesScreen: FC = () => {
 				const chatList = await Promise.all(
 					chatIdList.map(async (chatId: string) => {
 						const messages = await UserService.getChatMessages(chatId)
+						const firstMessage = messages[0]
+
+						const messageTimeDistance = formatDistanceToNow(
+							new Date(firstMessage.createdAt),
+							{ addSuffix: false }
+						)
+
 						return {
 							id: chatId,
-							messages: messages,
+							messageText: messages[0].text,
+							messageTime: messageTimeDistance,
+							userImg: '',
+							userName: 'test',
 						}
 					})
 				)
 
 				setChats(chatList)
-				console.log(chats)
 			} catch (error) {
 				console.error('Error fetching chat ids:', error)
 			}
@@ -49,7 +59,7 @@ export const MessagesScreen: FC = () => {
 			<View style={styles.container}>
 				<Text style={styles.titleScreen}>Messages</Text>
 				<FlatList
-					data={[]}
+					data={chats}
 					keyExtractor={(item) => item.id}
 					renderItem={({ item }) => (
 						<MessageItem user={item} handleOnPress={handlePress} />
