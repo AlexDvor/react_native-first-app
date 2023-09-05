@@ -42,7 +42,7 @@ export const FavoriteIcon: FC<IFavoriteIconProps> = ({
 		const fetchFavoriteList = async () => {
 			if (!user?.id) return
 			try {
-				const idList = await UserService.getFavoriteListIds(user.id)
+				const idList = await UserService.getFavoriteIdList(user.id)
 				const response = idList.some((id: string) => id === itemId)
 
 				if (response) {

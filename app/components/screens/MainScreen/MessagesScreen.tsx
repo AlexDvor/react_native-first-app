@@ -27,31 +27,8 @@ export const MessagesScreen: FC = () => {
 			const fetchChatData = async () => {
 				try {
 					setIsLoading(true)
-					const userId = user?.id
-					if (!userId) return
-					const chatIdList = await UserService.getChatIdList(userId)
-
-					const chatList = await Promise.all(
-						chatIdList.map(async (chatId: string) => {
-							const messages = await UserService.getChatMessages(chatId)
-							console.log('❌ ~ messages:', messages)
-							const firstMessage = messages[0]
-
-							const messageTimeDistance = formatDistanceToNow(
-								new Date(firstMessage.createdAt),
-								{ addSuffix: false }
-							)
-
-							return {
-								id: chatId,
-								messageText: messages[messages.length - 1].text,
-								messageTime: messageTimeDistance,
-								userImg: '',
-								userName: 'test',
-							}
-						})
-					)
-
+					if (!user?.id) return
+					const chatList = await UserService.getChatList(user?.id)
 					setChats(chatList)
 				} catch (error) {
 					setChats([])

@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from 'date-fns'
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
 import {
 	addDoc,
@@ -35,9 +36,6 @@ export interface IChatMessage extends Message {
 	createdAt: Date
 	user: { _id: string }
 }
-interface IOwnerData extends IUserData {
-	userId: string
-}
 
 export const PATH_COLLECTION_ANIMALS = 'animals'
 export const PATH_COLLECTION_USERS = 'users'
@@ -47,21 +45,77 @@ export const PATH_ITEM_FAVORITE = 'favorites'
 export const PATH_ITEM_CHAT = 'chat'
 
 export const UserService = {
-	// async  getUserData(userId: string) {
-	//   try {
-	//     const userDocRef = doc(FIREBASE_DB, 'users', userId);
-	//     const userDocSnapshot = await getDoc(userDocRef);
+	////// User and common
 
-	//     if (userDocSnapshot.exists()) {
-	//       const userData = userDocSnapshot.data();
-	//       return userData;
-	//     } else {
-	//       throw new Error('User not found');
-	//     }
-	//   } catch (error) {
-	//     throw error;
-	//   }
-	// },
+	async getUserDataById(userId: string): Promise<IUserData> {
+		try {
+			const userDocRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const userDocSnapshot = await getDoc(userDocRef)
+
+			if (userDocSnapshot.exists()) {
+				const userData = userDocSnapshot.data()
+				const user: IUserData = {
+					id: userDocRef.id,
+					chats: userData?.chats || [],
+					ownAnimals: userData?.ownAnimals || [],
+					name: userData?.name || '',
+					avatar: userData?.avatar || '',
+				}
+				return user
+			} else {
+				throw new Error(`User with ${userId} not found`)
+			}
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async creatingOwnerProfile(userData: {
+		userId: string
+		avatar: string
+		name: string
+	}): Promise<void> {
+		const { userId, avatar, name } = userData
+		if (!userId) return
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			await setDoc(docRef, { name, avatar })
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async uploadImageAsync(
+		imageUriArray: uploadImageAsyncParam[]
+	): Promise<string[]> {
+		if (imageUriArray.length === 0) {
+			console.log('You cannot submit the form without any photo ')
+			return []
+		}
+
+		const pathArray: string[] = []
+
+		try {
+			for (const item of imageUriArray) {
+				const manipulatedImage = await manipulateAsync(
+					item.uri,
+					[{ resize: { width: 800 } }],
+					{ compress: 0.8, format: SaveFormat.JPEG }
+				)
+				const response = await fetch(manipulatedImage.uri)
+				const blob = await response.blob()
+				const storageRef = ref(FIREBASE_STORAGE, `images/${Date.now()}`)
+				const snapshot = await uploadBytes(storageRef, blob)
+				const downloadURL = await getDownloadURL(snapshot.ref)
+				pathArray.push(downloadURL)
+			}
+			return pathArray
+		} catch (error) {
+			throw error
+		}
+	},
+
+	////// animal collection
 
 	async getCollection(animalType: string) {
 		try {
@@ -135,52 +189,9 @@ export const UserService = {
 		}
 	},
 
-	async uploadImageAsync(
-		imageUriArray: uploadImageAsyncParam[]
-	): Promise<string[]> {
-		if (imageUriArray.length === 0) {
-			console.log('You cannot submit the form without any photo ')
-			return []
-		}
-
-		const pathArray: string[] = []
-
-		try {
-			for (const item of imageUriArray) {
-				const manipulatedImage = await manipulateAsync(
-					item.uri,
-					[{ resize: { width: 800 } }],
-					{ compress: 0.8, format: SaveFormat.JPEG }
-				)
-				const response = await fetch(manipulatedImage.uri)
-				const blob = await response.blob()
-				const storageRef = ref(FIREBASE_STORAGE, `images/${Date.now()}`)
-				const snapshot = await uploadBytes(storageRef, blob)
-				const downloadURL = await getDownloadURL(snapshot.ref)
-				pathArray.push(downloadURL)
-			}
-			return pathArray
-		} catch (error) {
-			throw error
-		}
-	},
-
-	//////// removing and adding own animals to own animal list
-
-	async creatingOwnerProfile(userData: IOwnerData): Promise<void> {
-		const { userId, avatar, name } = userData
-		if (!userId) return
-		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
-			await setDoc(docRef, { name, avatar })
-		} catch (error) {
-			throw error
-		}
-	},
+	//////// operations with own collection of animals
 
 	async addOwnAnimalToProfile(itemId: string, userId: string): Promise<void> {
-		if (!userId) return
-
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			await updateDoc(docRef, {
@@ -190,10 +201,35 @@ export const UserService = {
 			throw error
 		}
 	},
+	async removeOwnAnimalFromProfile(
+		itemId: string,
+		userId: string
+	): Promise<void> {
+		try {
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docSnapshot = await getDoc(docRef)
 
-	async getOwnIdList(userId: string) {
-		if (!userId) return
+			if (docSnapshot.exists()) {
+				const userData = docSnapshot.data()
+				const ownAnimalList = userData?.ownAnimals || []
 
+				if (ownAnimalList.includes(itemId)) {
+					await updateDoc(docRef, {
+						[PATH_ITEM_OWM_ANIMALS]: arrayRemove(itemId),
+					})
+					await this.removeAnimalFromGeneralColl(itemId)
+					console.log('Animal removed from from Profile')
+				} else {
+					console.log('Item ID not found in ownAnimalList')
+				}
+			} else {
+				throw new Error('User document not found')
+			}
+		} catch (error) {
+			throw error
+		}
+	},
+	async getOwnAnimalIdList(userId: string) {
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
@@ -209,9 +245,7 @@ export const UserService = {
 			throw error
 		}
 	},
-
-	async getOwnColl(userId: string) {
-		if (!userId) return
+	async getOwnAnimalColl(userId: string) {
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
@@ -237,43 +271,9 @@ export const UserService = {
 		}
 	},
 
-	async removeOwnAnimalFromProfile(
-		itemId: string,
-		userId: string
-	): Promise<void> {
-		if (!userId) return
-		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
-			const docSnapshot = await getDoc(docRef)
-
-			if (docSnapshot.exists()) {
-				const userData = docSnapshot.data()
-				const ownAnimalList = userData?.ownAnimals || []
-
-				if (ownAnimalList.includes(itemId)) {
-					await updateDoc(docRef, {
-						[PATH_ITEM_OWM_ANIMALS]: arrayRemove(itemId),
-					})
-					await this.removeAnimalFromGeneralColl(itemId)
-					console.log('Animal removed from from Profile')
-				} else {
-					console.log('Item ID not found in ownAnimalList')
-				}
-			} else {
-				throw new Error('User document not found')
-			}
-		} catch (error) {
-			throw error
-		}
-	},
-
-	////////
-
-	/////////// removing and adding animals to favorite list
+	/////////// operations with favorite list
 
 	async toggleFavoriteList(id: string, userId: string): Promise<void> {
-		if (!userId) return
-
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
@@ -297,9 +297,7 @@ export const UserService = {
 			throw error
 		}
 	},
-
-	async getFavoriteListIds(userId: string) {
-		if (!userId) return
+	async getFavoriteIdList(userId: string) {
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
@@ -315,9 +313,7 @@ export const UserService = {
 			throw error
 		}
 	},
-
 	async getFavoriteColl(userId: string) {
-		if (!userId) return
 		try {
 			const userRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const userSnapshot = await getDoc(userRef)
@@ -347,8 +343,6 @@ export const UserService = {
 	/////////// CHAT
 
 	async getChatIdList(userId: string) {
-		if (!userId) return
-
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
@@ -370,8 +364,6 @@ export const UserService = {
 		senderId: string,
 		receiverId: string
 	): Promise<void> {
-		if (!senderId) return
-
 		try {
 			const senderDocRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, senderId)
 			const receiverDocRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, receiverId)
@@ -384,7 +376,6 @@ export const UserService = {
 	},
 
 	async removeChatIdFromProfile(chatId: string, userId: string): Promise<void> {
-		if (!userId) return
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
@@ -452,6 +443,85 @@ export const UserService = {
 		}
 	},
 
+	async getParticipantsByIdChat(chatID: string): Promise<string[]> {
+		try {
+			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
+			const docSnapshot = await getDoc(chatRef)
+
+			if (docSnapshot.exists()) {
+				const participantsId = docSnapshot.data()
+				const idList = participantsId?.participants || []
+				return idList
+			} else {
+				throw new Error('You dont have participants id list')
+			}
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async getChatMessages(chatID: string): Promise<IChatScreenMessage[]> {
+		try {
+			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
+			const messagesRef = collection(chatRef, 'messages')
+			const q = query(messagesRef, orderBy('createdAt'))
+			const querySnapshot = await getDocs(q)
+
+			const messages = querySnapshot.docs.map((doc): IChatScreenMessage => {
+				const docData = doc.data()
+				return {
+					_id: doc.id,
+					text: docData.text || '',
+					sender: docData.sender || '',
+					createdAt: docData.createdAt
+						? docData.createdAt.toDate()
+						: new Date(0),
+					user: {
+						_id: docData.sender || '',
+						avatar: docData.user.avatar,
+					},
+				}
+			})
+
+			return messages.reverse()
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async getChatList(userId: string): Promise<IMessageList[]> {
+		try {
+			const chatIdList = await this.getChatIdList(userId)
+
+			const chatList = await Promise.all(
+				chatIdList.map(async (chatId: string) => {
+					const messages = await this.getChatMessages(chatId)
+					const participantIdList = await this.getParticipantsByIdChat(chatId)
+					const interlocutorId = participantIdList
+						.filter((id) => id !== userId)
+						.toString()
+					const interlocutorData = await this.getUserDataById(interlocutorId)
+					const firstMessage = messages[0]
+					const messageTimeDistance = formatDistanceToNow(
+						new Date(firstMessage.createdAt),
+						{ addSuffix: false }
+					)
+
+					return {
+						id: chatId,
+						messageText: messages[0].text,
+						messageTime: messageTimeDistance,
+						userImg: interlocutorData.avatar || '',
+						userName: interlocutorData.name || '',
+					}
+				})
+			)
+			return chatList
+		} catch (error) {
+			throw error
+		}
+	},
+
 	// async getChatMessages(chatID: string): Promise<IChatScreenMessage[]> {
 	// 	try {
 	// 		const chatRef = doc(FIREBASE_DB, 'chats', chatID)
@@ -478,35 +548,6 @@ export const UserService = {
 	// 		throw error
 	// 	}
 	// },
-
-	async getChatMessages(chatID: string): Promise<IChatScreenMessage[]> {
-		try {
-			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
-			const messagesRef = collection(chatRef, 'messages')
-			const q = query(messagesRef, orderBy('createdAt')) // Створення запиту з сортуванням за полем 'createdAt'
-
-			const querySnapshot = await getDocs(q) // Отримання результатів запиту
-			const messages = querySnapshot.docs.map((doc): IChatScreenMessage => {
-				const docData = doc.data()
-				return {
-					_id: doc.id,
-					text: docData.text || '',
-					sender: docData.sender || '',
-					createdAt: docData.createdAt
-						? docData.createdAt.toDate()
-						: new Date(0),
-					user: {
-						_id: docData.sender || '',
-						avatar: docData.user.avatar,
-					},
-				}
-			})
-
-			return messages.reverse()
-		} catch (error) {
-			throw error
-		}
-	},
 
 	// async deleteFieldFromProfile(fieldName: string): Promise<void> {
 	// 	if (!FIREBASE_PROFILE_ID) return

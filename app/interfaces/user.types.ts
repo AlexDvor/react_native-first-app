@@ -4,8 +4,10 @@ export interface IUserProfile {
 	avatar: string | null | undefined
 }
 
-export type IUserData = Pick<IUserProfile, 'avatar' | 'name'>
-
+export interface IUserData extends IUserProfile {
+	chats: []
+	ownAnimals: string[]
+}
 export interface IUserInitialState {
 	user: IUserProfile | null
 	isLoading: boolean

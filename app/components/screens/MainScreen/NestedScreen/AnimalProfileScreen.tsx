@@ -18,7 +18,7 @@ export const AnimalProfileScreen: FC<ProfileAnimalProps> = ({ route }) => {
 			if (!user?.id) return
 			try {
 				setIsLoading(true)
-				const idList = await UserService.getOwnIdList(user.id)
+				const idList = await UserService.getOwnAnimalIdList(user.id)
 				const isOwnerCard = idList.some((item: string) => item === currentId)
 
 				if (isOwnerCard) {

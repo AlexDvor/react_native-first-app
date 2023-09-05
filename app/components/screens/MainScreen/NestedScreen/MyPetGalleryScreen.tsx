@@ -20,7 +20,7 @@ export const MyPetGalleryScreen: FC = () => {
 				try {
 					if (!user?.id) return
 					setIsLoading(true)
-					const response = await UserService.getOwnColl(user.id)
+					const response = await UserService.getOwnAnimalColl(user.id)
 					setPetList(response as IAnimalsData[])
 				} catch (error) {
 					setPetList([])
