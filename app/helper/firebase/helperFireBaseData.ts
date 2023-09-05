@@ -12,9 +12,9 @@ import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { TAnimalsData } from '~data/animals'
 import {
-	PATH_NAME_ITEMS,
-	PATH_NAME_USERS,
-	PATH_OWN_ITEMS,
+	PATH_COLLECTION_ANIMALS,
+	PATH_COLLECTION_USERS,
+	PATH_ITEM_OWM_ANIMALS,
 } from '~services/user/user.services'
 
 export const FireBaseDefaultData = {
@@ -49,9 +49,12 @@ export const FireBaseDefaultData = {
 
 	async submitData(data: {}) {
 		try {
-			const docRef = await addDoc(collection(FIREBASE_DB, PATH_NAME_ITEMS), {
-				...data,
-			})
+			const docRef = await addDoc(
+				collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS),
+				{
+					...data,
+				}
+			)
 			return docRef.id
 		} catch (error) {
 			console.log('submitData', error)
@@ -62,9 +65,9 @@ export const FireBaseDefaultData = {
 		if (!userId) return
 
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_NAME_USERS, userId)
+			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
 			await updateDoc(docRef, {
-				[PATH_OWN_ITEMS]: arrayUnion(animalId),
+				[PATH_ITEM_OWM_ANIMALS]: arrayUnion(animalId),
 			})
 		} catch (error) {
 			throw error
