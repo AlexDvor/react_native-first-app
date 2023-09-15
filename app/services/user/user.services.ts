@@ -1,6 +1,7 @@
 import { formatDistanceToNow } from 'date-fns'
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
 import {
+	Unsubscribe,
 	addDoc,
 	arrayRemove,
 	arrayUnion,
@@ -9,6 +10,7 @@ import {
 	doc,
 	getDoc,
 	getDocs,
+	onSnapshot,
 	orderBy,
 	query,
 	serverTimestamp,
@@ -520,6 +522,34 @@ export const UserService = {
 		} catch (error) {
 			throw error
 		}
+	},
+
+	async subscribeToChatMessages(
+		chatId: string,
+		callback: (messages: IChatScreenMessage[]) => void
+	): Promise<Unsubscribe> {
+		const chatRef = doc(FIREBASE_DB, 'chats', chatId)
+		const messagesRef = collection(chatRef, 'messages')
+		const q = query(messagesRef, orderBy('createdAt'))
+
+		return onSnapshot(q, (snapshot) => {
+			const messages = snapshot.docs.map((doc) => {
+				const docData = doc.data()
+				return {
+					_id: doc.id,
+					text: docData.text || '',
+					sender: docData.sender || '',
+					createdAt: docData.createdAt
+						? docData.createdAt.toDate()
+						: new Date(0),
+					user: {
+						_id: docData.sender || '',
+						avatar: docData.user.avatar,
+					},
+				}
+			})
+			callback(messages.reverse())
+		})
 	},
 
 	// async getChatMessages(chatID: string): Promise<IChatScreenMessage[]> {

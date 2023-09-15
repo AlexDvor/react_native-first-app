@@ -1,5 +1,6 @@
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import { Unsubscribe } from 'firebase/auth'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native'
 import { Bubble, GiftedChat, Send } from 'react-native-gifted-chat'
@@ -19,85 +20,31 @@ interface IMessage {
 	}
 }
 
-// const testM = [
-// 	{
-// 		_id: 1,
-// 		text: 'My message',
-// 		createdAt: new Date(),
-// 		user: {
-// 			_id: 1,
-// 			name: 'React Native',
-// 			avatar: 'https://placeimg.com/140/140/any',
-// 		},
-// 	},
-// 	{
-// 		_id: 2,
-// 		text: 'Your message',
-// 		createdAt: new Date(),
-// 		user: {
-// 			_id: 2,
-// 			name: 'React Native',
-// 			avatar: 'https://placeimg.com/140/140/any',
-// 		},
-// 	},
-// 	{
-// 		_id: 3,
-// 		text: 'My message',
-// 		createdAt: new Date(),
-// 		user: {
-// 			_id: 1,
-// 			name: 'React Native',
-// 			avatar: 'https://placeimg.com/140/140/any',
-// 		},
-// 	},
-// 	{
-// 		_id: 4,
-// 		text: 'Your message',
-// 		createdAt: new Date(),
-// 		user: {
-// 			_id: 2,
-// 			name: 'React Native',
-// 			avatar: 'https://placeimg.com/140/140/any',
-// 		},
-// 	},
-// 	{
-// 		_id: 5,
-// 		text: 'My message',
-// 		createdAt: new Date(),
-// 		user: {
-// 			_id: 1,
-// 			name: 'React Native',
-// 			avatar: 'https://placeimg.com/140/140/any',
-// 		},
-// 	},
-// 	{
-// 		_id: 6,
-// 		text: 'Your message',
-// 		createdAt: new Date(),
-// 		user: {
-// 			_id: 2,
-// 			name: 'React Native',
-// 			avatar: 'https://placeimg.com/140/140/any',
-// 		},
-// 	},
-// ]
-
 export const ChatScreen: FC<ChatProps> = ({ route }) => {
 	const { user } = useAuth()
 	const [messages, setMessages] = useState<IChatScreenMessage[]>([])
-	console.log('❌ ~ messages:', messages)
+	const [unsubscribe, setUnsubscribe] = useState<Promise<Unsubscribe> | null>(
+		null
+	)
 
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const navigation = useNavigation()
 	const chatId = route.params.chatId
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
+		const unsubscribeFocus = navigation.addListener('focus', () => {
 			const fetchChatMessages = async () => {
 				try {
 					setIsLoading(true)
 					const fetchedMessages = await UserService.getChatMessages(chatId)
 					setMessages(fetchedMessages)
+					const unsubscribeFromMessages = UserService.subscribeToChatMessages(
+						chatId,
+						(updatedMessages) => {
+							setMessages(updatedMessages)
+						}
+					)
+					setUnsubscribe(Promise.resolve(unsubscribeFromMessages))
 				} catch (error) {
 					console.error('Error fetching chat messages:', error)
 				} finally {
@@ -106,7 +53,13 @@ export const ChatScreen: FC<ChatProps> = ({ route }) => {
 			}
 			fetchChatMessages()
 		})
-		return unsubscribe
+		return () => {
+			unsubscribeFocus()
+
+			if (unsubscribe) {
+				unsubscribe.then((unsubscribeFn) => unsubscribeFn())
+			}
+		}
 	}, [navigation])
 
 	const onSend = useCallback(async (newMessages: IChatScreenMessage[] = []) => {
