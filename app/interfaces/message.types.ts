@@ -16,4 +16,5 @@ export interface IChatScreenMessage {
 		_id: string
 		avatar: string
 	}
+	isSending?: boolean
 }
