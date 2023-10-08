@@ -45,6 +45,9 @@ export const Gallery: FC<IGallery> = ({
 				columnWrapperStyle={{
 					gap: 10,
 				}}
+				onEndReached={() => console.log('end')}
+				onEndReachedThreshold={0.2}
+				ListFooterComponent={null}
 			/>
 		</View>
 	)

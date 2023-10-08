@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useFocusEffect } from '@react-navigation/native'
 import { FC, useCallback, useState } from 'react'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
+import { Button, SafeAreaView, StyleSheet, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Logo } from '~components/ui/Logo/Logo'
 import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenuList'
@@ -9,6 +9,7 @@ import { menuData } from '~components/ui/ScrollableMenu/menu.data'
 import { Spinner } from '~components/ui/Spinner/Spinner'
 import { COLORS, CONTAINER } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
+import { usePaginatedCollection } from '~hooks/usePaginatedCollection'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { UserService } from '~services/user/user.services'
 
@@ -20,42 +21,39 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 	route,
 	navigation,
 }: DefaultHomeProps) => {
-	const hasNotification = true
-	const [allCollection, setAllCollection] = useState<IAnimalsData[]>([])
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
-	const [isLoading, setIsLoading] = useState(false)
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')
 	const { user } = useAuth()
+	const { animals, currentPage, isFetching } =
+		usePaginatedCollection(selectedAnimalType)
 
 	const handleOnPressTypeMenu = (animalType: TSelectedAnimalType) =>
 		setSelectedAnimalType(animalType)
 
-	const handleOnPressItem = () => {}
-
-	useFocusEffect(
-		useCallback(() => {
-			const fetchCollection = async () => {
-				if (!user?.id) return
-				try {
-					setIsLoading(true)
-					const allCollection = await UserService.getCollection(
-						selectedAnimalType
-					)
-					const idFavoriteList = await UserService.getFavoriteIdList(user?.id)
-					setFavoriteIdList(idFavoriteList)
-					if (allCollection) {
-						setAllCollection(allCollection)
-					}
-				} catch (error) {
-					setAllCollection([])
-				} finally {
-					setIsLoading(false)
-				}
-			}
-			fetchCollection()
-		}, [selectedAnimalType])
-	)
+	// useFocusEffect(
+	// 	useCallback(() => {
+	// 		const fetchCollection = async () => {
+	// 			if (!user?.id) return
+	// 			try {
+	// 				setIsLoading(true)
+	// 				const allCollection = await UserService.getCollection(
+	// 					selectedAnimalType
+	// 				)
+	// 				const idFavoriteList = await UserService.getFavoriteIdList(user?.id)
+	// 				setFavoriteIdList(idFavoriteList)
+	// 				if (allCollection) {
+	// 					setAllCollection(allCollection)
+	// 				}
+	// 			} catch (error) {
+	// 				setAllCollection([])
+	// 			} finally {
+	// 				setIsLoading(false)
+	// 			}
+	// 		}
+	// 		fetchCollection()
+	// 	}, [selectedAnimalType])
+	// )
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
@@ -68,7 +66,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 							<Ionicons name="notifications-outline" size={32} color="black" />
 						</View>
 
-						{hasNotification && (
+						{true && (
 							<View style={styles.notificationWrapper}>
 								<View style={styles.notificationDot}></View>
 							</View>
@@ -82,11 +80,11 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 				/>
 
 				<View style={styles.galleryWrapper}>
-					{isLoading ? (
+					{isFetching ? (
 						<Spinner />
 					) : (
 						<Gallery
-							items={allCollection}
+							items={animals}
 							navigateTo="AnimalProfileScreen"
 							favoriteListId={favoriteIdList}
 						/>

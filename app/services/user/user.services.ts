@@ -10,11 +10,13 @@ import {
 	doc,
 	getDoc,
 	getDocs,
+	limit,
 	onSnapshot,
 	orderBy,
 	query,
 	serverTimestamp,
 	setDoc,
+	startAt,
 	updateDoc,
 	where,
 } from 'firebase/firestore'
@@ -71,7 +73,6 @@ export const UserService = {
 			throw error
 		}
 	},
-
 	async creatingOwnerProfile(userData: {
 		userId: string
 		avatar: string
@@ -86,7 +87,6 @@ export const UserService = {
 			throw error
 		}
 	},
-
 	async uploadImageAsync(
 		imageUriArray: uploadImageAsyncParam[]
 	): Promise<string[]> {
@@ -119,15 +119,25 @@ export const UserService = {
 
 	////// animal collection
 
-	async getCollection(animalType: string) {
+	async getCollection(animalType: string, page: number) {
 		try {
+			const itemsPerPage = 10
+			const startIndex = (page - 1) * itemsPerPage
+
 			const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
 			let querySnapshot
 			if (animalType === 'All') {
 				querySnapshot = await getDocs(collectionRef)
 			} else {
-				const q = query(collectionRef, where('type', '==', animalType))
-				querySnapshot = await getDocs(q)
+				querySnapshot = await getDocs(
+					query(
+						collectionRef,
+						where('type', '==', animalType),
+						orderBy('createdAt'),
+						startAt(startIndex),
+						limit(itemsPerPage)
+					)
+				)
 			}
 
 			const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
@@ -156,7 +166,6 @@ export const UserService = {
 			return []
 		}
 	},
-
 	async saveAnimalToGeneralColl(data: {}): Promise<string> {
 		try {
 			const docRef = await addDoc(
@@ -170,7 +179,6 @@ export const UserService = {
 			throw error
 		}
 	},
-
 	async removeAnimalFromGeneralColl(animalId: string): Promise<void> {
 		try {
 			if (!animalId) {
