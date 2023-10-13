@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useFocusEffect } from '@react-navigation/native'
 import { FC, useCallback, useState } from 'react'
-import { Button, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Logo } from '~components/ui/Logo/Logo'
 import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenuList'
@@ -25,6 +25,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')
 	const { user } = useAuth()
+
 	const { animals, currentPage, isFetching } =
 		usePaginatedCollection(selectedAnimalType)
 
@@ -78,17 +79,17 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 					onPressTypeMenu={handleOnPressTypeMenu}
 					selectedAnimalType={selectedAnimalType}
 				/>
+				<View>
+					<Text>{animals.length || 'undefined'}</Text>
+				</View>
 
 				<View style={styles.galleryWrapper}>
-					{isFetching ? (
-						<Spinner />
-					) : (
-						<Gallery
-							items={animals}
-							navigateTo="AnimalProfileScreen"
-							favoriteListId={favoriteIdList}
-						/>
-					)}
+					<Gallery
+						items={animals}
+						navigateTo="AnimalProfileScreen"
+						favoriteListId={favoriteIdList}
+						isLoading={isFetching}
+					/>
 				</View>
 			</View>
 		</SafeAreaView>

@@ -12,26 +12,22 @@ export const usePaginatedCollection = (
 	const [animals, setAnimals] = useState<IAnimalsData[]>([])
 	const [currentPage, setCurrentPage] = useState(1)
 	const [isFetching, setIsFetching] = useState(false)
-	const [hasMore, setHasMore] = useState(true)
 
 	const fetchCollection = async () => {
-		if (!hasMore || isFetching) {
-			return
-		}
-
 		try {
 			setIsFetching(true)
 			const allCollection = await UserService.getCollection(
 				selectedAnimalType,
-				currentPage
+				currentPage,
+				10
 			)
 
 			if (allCollection.length > 0) {
-				setAnimals((prevAnimals) => [...prevAnimals, ...allCollection])
-				setCurrentPage((prevPage) => prevPage + 1)
+				setAnimals(allCollection)
+				// setAnimals((prevAnimals) => [...prevAnimals, ...allCollection])
+				// setCurrentPage((prevPage) => prevPage + 1)
 			} else {
-				// Якщо не було нових даних, встановлюємо hasMore в false, щоб завершити пагінацію
-				setHasMore(false)
+				setAnimals([])
 			}
 		} catch (error) {
 			console.error('Error loading more animals', error)
@@ -48,7 +44,5 @@ export const usePaginatedCollection = (
 		animals,
 		currentPage,
 		isFetching,
-		loadMoreAnimals: fetchCollection,
-		hasMore,
 	}
 }

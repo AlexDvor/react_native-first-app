@@ -1,3 +1,4 @@
+import { serverTimestamp } from 'firebase/firestore'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { TFormState } from '~interfaces/form.state.types'
 import { UserService } from '~services/user/user.services'
@@ -13,6 +14,7 @@ export const submitPostFormToFireStorage = async (
 		const formData = {
 			...formValue,
 			imageUri: imageUrl,
+			createdAt: serverTimestamp(),
 			owner: {
 				id: userId,
 				name: FIREBASE_AUTH.currentUser?.displayName,

@@ -16,6 +16,7 @@ import {
 	query,
 	serverTimestamp,
 	setDoc,
+	startAfter,
 	startAt,
 	updateDoc,
 	where,
@@ -119,26 +120,65 @@ export const UserService = {
 
 	////// animal collection
 
-	async getCollection(animalType: string, page: number) {
-		try {
-			const itemsPerPage = 10
-			const startIndex = (page - 1) * itemsPerPage
+	// async getCollection(animalType: string, page: number) {
+	// 	try {
+	// 		const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
+	// 		let querySnapshot
+	// 		if (animalType === 'All') {
+	// 			querySnapshot = await getDocs(collectionRef)
+	// 		} else {
+	// 			const q = query(collectionRef, where('type', '==', animalType))
+	// 			querySnapshot = await getDocs(q)
+	// 		}
 
+	// 		const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
+	// 			const docData = doc.data()
+	// 			const docId = doc.id
+	// 			const formattedData: IAnimalsData = {
+	// 				id: docId,
+	// 				name: docData.name || '',
+	// 				color: docData.color || '',
+	// 				age: docData.age || { year: 0, month: 0, day: 0 },
+	// 				breed: docData.breed || '',
+	// 				imageUri: docData.imageUri || [],
+	// 				type: docData.type || '',
+	// 				description: docData.description || '',
+	// 				gender: docData.gender || '',
+	// 				weight: docData.weight || 0,
+	// 				vaccine: docData.vaccine || false,
+	// 				owner: docData.owner || {},
+	// 				...docData,
+	// 			}
+	// 			return formattedData
+	// 		})
+
+	// 		return data
+	// 	} catch (error) {
+	// 		console.log('Error getting collections: ', error)
+	// 		return []
+	// 	}
+	// },
+
+	async getCollection(animalType: string, page: number, pageSize: number) {
+		try {
 			const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
-			let querySnapshot
+			let queryRef
 			if (animalType === 'All') {
-				querySnapshot = await getDocs(collectionRef)
+				queryRef = query(collectionRef)
 			} else {
-				querySnapshot = await getDocs(
-					query(
-						collectionRef,
-						where('type', '==', animalType),
-						orderBy('createdAt'),
-						startAt(startIndex),
-						limit(itemsPerPage)
-					)
-				)
+				queryRef = query(collectionRef, where('type', '==', animalType))
 			}
+
+			const startAfterDoc = (page - 1) * pageSize
+
+			const querySnapshot = await getDocs(
+				query(
+					queryRef,
+					orderBy('createdAt'),
+					startAfter(startAfterDoc),
+					limit(pageSize)
+				)
+			)
 
 			const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
 				const docData = doc.data()
@@ -156,6 +196,7 @@ export const UserService = {
 					weight: docData.weight || 0,
 					vaccine: docData.vaccine || false,
 					owner: docData.owner || {},
+					createdAt: docData.createdAt || '',
 					...docData,
 				}
 				return formattedData
@@ -163,9 +204,11 @@ export const UserService = {
 
 			return data
 		} catch (error) {
+			console.error('Error fetching collection: ', error)
 			return []
 		}
 	},
+
 	async saveAnimalToGeneralColl(data: {}): Promise<string> {
 		try {
 			const docRef = await addDoc(
@@ -179,6 +222,7 @@ export const UserService = {
 			throw error
 		}
 	},
+
 	async removeAnimalFromGeneralColl(animalId: string): Promise<void> {
 		try {
 			if (!animalId) {
@@ -211,6 +255,7 @@ export const UserService = {
 			throw error
 		}
 	},
+
 	async removeOwnAnimalFromProfile(
 		itemId: string,
 		userId: string
@@ -239,6 +284,7 @@ export const UserService = {
 			throw error
 		}
 	},
+
 	async getOwnAnimalIdList(userId: string) {
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
@@ -255,6 +301,7 @@ export const UserService = {
 			throw error
 		}
 	},
+
 	async getOwnAnimalColl(userId: string) {
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
@@ -307,6 +354,7 @@ export const UserService = {
 			throw error
 		}
 	},
+
 	async getFavoriteIdList(userId: string) {
 		try {
 			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
@@ -323,6 +371,7 @@ export const UserService = {
 			throw error
 		}
 	},
+
 	async getFavoriteColl(userId: string) {
 		try {
 			const userRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
