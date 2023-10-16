@@ -21,10 +21,10 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 	route,
 	navigation,
 }: DefaultHomeProps) => {
+	const { user } = useAuth()
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')
-	const { user } = useAuth()
 
 	const { animals, currentPage, isFetching } =
 		usePaginatedCollection(selectedAnimalType)

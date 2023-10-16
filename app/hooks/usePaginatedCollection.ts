@@ -4,7 +4,7 @@ import { UserService } from '~services/user/user.services'
 
 type TSelectedAnimalType = 'All' | 'Dog' | 'Cat'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 10
 
 export const usePaginatedCollection = (
 	selectedAnimalType: TSelectedAnimalType
@@ -19,7 +19,7 @@ export const usePaginatedCollection = (
 			const allCollection = await UserService.getCollection(
 				selectedAnimalType,
 				currentPage,
-				10
+				PAGE_SIZE
 			)
 
 			if (allCollection.length > 0) {
