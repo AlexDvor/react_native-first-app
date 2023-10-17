@@ -7,27 +7,34 @@ type TSelectedAnimalType = 'All' | 'Dog' | 'Cat'
 const PAGE_SIZE = 10
 
 export const usePaginatedCollection = (
-	selectedAnimalType: TSelectedAnimalType
+	selectedAnimalType: TSelectedAnimalType,
+	currentPage: number
 ) => {
 	const [animals, setAnimals] = useState<IAnimalsData[]>([])
-	const [currentPage, setCurrentPage] = useState(1)
+	const [totalPage, setTotalPage] = useState(0)
 	const [isFetching, setIsFetching] = useState(false)
+	const [resetPage, setResetPage] = useState(false)
 
 	const fetchCollection = async () => {
 		try {
 			setIsFetching(true)
-			const allCollection = await UserService.getCollection(
+
+			if (resetPage) {
+				currentPage = 1
+				setResetPage(false)
+			}
+
+			const { data, totalPages } = await UserService.getCollection(
 				selectedAnimalType,
 				currentPage,
 				PAGE_SIZE
 			)
+			setTotalPage(totalPages)
 
-			if (allCollection.length > 0) {
-				setAnimals(allCollection)
-				// setAnimals((prevAnimals) => [...prevAnimals, ...allCollection])
-				// setCurrentPage((prevPage) => prevPage + 1)
+			if (currentPage === 1) {
+				setAnimals(data)
 			} else {
-				setAnimals([])
+				setAnimals((prevAnimals) => [...prevAnimals, ...data])
 			}
 		} catch (error) {
 			console.error('Error loading more animals', error)
@@ -37,6 +44,10 @@ export const usePaginatedCollection = (
 	}
 
 	useEffect(() => {
+		setResetPage(true)
+	}, [selectedAnimalType])
+
+	useEffect(() => {
 		fetchCollection()
 	}, [selectedAnimalType, currentPage])
 
@@ -44,5 +55,6 @@ export const usePaginatedCollection = (
 		animals,
 		currentPage,
 		isFetching,
+		totalPage,
 	}
 }

@@ -12,6 +12,7 @@ interface IGallery {
 	navigateTo: THomeScreenName
 	favoriteListId?: string[] | null
 	isLoading: boolean
+	onLoadMore: () => void
 }
 
 //add in last elements a marginBottom
@@ -21,6 +22,7 @@ export const Gallery: FC<IGallery> = ({
 	navigateTo,
 	favoriteListId,
 	isLoading,
+	onLoadMore,
 }) => {
 	return (
 		<View style={styles.container}>
@@ -52,8 +54,8 @@ export const Gallery: FC<IGallery> = ({
 					columnWrapperStyle={{
 						gap: 10,
 					}}
-					onEndReached={() => console.log('end')}
-					onEndReachedThreshold={0.2}
+					onEndReached={() => onLoadMore()}
+					onEndReachedThreshold={0.1}
 					ListFooterComponent={null}
 				/>
 			)}

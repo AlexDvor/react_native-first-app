@@ -25,12 +25,24 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')
+	const [currentPage, setCurrentPage] = useState(1)
 
-	const { animals, currentPage, isFetching } =
-		usePaginatedCollection(selectedAnimalType)
+	const { animals, totalPage, isFetching } = usePaginatedCollection(
+		selectedAnimalType,
+		currentPage
+	)
 
-	const handleOnPressTypeMenu = (animalType: TSelectedAnimalType) =>
+	const loadMoreAnimals = () => {
+		if (animals.length < 10 || currentPage === totalPage) {
+			return
+		}
+
+		setCurrentPage((prevPage) => prevPage + 1)
+	}
+	const handleOnPressTypeMenu = (animalType: TSelectedAnimalType) => {
 		setSelectedAnimalType(animalType)
+		setCurrentPage(1)
+	}
 
 	// useFocusEffect(
 	// 	useCallback(() => {
@@ -80,7 +92,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 					selectedAnimalType={selectedAnimalType}
 				/>
 				<View>
-					<Text>{animals.length || 'undefined'}</Text>
+					<Text>{`${animals.length || undefined} `}</Text>
 				</View>
 
 				<View style={styles.galleryWrapper}>
@@ -89,6 +101,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 						navigateTo="AnimalProfileScreen"
 						favoriteListId={favoriteIdList}
 						isLoading={isFetching}
+						onLoadMore={loadMoreAnimals}
 					/>
 				</View>
 			</View>

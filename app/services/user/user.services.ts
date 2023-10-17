@@ -159,26 +159,93 @@ export const UserService = {
 	// 	}
 	// },
 
-	async getCollection(animalType: string, page: number, pageSize: number) {
+	// async getCollection(animalType: string, page: number, pageSize: number) {
+	// 	try {
+	// 		const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
+	// 		let queryRef
+	// 		if (animalType === 'All') {
+	// 			queryRef = query(collectionRef)
+	// 		} else {
+	// 			queryRef = query(collectionRef, where('type', '==', animalType))
+	// 		}
+
+	// 		const startAfterDoc = (page - 1) * pageSize
+
+	// 		const querySnapshot = await getDocs(
+	// 			query(
+	// 				queryRef,
+	// 				orderBy('createdAt'),
+	// 				startAfter(startAfterDoc),
+	// 				limit(pageSize)
+	// 			)
+	// 		)
+
+	// 		const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
+	// 			const docData = doc.data()
+	// 			const docId = doc.id
+	// 			const formattedData: IAnimalsData = {
+	// 				id: docId,
+	// 				name: docData.name || '',
+	// 				color: docData.color || '',
+	// 				age: docData.age || { year: 0, month: 0, day: 0 },
+	// 				breed: docData.breed || '',
+	// 				imageUri: docData.imageUri || [],
+	// 				type: docData.type || '',
+	// 				description: docData.description || '',
+	// 				gender: docData.gender || '',
+	// 				weight: docData.weight || 0,
+	// 				vaccine: docData.vaccine || false,
+	// 				owner: docData.owner || {},
+	// 				createdAt: docData.createdAt || '',
+	// 				...docData,
+	// 			}
+	// 			return formattedData
+	// 		})
+
+	// 		return data
+	// 	} catch (error) {
+	// 		console.error('Error fetching collection: ', error)
+	// 		return []
+	// 	}
+	// },
+
+	async getCollection(
+		animalType: string,
+		page: number,
+		pageSize: number
+	): Promise<{ data: IAnimalsData[] | []; totalPages: number }> {
 		try {
 			const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
+			const totalDocsSnapshot = await getDocs(collectionRef)
+			const totalDocs = totalDocsSnapshot.size
+			const totalPages = Math.ceil(totalDocs / pageSize)
+
 			let queryRef
+
 			if (animalType === 'All') {
-				queryRef = query(collectionRef)
-			} else {
-				queryRef = query(collectionRef, where('type', '==', animalType))
-			}
-
-			const startAfterDoc = (page - 1) * pageSize
-
-			const querySnapshot = await getDocs(
-				query(
-					queryRef,
-					orderBy('createdAt'),
-					startAfter(startAfterDoc),
+				queryRef = query(
+					collectionRef,
+					orderBy('createdAt', 'desc'),
 					limit(pageSize)
 				)
-			)
+			} else {
+				queryRef = query(
+					collectionRef,
+					where('type', '==', animalType),
+					orderBy('createdAt', 'desc'),
+					limit(pageSize)
+				)
+			}
+
+			if (page > 1) {
+				const first = query(queryRef, limit((page - 1) * pageSize))
+				const documentSnapshots = await getDocs(first)
+				const lastVisible =
+					documentSnapshots.docs[documentSnapshots.docs.length - 1]
+				queryRef = query(queryRef, startAfter(lastVisible))
+			}
+
+			const querySnapshot = await getDocs(queryRef)
 
 			const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
 				const docData = doc.data()
@@ -202,10 +269,10 @@ export const UserService = {
 				return formattedData
 			})
 
-			return data
+			return { data, totalPages }
 		} catch (error) {
 			console.error('Error fetching collection: ', error)
-			return []
+			return { data: [], totalPages: 0 }
 		}
 	},
 
