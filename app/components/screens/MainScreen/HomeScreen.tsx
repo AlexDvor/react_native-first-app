@@ -25,21 +25,18 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')
-	const [currentPage, setCurrentPage] = useState(1)
 
-	const { animals, totalPage, isFetching, isPaginationLoading } =
-		usePaginatedCollection(selectedAnimalType, currentPage)
+	const {
+		animals,
+		totalPage,
+		isFetching,
+		isPaginationLoading,
+		currentPage,
+		loadMoreAnimals,
+	} = usePaginatedCollection(selectedAnimalType)
 
-	const loadMoreAnimals = () => {
-		if (animals.length < 10 || currentPage === totalPage) {
-			return
-		}
-
-		setCurrentPage((prevPage) => prevPage + 1)
-	}
 	const handleOnPressTypeMenu = (animalType: TSelectedAnimalType) => {
 		setSelectedAnimalType(animalType)
-		setCurrentPage(1)
 	}
 
 	// useFocusEffect(
@@ -90,9 +87,12 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 					selectedAnimalType={selectedAnimalType}
 				/>
 				<View>
+					<Text style={{ textAlign: 'center', color: 'red' }}>
+						{'TEST OPTIONS'}
+					</Text>
 					<Text>{`Total items : ${animals.length || undefined} `}</Text>
-					<Text>{`Current Page :${currentPage || undefined} `}</Text>
 					<Text>{`Total Pages :${totalPage || undefined} `}</Text>
+					<Text>{`Current Page :${currentPage || undefined} `}</Text>
 				</View>
 
 				<View style={styles.galleryWrapper}>

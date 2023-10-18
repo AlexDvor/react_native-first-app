@@ -216,22 +216,27 @@ export const UserService = {
 	): Promise<{ data: IAnimalsData[] | []; totalPages: number }> {
 		try {
 			const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
-			const totalDocsSnapshot = await getDocs(collectionRef)
-			const totalDocs = totalDocsSnapshot.size
-			const totalPages = Math.ceil(totalDocs / pageSize)
-
 			let queryRef
 
 			if (animalType === 'All') {
+				queryRef = collectionRef
+			} else {
+				queryRef = query(collectionRef, where('type', '==', animalType))
+			}
+
+			const totalDocsSnapshot = await getDocs(queryRef)
+			const totalDocs = totalDocsSnapshot.size
+			const totalPages = Math.ceil(totalDocs / pageSize)
+
+			if (animalType === 'All') {
 				queryRef = query(
-					collectionRef,
+					queryRef,
 					orderBy('createdAt', 'desc'),
 					limit(pageSize)
 				)
 			} else {
 				queryRef = query(
-					collectionRef,
-					where('type', '==', animalType),
+					queryRef,
 					orderBy('createdAt', 'desc'),
 					limit(pageSize)
 				)
@@ -244,7 +249,6 @@ export const UserService = {
 					documentSnapshots.docs[documentSnapshots.docs.length - 1]
 				queryRef = query(queryRef, startAfter(lastVisible))
 			}
-
 			const querySnapshot = await getDocs(queryRef)
 
 			const data: IAnimalsData[] = querySnapshot.docs.map((doc) => {
