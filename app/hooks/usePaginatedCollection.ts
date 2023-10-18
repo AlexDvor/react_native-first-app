@@ -14,14 +14,19 @@ export const usePaginatedCollection = (
 	const [totalPage, setTotalPage] = useState(0)
 	const [isFetching, setIsFetching] = useState(false)
 	const [resetPage, setResetPage] = useState(false)
+	const [isPaginationLoading, setIsPaginationLoading] = useState(false)
 
 	const fetchCollection = async () => {
 		try {
-			setIsFetching(true)
-
 			if (resetPage) {
 				currentPage = 1
 				setResetPage(false)
+			}
+
+			if (currentPage > 1) {
+				setIsPaginationLoading(true)
+			} else {
+				setIsFetching(true)
 			}
 
 			const { data, totalPages } = await UserService.getCollection(
@@ -40,6 +45,7 @@ export const usePaginatedCollection = (
 			console.error('Error loading more animals', error)
 		} finally {
 			setIsFetching(false)
+			setIsPaginationLoading(false)
 		}
 	}
 
@@ -56,5 +62,6 @@ export const usePaginatedCollection = (
 		currentPage,
 		isFetching,
 		totalPage,
+		isPaginationLoading,
 	}
 }
