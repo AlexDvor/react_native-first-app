@@ -24,7 +24,6 @@ export const COLORS = {
 	iconFavoriteColor: '#FCFCFC',
 
 	//ItemCard
-
 	ageCardContainerColor: '#fef6eb',
 	genderCardContainerColor: '#e2e8fe',
 	weightCardContainerColor: '#ffd9d8',
@@ -39,6 +38,9 @@ export const COLORS = {
 	inActiveColorBtn: '#949494',
 	activeBackgroundColor: '#F2968F',
 	backgroundTabNavigator: '#FCFCFC',
+
+	//spinner
+	spinnerColor: '#F2968F',
 }
 
 export const CONTAINER = {

@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native'
+import { COLORS } from '~constants/theme'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { THomeScreenName } from '~interfaces/home.navigation.types'
 
@@ -27,7 +28,9 @@ export const Gallery: FC<IGallery> = ({
 	const renderFooter = () => {
 		return (
 			<View style={styles.footer}>
-				{isPaginationLoading ? <ActivityIndicator color="black" /> : null}
+				{isPaginationLoading ? (
+					<ActivityIndicator color={COLORS.spinnerColor} />
+				) : null}
 			</View>
 		)
 	}
