@@ -144,6 +144,8 @@ const styles = StyleSheet.create({
 	errorWrapper: {
 		position: 'absolute',
 		top: 170,
+		left: 0,
+		right: 0,
 	},
 
 	errorMessage: {
