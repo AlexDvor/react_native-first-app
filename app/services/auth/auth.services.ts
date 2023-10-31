@@ -36,6 +36,7 @@ export const AuthService = {
 
 			return userCredential
 		} catch (error) {
+			console.log(' AuthService register:', error)
 			throw error
 		}
 	},
@@ -50,7 +51,7 @@ export const AuthService = {
 
 			return userCredential
 		} catch (error) {
-			console.log('login:', error)
+			console.log(' AuthService login:', error)
 			throw error
 		}
 	},

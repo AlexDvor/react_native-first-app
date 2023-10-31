@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { login, register, singOut, stateChangeUser } from './user.actions'
+import {
+	login,
+	register,
+	resetError,
+	singOut,
+	stateChangeUser,
+} from './user.actions'
 
 interface initialStateProps {
 	user:
@@ -35,10 +41,11 @@ export const userSlice = createSlice({
 			.addCase(register.rejected, (state, { payload }) => {
 				state.isLoading = false
 				state.user = null
+
 				if (typeof payload === 'string') {
 					state.error = payload
 				} else {
-					state.error = 'An unknown error occurred during auth'
+					state.error = 'An unknown error occurred during sign up operation'
 				}
 			})
 
@@ -52,6 +59,12 @@ export const userSlice = createSlice({
 			.addCase(login.rejected, (state, { payload }) => {
 				state.isLoading = false
 				state.user = null
+
+				if (typeof payload === 'string') {
+					state.error = payload
+				} else {
+					state.error = 'An unknown error occurred during log in operation'
+				}
 			})
 
 			.addCase(stateChangeUser.pending, (state) => {
@@ -84,6 +97,9 @@ export const userSlice = createSlice({
 				state.isLoading = false
 				state.user = null
 				state.error = 'Something is wrong with sing Out operation'
+			})
+			.addCase(resetError.fulfilled, (state) => {
+				state.error = ''
 			})
 	},
 })

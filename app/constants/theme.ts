@@ -13,7 +13,7 @@ export const COLORS = {
 	primaryBtn: '#F2968F',
 	secondaryBtn: '#111c1e',
 	primaryTextColorBtn: '#FCFCFC',
-	disableBackgroundBtn: '#9c7775',
+	disableBackgroundBtn: '#755a58',
 
 	//Notification
 	notificationDotColor: '#F2968F',

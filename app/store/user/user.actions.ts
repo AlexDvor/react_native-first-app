@@ -1,6 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { FirebaseError } from 'firebase/app'
+import {
+	IHandlerAuthErrors,
+	handlerAuthErrors,
+} from '~helper/firebase/handlerAuthErrors'
 import { AuthService } from '~services/auth/auth.services'
+
+interface InterfaceLogin {
+	email: string
+	password: string
+}
 
 interface InterfaceEmailPassword {
 	email: string
@@ -27,25 +36,23 @@ export const register = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
 				name: user.displayName,
 			}
 		} catch (error) {
-			if (error instanceof FirebaseError) {
-				return thunkAPI.rejectWithValue(error.code)
-			}
-			return thunkAPI.rejectWithValue(error)
+			return thunkAPI.rejectWithValue(
+				handlerAuthErrors(error as IHandlerAuthErrors)
+			)
 		}
 	}
 )
 
-export const login = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
+export const login = createAsyncThunk<IAuthResponse, InterfaceLogin>(
 	'auth/login',
-	async (
-		{ email, password }: { email: string; password: string },
-		thunkAPI
-	) => {
+	async ({ email, password }, thunkAPI) => {
 		try {
 			const { user } = await AuthService.login(email, password)
 			return { email: user.email, id: user.uid, name: user.displayName }
 		} catch (error) {
-			return thunkAPI.rejectWithValue(error)
+			return thunkAPI.rejectWithValue(
+				handlerAuthErrors(error as IHandlerAuthErrors)
+			)
 		}
 	}
 )
@@ -73,4 +80,9 @@ export const stateChangeUser = createAsyncThunk(
 			return thunkAPI.rejectWithValue(error)
 		}
 	}
+)
+
+export const resetError = createAsyncThunk(
+	'error/reset',
+	async (_, thunkAPI) => {}
 )

@@ -17,18 +17,31 @@ import { normalizeWords } from '~helper/string/normalizeWords'
 import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
 import { useKeyboardVisible } from '~hooks/useKeyboardVisible'
+import { useValidateFields } from '~hooks/useValidateFields'
 import { AuthNavigationComponent } from '~interfaces/auth.navigation.types'
 
 export const RegisterScreen: FC = () => {
-	const { isLoading } = useAuth()
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+
+	const { isLoading, error } = useAuth()
+	const { register, resetError } = useActions()
 	const { navigate } = useNavigation<AuthNavigationComponent>()
 	const { isShowKeyBoard } = useKeyboardVisible()
-	const { register } = useActions()
+	const { hasEmptyFields } = useValidateFields('register', {
+		name,
+		email,
+		password,
+	})
+
 	const keyBoardHide = () => {
+		handleResetError()
 		Keyboard.dismiss()
+	}
+
+	const handleResetError = () => {
+		if (error) resetError()
 	}
 
 	return (
@@ -37,7 +50,7 @@ export const RegisterScreen: FC = () => {
 				<TouchableWithoutFeedback onPress={keyBoardHide}>
 					<View style={styles.container}>
 						<View style={styles.logoWrapper}>
-							{/* <Logo logoColor={'#F8F8F8'} /> */}
+							<Logo logoColor={'#F8F8F8'} />
 						</View>
 
 						<View style={styles.formWrapper}>
@@ -51,6 +64,7 @@ export const RegisterScreen: FC = () => {
 									userName && setName(normalizeWords(userName, 'First Upper'))
 								}
 								inputMode="text"
+								onFocus={handleResetError}
 							/>
 							<FormInput
 								iconType="email"
@@ -63,6 +77,7 @@ export const RegisterScreen: FC = () => {
 									setEmail(userEmail.toLocaleLowerCase())
 								}
 								inputMode="email"
+								onFocus={handleResetError}
 							/>
 
 							<FormInput
@@ -71,6 +86,7 @@ export const RegisterScreen: FC = () => {
 								iconType="lock"
 								secureTextEntry={true}
 								onChangeText={(userPassword) => setPassword(userPassword)}
+								onFocus={handleResetError}
 							/>
 
 							<View style={styles.buttonWrapper}>
@@ -81,7 +97,9 @@ export const RegisterScreen: FC = () => {
 										register({ email, password, name })
 									}}
 									isFetching={isLoading}
+									disabled={hasEmptyFields}
 								/>
+
 								<View style={styles.signInContainer}>
 									<Text style={[styles.textLink]}>Already have account</Text>
 									<TouchableOpacity onPress={() => navigate('SignIn')}>
@@ -90,6 +108,12 @@ export const RegisterScreen: FC = () => {
 								</View>
 							</View>
 						</View>
+
+						{error && (
+							<View style={styles.errorWrapper}>
+								<Text style={styles.errorMessage}>{error}</Text>
+							</View>
+						)}
 
 						{!isShowKeyBoard && (
 							<Text style={styles.text}>
@@ -105,6 +129,7 @@ export const RegisterScreen: FC = () => {
 
 const styles = StyleSheet.create({
 	container: {
+		position: 'relative',
 		marginHorizontal: 20,
 		flex: 1,
 		marginTop: StatusBar.currentHeight && StatusBar.currentHeight,
@@ -114,6 +139,17 @@ const styles = StyleSheet.create({
 	logoWrapper: {
 		marginTop: 20,
 		width: '100%',
+	},
+
+	errorWrapper: {
+		position: 'absolute',
+		top: 170,
+	},
+
+	errorMessage: {
+		fontSize: 15,
+		textAlign: 'center',
+		color: '#c44537',
 	},
 
 	formWrapper: {
