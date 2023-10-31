@@ -171,14 +171,14 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 							title="Delete Animal"
 							widthButton={300}
 							backgroundColorButton={'secondaryBtn'}
-							handlePress={removeAnimalFromOwnColl}
+							onPress={removeAnimalFromOwnColl}
 						></PrimaryButton>
 					) : (
 						<PrimaryButton
 							title="Adopt Now"
 							widthButton={300}
 							backgroundColorButton={'secondaryBtn'}
-							handlePress={() => {
+							onPress={() => {
 								console.log('This button dont have function')
 							}}
 						></PrimaryButton>

@@ -13,8 +13,8 @@ export const ProfileScreen: FC = () => {
 	const { user } = useAuth()
 	const { singOut } = useActions()
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
-	const sizeIcon = 32
-	const colorIcon = 'black'
+	const SIZE_ICON = 32
+	const COLOR_ICON = 'black'
 	return (
 		<>
 			<View style={styles.header}>
@@ -39,8 +39,8 @@ export const ProfileScreen: FC = () => {
 						<View style={styles.iconWrapper}>
 							<MaterialIcons
 								name="account-circle"
-								size={sizeIcon}
-								color={colorIcon}
+								size={SIZE_ICON}
+								color={COLOR_ICON}
 							/>
 						</View>
 
@@ -49,7 +49,7 @@ export const ProfileScreen: FC = () => {
 
 					<View style={styles.item}>
 						<View style={styles.iconWrapper}>
-							<Entypo name="mobile" size={sizeIcon} color={colorIcon} />
+							<Entypo name="mobile" size={SIZE_ICON} color={COLOR_ICON} />
 						</View>
 
 						<Text style={styles.text}>{'Undefined'}</Text>
@@ -57,7 +57,7 @@ export const ProfileScreen: FC = () => {
 
 					<View style={styles.item}>
 						<View style={styles.iconWrapper}>
-							<Fontisto name="email" size={sizeIcon} color={colorIcon} />
+							<Fontisto name="email" size={SIZE_ICON} color={COLOR_ICON} />
 						</View>
 
 						<Text style={styles.text}>{user?.email}</Text>
@@ -65,7 +65,7 @@ export const ProfileScreen: FC = () => {
 
 					<View style={styles.item}>
 						<View style={styles.iconWrapper}>
-							<AntDesign name="eyeo" size={sizeIcon} color={colorIcon} />
+							<AntDesign name="eyeo" size={SIZE_ICON} color={COLOR_ICON} />
 						</View>
 
 						<Text style={styles.text}>Password</Text>
@@ -77,7 +77,7 @@ export const ProfileScreen: FC = () => {
 					>
 						<View style={styles.iconWrapper}>
 							<Image
-								style={{ width: sizeIcon, height: sizeIcon }}
+								style={{ width: SIZE_ICON, height: SIZE_ICON }}
 								source={require('../../../assets/icons/pet.png')}
 							></Image>
 						</View>
