@@ -45,7 +45,7 @@ export const COLORS = {
 
 export const CONTAINER = {
 	mainContainer: {
-		marginTop: StatusBar.currentHeight && StatusBar.currentHeight,
+		marginTop: StatusBar.currentHeight,
 		marginHorizontal: 10,
 	},
 }

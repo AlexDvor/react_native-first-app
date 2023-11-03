@@ -1,7 +1,14 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { FC, useCallback, useState } from 'react'
-import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import {
+	Button,
+	SafeAreaView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Logo } from '~components/ui/Logo/Logo'
 import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenuList'
@@ -13,7 +20,10 @@ import { usePaginatedCollection } from '~hooks/usePaginatedCollection'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { UserService } from '~services/user/user.services'
 
-import { DefaultHomeProps } from '../../../interfaces/home.navigation.types'
+import {
+	DefaultHomeProps,
+	TNavigationComponent,
+} from '../../../interfaces/home.navigation.types'
 
 export type TSelectedAnimalType = 'All' | 'Dog' | 'Cat'
 
@@ -24,6 +34,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')
+	const { navigate } = useNavigation<TNavigationComponent>()
 
 	const {
 		animals,
@@ -68,7 +79,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 				<View style={styles.headerContainer}>
 					<Logo logoColor={'#2B2B2E'} />
 
-					<View>
+					<TouchableOpacity onPress={() => navigate('NotificationScreen')}>
 						<View style={styles.iconWrapper}>
 							<Ionicons name="notifications-outline" size={32} color="black" />
 						</View>
@@ -78,21 +89,21 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 								<View style={styles.notificationDot}></View>
 							</View>
 						)}
-					</View>
+					</TouchableOpacity>
 				</View>
 				<ScrollableMenuList
 					menu={menuData}
 					onPressTypeMenu={handleOnPressTypeMenu}
 					selectedAnimalType={selectedAnimalType}
 				/>
-				<View>
+				{/* <View>
 					<Text style={{ textAlign: 'center', color: 'red' }}>
 						{'TEST OPTIONS'}
 					</Text>
 					<Text>{`Total items : ${animals.length || undefined} `}</Text>
 					<Text>{`Total Pages :${totalPage || undefined} `}</Text>
 					<Text>{`Current Page :${currentPage || undefined} `}</Text>
-				</View>
+				</View> */}
 
 				<View style={styles.galleryWrapper}>
 					<Gallery

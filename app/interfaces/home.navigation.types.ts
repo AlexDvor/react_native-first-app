@@ -8,6 +8,7 @@ export type HomeRootStackParamList = {
 	HomeScreen: undefined
 	AnimalProfileScreen: { item: IAnimalsData }
 	ChatScreen: { chatId: string }
+	NotificationScreen: undefined
 }
 
 export type DefaultHomeProps = StackScreenProps<
