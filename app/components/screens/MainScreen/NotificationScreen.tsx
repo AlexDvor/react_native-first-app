@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import {
 	FlatList,
 	StyleSheet,
@@ -11,13 +11,14 @@ import { CONTAINER } from '~constants/theme'
 import { truncateString } from '~helper/string/truncateString'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
 
-const notificationData = [
+const data = [
 	{
 		id: 1,
 		title: 'Remove account',
 		message:
 			'JavaScript (використовуючи Visual Studio Code для розробки веб-додатків):',
 		date: '10.09.23',
+		read: true,
 	},
 	{
 		id: 2,
@@ -25,6 +26,7 @@ const notificationData = [
 		message:
 			'Якщо у вас є конкретні запитання або інша інформація про "Loram Impsun", будь ласка, надайте більше контексту або пояснень, і я намагатимусь надати вам корисну відповідь на основі наявних даних.',
 		date: '03.05.23',
+		read: false,
 	},
 	{
 		id: 3,
@@ -32,6 +34,7 @@ const notificationData = [
 		message:
 			'Ось приклад використання <TouchableOpacity> для створення інтерактивного елемента в React Native:',
 		date: '02.09.22',
+		read: false,
 	},
 ]
 
@@ -40,14 +43,25 @@ type TNotification = {
 	title: string
 	message: string
 	date: string
+	read: boolean
 }
 export const NotificationScreen: FC = () => {
+	const [notificationData, setNotificationData] = useState(data)
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
 
+	const markAsRead = (id: number) => {
+		const updatedData = notificationData.map((item) =>
+			item.id === id ? { ...item, read: true } : item
+		)
+		setNotificationData(updatedData)
+	}
+
 	const renderNotificationMessage = ({ item }: { item: TNotification }) => {
-		const { message, title, date } = item
+		const { message, title, date, read } = item
 		return (
-			<TouchableOpacity style={styles.wrapperNotification}>
+			<TouchableOpacity
+				style={[styles.wrapperNotification, read && styles.readNotification]}
+			>
 				<View style={styles.titleBlock}>
 					<Text style={styles.titleMessage}>{title}</Text>
 					<Text style={styles.titleDate}>{date}</Text>
@@ -115,5 +129,9 @@ const styles = StyleSheet.create({
 
 	messageText: {
 		fontSize: 16,
+	},
+	readNotification: {
+		borderLeftWidth: 6,
+		borderLeftColor: '#de4f43',
 	},
 })
