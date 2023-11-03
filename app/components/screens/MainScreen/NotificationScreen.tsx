@@ -8,6 +8,7 @@ import {
 	View,
 } from 'react-native'
 import { CONTAINER } from '~constants/theme'
+import { truncateString } from '~helper/string/truncateString'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
 
 const notificationData = [
@@ -51,24 +52,21 @@ export const NotificationScreen: FC = () => {
 					<Text style={styles.titleMessage}>{title}</Text>
 					<Text style={styles.titleDate}>{date}</Text>
 				</View>
-				<Text>{message}</Text>
+				<Text>{truncateString(message, 100)}</Text>
 			</TouchableOpacity>
 		)
 	}
 
-	const ItemSeparator = () => <View style={styles.separator}></View>
-
 	return (
 		<>
 			<View style={styles.container}>
-				<Text style={styles.title}>Notification</Text>
+				<Text style={styles.titleScreen}>Notification</Text>
 
 				<View>
 					<FlatList
 						data={notificationData}
 						renderItem={renderNotificationMessage}
 						keyExtractor={(item) => String(item.id)}
-						ItemSeparatorComponent={ItemSeparator}
 					></FlatList>
 				</View>
 			</View>
@@ -81,27 +79,41 @@ const styles = StyleSheet.create({
 		...CONTAINER.mainContainer,
 	},
 
-	title: {
+	titleScreen: {
 		textAlign: 'center',
-		fontSize: 16,
+		fontSize: 20,
 		fontWeight: 'bold',
-		paddingVertical: 5,
+		marginVertical: 10,
 	},
 
-	separator: {
-		marginTop: 8,
-		marginBottom: 5,
-		height: 1,
-		backgroundColor: 'gray',
+	wrapperNotification: {
+		backgroundColor: 'white',
+		padding: 16,
+		borderRadius: 10,
+		marginBottom: 16,
+		shadowColor: 'black',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.2,
+		shadowRadius: 2,
+		elevation: 3,
 	},
-	wrapperNotification: {},
+
 	titleBlock: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginBottom: 5,
+		marginBottom: 8,
 	},
-	titleMessage: { fontSize: 15, fontWeight: '600' },
+
+	titleMessage: {
+		fontSize: 18,
+		fontWeight: '600',
+	},
+
 	titleDate: {
 		color: 'gray',
+	},
+
+	messageText: {
+		fontSize: 16,
 	},
 })
