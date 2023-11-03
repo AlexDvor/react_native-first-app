@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
-import { FC, useState } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { FC, useCallback, useState } from 'react'
 import {
 	FlatList,
 	StyleSheet,
@@ -9,45 +9,67 @@ import {
 } from 'react-native'
 import { CONTAINER } from '~constants/theme'
 import { truncateString } from '~helper/string/truncateString'
+import { useAuth } from '~hooks/useAuth'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
+import {
+	NotificationService,
+	TNotification,
+} from '~services/user/notification.services'
 
-const data = [
-	{
-		id: 1,
-		title: 'Remove account',
-		message:
-			'JavaScript (використовуючи Visual Studio Code для розробки веб-додатків):',
-		date: '10.09.23',
-		read: true,
-	},
-	{
-		id: 2,
-		title: 'Message from TAKEE',
-		message:
-			'Якщо у вас є конкретні запитання або інша інформація про "Loram Impsun", будь ласка, надайте більше контексту або пояснень, і я намагатимусь надати вам корисну відповідь на основі наявних даних.',
-		date: '03.05.23',
-		read: false,
-	},
-	{
-		id: 3,
-		title: 'Well done',
-		message:
-			'Ось приклад використання <TouchableOpacity> для створення інтерактивного елемента в React Native:',
-		date: '02.09.22',
-		read: false,
-	},
-]
+// const data = [
+// 	{
+// 		id: 1,
+// 		title: 'Remove account',
+// 		message:
+// 			'JavaScript (використовуючи Visual Studio Code для розробки веб-додатків):',
+// 		readDate: '10.09.23',
+// 		sendDate: '10.09.23',
+// 		read: true,
+// 	},
+// 	{
+// 		id: 2,
+// 		title: 'Message from TAKEE',
+// 		message:
+// 			'Якщо у вас є конкретні запитання або інша інформація про "Loram Impsun", будь ласка, надайте більше контексту або пояснень, і я намагатимусь надати вам корисну відповідь на основі наявних даних.',
+// 		readDate: '10.09.23',
+// 		sendDate: '10.09.23',
+// 		read: false,
+// 	},
+// 	{
+// 		id: 3,
+// 		title: 'Well done',
+// 		message:
+// 			'Ось приклад використання <TouchableOpacity> для створення інтерактивного елемента в React Native:',
+// 		readDate: '10.09.23',
+// 		sendDate: '10.09.23',
+// 		read: false,
+// 	},
+// ]
 
-type TNotification = {
-	id: number
-	title: string
-	message: string
-	date: string
-	read: boolean
-}
 export const NotificationScreen: FC = () => {
-	const [notificationData, setNotificationData] = useState(data)
+	const { user } = useAuth()
+	const [notificationData, setNotificationData] = useState([])
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
+
+	useFocusEffect(
+		useCallback(() => {
+			const fetchCollection = async () => {
+				if (!user?.id) return
+				try {
+					const response = await NotificationService.getNotifications(user.id)
+					console.log('❌ ~ response:', response)
+					if (response) {
+						setNotificationData(response)
+					} else {
+						setNotificationData([])
+					}
+				} catch (error) {
+				} finally {
+				}
+			}
+			fetchCollection()
+		}, [])
+	)
 
 	const markAsRead = (id: number) => {
 		const updatedData = notificationData.map((item) =>
@@ -57,14 +79,14 @@ export const NotificationScreen: FC = () => {
 	}
 
 	const renderNotificationMessage = ({ item }: { item: TNotification }) => {
-		const { message, title, date, read } = item
+		const { message, title, sendDate, read } = item
 		return (
 			<TouchableOpacity
 				style={[styles.wrapperNotification, read && styles.readNotification]}
 			>
 				<View style={styles.titleBlock}>
 					<Text style={styles.titleMessage}>{title}</Text>
-					<Text style={styles.titleDate}>{date}</Text>
+					<Text style={styles.titleDate}>{sendDate}</Text>
 				</View>
 				<Text>{truncateString(message, 100)}</Text>
 			</TouchableOpacity>

@@ -28,6 +28,17 @@ import { IAnimalsData } from '~interfaces/animals.types'
 import { IChatScreenMessage, IMessageList } from '~interfaces/message.types'
 import { IUserData } from '~interfaces/user.types'
 
+import { Constants } from './config.services'
+
+const {
+	PATH_COLLECTION_ANIMALS,
+	PATH_COLLECTION_CHAT,
+	PATH_COLLECTION_USERS,
+	PATH_ITEM_CHAT,
+	PATH_ITEM_FAVORITE,
+	PATH_ITEM_OWM_ANIMALS,
+} = Constants
+
 type uploadImageAsyncParam = {
 	uri: string
 	id: number
@@ -41,13 +52,6 @@ export interface IChatMessage extends Message {
 	createdAt: Date
 	user: { _id: string }
 }
-
-export const PATH_COLLECTION_ANIMALS = 'animals'
-export const PATH_COLLECTION_USERS = 'users'
-export const PATH_COLLECTION_CHAT = 'chats'
-export const PATH_ITEM_OWM_ANIMALS = 'ownAnimals'
-export const PATH_ITEM_FAVORITE = 'favorites'
-export const PATH_ITEM_CHAT = 'chat'
 
 export const UserService = {
 	////// User and common
@@ -533,7 +537,11 @@ export const UserService = {
 	async createChat(senderId: string, receiverId: string): Promise<string> {
 		try {
 			const participants = [senderId, receiverId]
-			const chatRef = doc(FIREBASE_DB, 'chats', senderId + '_' + receiverId)
+			const chatRef = doc(
+				FIREBASE_DB,
+				PATH_COLLECTION_CHAT,
+				senderId + '_' + receiverId
+			)
 
 			const chatData = {
 				participants,
@@ -555,7 +563,7 @@ export const UserService = {
 		senderId: string
 	): Promise<string> {
 		try {
-			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
+			const chatRef = doc(FIREBASE_DB, PATH_COLLECTION_CHAT, chatID)
 			const messageData = {
 				_id: uuid.v4(),
 				text: message.text,
@@ -575,7 +583,7 @@ export const UserService = {
 
 	async getParticipantsByIdChat(chatID: string): Promise<string[]> {
 		try {
-			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
+			const chatRef = doc(FIREBASE_DB, PATH_COLLECTION_CHAT, chatID)
 			const docSnapshot = await getDoc(chatRef)
 
 			if (docSnapshot.exists()) {
@@ -592,7 +600,7 @@ export const UserService = {
 
 	async getChatMessages(chatID: string): Promise<IChatScreenMessage[]> {
 		try {
-			const chatRef = doc(FIREBASE_DB, 'chats', chatID)
+			const chatRef = doc(FIREBASE_DB, PATH_COLLECTION_CHAT, chatID)
 			const messagesRef = collection(chatRef, 'messages')
 			const q = query(messagesRef, orderBy('createdAt'))
 			const querySnapshot = await getDocs(q)
@@ -656,7 +664,7 @@ export const UserService = {
 		chatId: string,
 		callback: (messages: IChatScreenMessage[]) => void
 	): Promise<Unsubscribe> {
-		const chatRef = doc(FIREBASE_DB, 'chats', chatId)
+		const chatRef = doc(FIREBASE_DB, PATH_COLLECTION_CHAT, chatId)
 		const messagesRef = collection(chatRef, 'messages')
 		const q = query(messagesRef, orderBy('createdAt'))
 

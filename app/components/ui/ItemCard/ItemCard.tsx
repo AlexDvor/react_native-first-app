@@ -1,6 +1,7 @@
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { serverTimestamp } from 'firebase/firestore'
 import React, { FC, useRef, useState } from 'react'
 import {
 	Image,
@@ -21,6 +22,7 @@ import {
 	MessageNavigationComponent,
 	MessageRootStackParamList,
 } from '~interfaces/message.navigation.types'
+import { NotificationService } from '~services/user/notification.services'
 import { UserService } from '~services/user/user.services'
 
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
@@ -55,7 +57,19 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 			setIsLoading(false)
 		}
 	}
-	const submitAdoptForm = async () => {}
+	const submitAdoptForm = async () => {
+		const { owner } = item
+
+		await NotificationService.sendNotificationToUser(
+			owner.id,
+			{ title: 'offer', message: 'hello' },
+			'offer'
+		)
+		try {
+		} catch (error) {
+			console.log('❌ ~ error:', error)
+		}
+	}
 
 	// const handleChatPress = () => navigate('ChatScreen', { user: item.owner.id })
 
@@ -178,9 +192,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 							title="Adopt Now"
 							widthButton={300}
 							backgroundColorButton={'secondaryBtn'}
-							onPress={() => {
-								console.log('This button dont have function')
-							}}
+							onPress={submitAdoptForm}
 						></PrimaryButton>
 					)}
 				</View>
