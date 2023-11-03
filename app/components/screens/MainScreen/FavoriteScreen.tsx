@@ -39,7 +39,11 @@ export const FavoriteScreen: FC = () => {
 		<View style={styles.container}>
 			{isLoading ? <Spinner /> : null}
 			{favoritesList?.length > 0 && !isLoading && (
-				<Gallery items={favoritesList} navigateTo="AnimalProfileScreen" />
+				<Gallery
+					items={favoritesList}
+					navigateTo="AnimalProfileScreen"
+					hasPagination={false}
+				/>
 			)}
 			{favoritesList?.length === 0 && !isLoading && (
 				<View style={styles.messageContainer}>

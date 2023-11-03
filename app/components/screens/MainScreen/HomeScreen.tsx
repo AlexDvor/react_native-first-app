@@ -109,6 +109,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 					<Gallery
 						items={animals}
 						navigateTo="AnimalProfileScreen"
+						hasPagination={true}
 						favoriteListId={favoriteIdList}
 						isLoading={isFetching}
 						onLoadMore={loadMoreAnimals}

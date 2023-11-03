@@ -11,8 +11,8 @@ import { UserService } from '~services/user/user.services'
 export const MyPetGalleryScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [petList, setPetList] = useState<IAnimalsData[]>([])
-	const navigation = useNavigation()
 	const { user } = useAuth()
+	const navigation = useNavigation()
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -38,7 +38,11 @@ export const MyPetGalleryScreen: FC = () => {
 		<View style={styles.container}>
 			{isLoading ? <Spinner /> : null}
 			{petList?.length > 0 && !isLoading && (
-				<Gallery items={petList} navigateTo="AnimalProfileScreen" />
+				<Gallery
+					items={petList}
+					navigateTo="AnimalProfileScreen"
+					hasPagination={false}
+				/>
 			)}
 			{petList?.length === 0 && !isLoading && (
 				<View style={styles.messageContainer}>

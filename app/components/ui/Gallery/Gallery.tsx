@@ -11,15 +11,17 @@ import { GalleryItem } from './GalleryItem'
 interface IGallery {
 	items: IAnimalsData[]
 	navigateTo: THomeScreenName
+	hasPagination: boolean
 	favoriteListId?: string[] | null
-	isLoading: boolean
-	onLoadMore: () => void
-	isPaginationLoading: boolean
+	isLoading?: boolean
+	onLoadMore?: () => void
+	isPaginationLoading?: boolean
 }
 
 export const Gallery: FC<IGallery> = ({
 	items,
 	navigateTo,
+	hasPagination,
 	favoriteListId,
 	isLoading,
 	onLoadMore,
@@ -49,6 +51,12 @@ export const Gallery: FC<IGallery> = ({
 		)
 	}
 
+	const handleLoadMore = () => {
+		if (hasPagination && onLoadMore) {
+			onLoadMore()
+		}
+	}
+
 	return (
 		<View style={styles.container}>
 			{isLoading ? (
@@ -60,7 +68,7 @@ export const Gallery: FC<IGallery> = ({
 					data={items}
 					renderItem={renderItem}
 					keyExtractor={(item) => String(item.id)}
-					onEndReached={() => onLoadMore()}
+					onEndReached={handleLoadMore}
 					onEndReachedThreshold={0.3}
 					ListFooterComponent={renderFooter}
 					columnWrapperStyle={{
