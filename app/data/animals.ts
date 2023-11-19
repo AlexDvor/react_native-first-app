@@ -13,6 +13,7 @@ export type TAnimalsData = {
 	vaccine: boolean
 	owner: { id: number; name: string; avatar: string | null }
 	createdAt: FieldValue
+	adoptedByUser: { id: string; name: string; avatar: string | null } | null
 }
 
 // export const dataAnimals: TAnimalsData[] = [
@@ -34,6 +35,7 @@ export type TAnimalsData = {
 // 		owner: { id: 11, name: 'Alex', avatar: null },
 // 		color: 'Grey',
 // 		createdAt: serverTimestamp(),
+
 // 	},
 
 // 	{
@@ -197,6 +199,7 @@ export const dataAnimals: TAnimalsData[] = [
 		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
 		createdAt: serverTimestamp(),
+		adoptedByUser: null,
 	},
 
 	{
@@ -213,6 +216,7 @@ export const dataAnimals: TAnimalsData[] = [
 		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
 		createdAt: serverTimestamp(),
+		adoptedByUser: null,
 	},
 
 	{
@@ -229,6 +233,7 @@ export const dataAnimals: TAnimalsData[] = [
 		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
 		createdAt: serverTimestamp(),
+		adoptedByUser: null,
 	},
 
 	{
@@ -245,6 +250,7 @@ export const dataAnimals: TAnimalsData[] = [
 		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
 		createdAt: serverTimestamp(),
+		adoptedByUser: null,
 	},
 	{
 		name: 'Peach',
@@ -260,6 +266,7 @@ export const dataAnimals: TAnimalsData[] = [
 		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
 		createdAt: serverTimestamp(),
+		adoptedByUser: null,
 	},
 	{
 		name: 'Buggy',
@@ -275,6 +282,7 @@ export const dataAnimals: TAnimalsData[] = [
 		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
 		createdAt: serverTimestamp(),
+		adoptedByUser: null,
 	},
 	{
 		name: 'Miki',
@@ -290,6 +298,7 @@ export const dataAnimals: TAnimalsData[] = [
 		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
 		createdAt: serverTimestamp(),
+		adoptedByUser: null,
 	},
 
 	{
@@ -306,6 +315,7 @@ export const dataAnimals: TAnimalsData[] = [
 		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
 		createdAt: serverTimestamp(),
+		adoptedByUser: null,
 	},
 
 	{
@@ -322,6 +332,7 @@ export const dataAnimals: TAnimalsData[] = [
 		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
 		createdAt: serverTimestamp(),
+		adoptedByUser: null,
 	},
 
 	{
@@ -338,5 +349,6 @@ export const dataAnimals: TAnimalsData[] = [
 		owner: { id: 11, name: 'Alex', avatar: null },
 		color: 'Grey',
 		createdAt: serverTimestamp(),
+		adoptedByUser: null,
 	},
 ]

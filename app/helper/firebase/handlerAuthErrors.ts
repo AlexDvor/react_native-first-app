@@ -4,7 +4,6 @@ export interface IHandlerAuthErrors {
 
 export const handlerAuthErrors = (error: IHandlerAuthErrors) => {
 	const { code } = error
-	console.log('👉 handlerAuth', error.code)
 
 	let message = ''
 

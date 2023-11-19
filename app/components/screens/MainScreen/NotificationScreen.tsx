@@ -1,4 +1,5 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { formatDistanceToNow } from 'date-fns'
 import { FC, useCallback, useState } from 'react'
 import {
 	FlatList,
@@ -8,6 +9,7 @@ import {
 	View,
 } from 'react-native'
 import { CONTAINER } from '~constants/theme'
+import { TGetDistance, getTimeDistance } from '~helper/number/getTimeDistance'
 import { truncateString } from '~helper/string/truncateString'
 import { useAuth } from '~hooks/useAuth'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
@@ -16,39 +18,10 @@ import {
 	TNotification,
 } from '~services/user/notification.services'
 
-// const data = [
-// 	{
-// 		id: 1,
-// 		title: 'Remove account',
-// 		message:
-// 			'JavaScript (використовуючи Visual Studio Code для розробки веб-додатків):',
-// 		readDate: '10.09.23',
-// 		sendDate: '10.09.23',
-// 		read: true,
-// 	},
-// 	{
-// 		id: 2,
-// 		title: 'Message from TAKEE',
-// 		message:
-// 			'Якщо у вас є конкретні запитання або інша інформація про "Loram Impsun", будь ласка, надайте більше контексту або пояснень, і я намагатимусь надати вам корисну відповідь на основі наявних даних.',
-// 		readDate: '10.09.23',
-// 		sendDate: '10.09.23',
-// 		read: false,
-// 	},
-// 	{
-// 		id: 3,
-// 		title: 'Well done',
-// 		message:
-// 			'Ось приклад використання <TouchableOpacity> для створення інтерактивного елемента в React Native:',
-// 		readDate: '10.09.23',
-// 		sendDate: '10.09.23',
-// 		read: false,
-// 	},
-// ]
-
 export const NotificationScreen: FC = () => {
 	const { user } = useAuth()
-	const [notificationData, setNotificationData] = useState([])
+	const [notificationData, setNotificationData] = useState<TNotification[]>([])
+	console.log('❌ ~ notificationData:', notificationData)
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
 
 	useFocusEffect(
@@ -71,24 +44,26 @@ export const NotificationScreen: FC = () => {
 		}, [])
 	)
 
-	const markAsRead = (id: number) => {
-		const updatedData = notificationData.map((item) =>
+	const markAsRead = (id: string) => {
+		const updatedData = notificationData.map((item: TNotification) =>
 			item.id === id ? { ...item, read: true } : item
 		)
 		setNotificationData(updatedData)
 	}
 
 	const renderNotificationMessage = ({ item }: { item: TNotification }) => {
-		const { message, title, sendDate, read } = item
+		const { message, sendDate, read } = item
+		const getReceivedTime = getTimeDistance(sendDate)
+
 		return (
 			<TouchableOpacity
-				style={[styles.wrapperNotification, read && styles.readNotification]}
+				style={[styles.wrapperNotification, !read && styles.readNotification]}
 			>
 				<View style={styles.titleBlock}>
-					<Text style={styles.titleMessage}>{title}</Text>
-					<Text style={styles.titleDate}>{sendDate}</Text>
+					<Text style={styles.titleMessage}>{message.title}</Text>
+					<Text style={styles.titleDate}>{getReceivedTime}</Text>
 				</View>
-				<Text>{truncateString(message, 100)}</Text>
+				<Text>{truncateString(message.text, 100)}</Text>
 			</TouchableOpacity>
 		)
 	}
@@ -141,7 +116,7 @@ const styles = StyleSheet.create({
 	},
 
 	titleMessage: {
-		fontSize: 18,
+		fontSize: 17,
 		fontWeight: '600',
 	},
 
@@ -150,7 +125,7 @@ const styles = StyleSheet.create({
 	},
 
 	messageText: {
-		fontSize: 16,
+		fontSize: 15,
 	},
 	readNotification: {
 		borderLeftWidth: 6,

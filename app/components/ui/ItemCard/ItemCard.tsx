@@ -22,7 +22,10 @@ import {
 	MessageNavigationComponent,
 	MessageRootStackParamList,
 } from '~interfaces/message.navigation.types'
-import { NotificationService } from '~services/user/notification.services'
+import {
+	NotificationService,
+	TSendNotification,
+} from '~services/user/notification.services'
 import { UserService } from '~services/user/user.services'
 
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
@@ -58,13 +61,16 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 		}
 	}
 	const submitAdoptForm = async () => {
-		const { owner } = item
+		if (!user) return
 
-		await NotificationService.sendNotificationToUser(
-			owner.id,
-			{ title: 'offer', message: 'hello' },
-			'offer'
-		)
+		const notificationObjMessage: TSendNotification = {
+			animalData: item,
+			receiverData: item.owner,
+			senderData: user,
+			type: 'offer',
+		}
+
+		await NotificationService.createdNotification(notificationObjMessage)
 		try {
 		} catch (error) {
 			console.log('❌ ~ error:', error)

@@ -10,7 +10,11 @@ import {
 
 interface initialStateProps {
 	user:
-		| { name: string | null; id: string | null; email: string | null }
+		| {
+				name: string | null
+				id: string | null
+				email: string | null
+		  }
 		| null
 		| undefined
 	isLoading: boolean

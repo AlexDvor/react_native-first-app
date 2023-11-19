@@ -16,5 +16,6 @@ export interface IAnimalsData {
 	weight: number | string
 	vaccine: boolean
 	owner: IUserProfile
+	adoptedByUser: IUserProfile | null
 	createdAt: string
 }
