@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { FC } from 'react'
 import { ChatScreen } from '~components/screens/MainScreen/NestedScreen/ChatScreen'
+import { NotificationItemScreen } from '~components/screens/MainScreen/NestedScreen/NotificationItemScreen'
 import { NotificationScreen } from '~components/screens/MainScreen/NotificationScreen'
 
 import { HomeScreen } from '../components/screens/MainScreen/HomeScreen'
@@ -21,6 +22,10 @@ export const HomeStackNavigator: FC = () => {
 			></Screen>
 			<Screen name="ChatScreen" component={ChatScreen}></Screen>
 			<Screen name="NotificationScreen" component={NotificationScreen}></Screen>
+			<Screen
+				name="NotificationItemScreen"
+				component={NotificationItemScreen}
+			></Screen>
 		</Navigator>
 	)
 }

@@ -1,3 +1,5 @@
+import { TNotification } from '~services/user/notification.services'
+
 export interface IUserProfile {
 	id: string
 	name: string
@@ -11,6 +13,15 @@ export interface IUserData extends IUserProfile {
 export interface IUserInitialState {
 	user: IUserProfile | null
 	isLoading: boolean
+}
+
+export interface IAllCollectionsUser {
+	name: string
+	avatar: string
+	chat: string[]
+	favorites: string[]
+	notifications: TNotification[]
+	ownAnimals: string[]
 }
 
 // export interface IUserState {

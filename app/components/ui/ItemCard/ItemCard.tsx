@@ -24,7 +24,7 @@ import {
 } from '~interfaces/message.navigation.types'
 import {
 	NotificationService,
-	TSendNotification,
+	TCreateNotification,
 } from '~services/user/notification.services'
 import { UserService } from '~services/user/user.services'
 
@@ -63,10 +63,10 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const submitAdoptForm = async () => {
 		if (!user) return
 
-		const notificationObjMessage: TSendNotification = {
-			animalData: item,
+		const notificationObjMessage: TCreateNotification = {
 			receiverData: item.owner,
 			senderData: user,
+			animalData: item,
 			type: 'offer',
 		}
 

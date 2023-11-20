@@ -31,12 +31,12 @@ import { IUserData } from '~interfaces/user.types'
 import { Constants } from './config.services'
 
 const {
-	PATH_COLLECTION_ANIMALS,
-	PATH_COLLECTION_CHAT,
-	PATH_COLLECTION_USERS,
-	PATH_ITEM_CHAT,
-	PATH_ITEM_FAVORITE,
-	PATH_ITEM_OWM_ANIMALS,
+	COLLECTION_ANIMALS,
+	COLLECTION_CHAT,
+	COLLECTION_USERS,
+	ITEM_CHAT,
+	ITEM_FAVORITE,
+	ITEM_OWM_ANIMALS,
 } = Constants
 
 type uploadImageAsyncParam = {
@@ -58,7 +58,7 @@ export const UserService = {
 
 	async getUserDataById(userId: string): Promise<IUserData> {
 		try {
-			const userDocRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const userDocRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			const userDocSnapshot = await getDoc(userDocRef)
 
 			if (userDocSnapshot.exists()) {
@@ -86,7 +86,7 @@ export const UserService = {
 		const { userId, avatar, name } = userData
 		if (!userId) return
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			await setDoc(docRef, { name, avatar })
 		} catch (error) {
 			throw error
@@ -126,7 +126,7 @@ export const UserService = {
 
 	// async getCollection(animalType: string, page: number) {
 	// 	try {
-	// 		const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
+	// 		const collectionRef = collection(FIREBASE_DB, COLLECTION_ANIMALS)
 	// 		let querySnapshot
 	// 		if (animalType === 'All') {
 	// 			querySnapshot = await getDocs(collectionRef)
@@ -165,7 +165,7 @@ export const UserService = {
 
 	// async getCollection(animalType: string, page: number, pageSize: number) {
 	// 	try {
-	// 		const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
+	// 		const collectionRef = collection(FIREBASE_DB, COLLECTION_ANIMALS)
 	// 		let queryRef
 	// 		if (animalType === 'All') {
 	// 			queryRef = query(collectionRef)
@@ -219,7 +219,7 @@ export const UserService = {
 		pageSize: number
 	): Promise<{ data: IAnimalsData[] | []; totalPages: number }> {
 		try {
-			const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
+			const collectionRef = collection(FIREBASE_DB, COLLECTION_ANIMALS)
 			let queryRef
 
 			if (animalType === 'All') {
@@ -286,12 +286,9 @@ export const UserService = {
 
 	async saveAnimalToGeneralColl(data: {}): Promise<string> {
 		try {
-			const docRef = await addDoc(
-				collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS),
-				{
-					...data,
-				}
-			)
+			const docRef = await addDoc(collection(FIREBASE_DB, COLLECTION_ANIMALS), {
+				...data,
+			})
 			return docRef.id
 		} catch (error) {
 			throw error
@@ -303,7 +300,7 @@ export const UserService = {
 			if (!animalId) {
 				throw new Error('Animal ID is required')
 			}
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_ANIMALS, animalId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_ANIMALS, animalId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (!docSnapshot.exists()) {
@@ -322,9 +319,9 @@ export const UserService = {
 
 	async addOwnAnimalToProfile(itemId: string, userId: string): Promise<void> {
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			await updateDoc(docRef, {
-				[PATH_ITEM_OWM_ANIMALS]: arrayUnion(itemId),
+				[ITEM_OWM_ANIMALS]: arrayUnion(itemId),
 			})
 		} catch (error) {
 			throw error
@@ -336,7 +333,7 @@ export const UserService = {
 		userId: string
 	): Promise<void> {
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -345,7 +342,7 @@ export const UserService = {
 
 				if (ownAnimalList.includes(itemId)) {
 					await updateDoc(docRef, {
-						[PATH_ITEM_OWM_ANIMALS]: arrayRemove(itemId),
+						[ITEM_OWM_ANIMALS]: arrayRemove(itemId),
 					})
 					await this.removeAnimalFromGeneralColl(itemId)
 					console.log('Animal removed from from Profile')
@@ -362,7 +359,7 @@ export const UserService = {
 
 	async getOwnAnimalIdList(userId: string) {
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -379,7 +376,7 @@ export const UserService = {
 
 	async getOwnAnimalColl(userId: string) {
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -387,7 +384,7 @@ export const UserService = {
 				const idList = userData?.ownAnimals || []
 
 				if (idList.length > 0) {
-					const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
+					const collectionRef = collection(FIREBASE_DB, COLLECTION_ANIMALS)
 					const querySnapshot = await getDocs(collectionRef)
 					const data = querySnapshot.docs
 						.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -407,7 +404,7 @@ export const UserService = {
 
 	async toggleFavoriteList(id: string, userId: string): Promise<void> {
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -415,12 +412,12 @@ export const UserService = {
 				const idList = userData?.favorites || []
 				if (idList.includes(id)) {
 					await updateDoc(docRef, {
-						[PATH_ITEM_FAVORITE]: arrayRemove(id),
+						[ITEM_FAVORITE]: arrayRemove(id),
 					})
 					console.log(`Remove animal with ${id} from favorite list `)
 				} else {
 					await updateDoc(docRef, {
-						[PATH_ITEM_FAVORITE]: arrayUnion(id),
+						[ITEM_FAVORITE]: arrayUnion(id),
 					})
 					console.log(`Add animal with ${id} from favorite list `)
 				}
@@ -432,7 +429,7 @@ export const UserService = {
 
 	async getFavoriteIdList(userId: string) {
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -449,13 +446,13 @@ export const UserService = {
 
 	async getFavoriteColl(userId: string) {
 		try {
-			const userRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const userRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			const userSnapshot = await getDoc(userRef)
 
 			if (userSnapshot.exists()) {
 				const idList = userSnapshot.data()?.favorites || []
 				if (idList.length > 0) {
-					const collectionRef = collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS)
+					const collectionRef = collection(FIREBASE_DB, COLLECTION_ANIMALS)
 					const querySnapshot = await getDocs(collectionRef)
 					const data = querySnapshot.docs
 						.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -478,7 +475,7 @@ export const UserService = {
 
 	async getChatIdList(userId: string) {
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -499,11 +496,11 @@ export const UserService = {
 		receiverId: string
 	): Promise<void> {
 		try {
-			const senderDocRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, senderId)
-			const receiverDocRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, receiverId)
+			const senderDocRef = doc(FIREBASE_DB, COLLECTION_USERS, senderId)
+			const receiverDocRef = doc(FIREBASE_DB, COLLECTION_USERS, receiverId)
 
-			await updateDoc(senderDocRef, { [PATH_ITEM_CHAT]: arrayUnion(chatId) })
-			await updateDoc(receiverDocRef, { [PATH_ITEM_CHAT]: arrayUnion(chatId) })
+			await updateDoc(senderDocRef, { [ITEM_CHAT]: arrayUnion(chatId) })
+			await updateDoc(receiverDocRef, { [ITEM_CHAT]: arrayUnion(chatId) })
 		} catch (error) {
 			throw error
 		}
@@ -511,7 +508,7 @@ export const UserService = {
 
 	async removeChatIdFromProfile(chatId: string, userId: string): Promise<void> {
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			const docSnapshot = await getDoc(docRef)
 
 			if (docSnapshot.exists()) {
@@ -520,7 +517,7 @@ export const UserService = {
 
 				if (chatIdList.includes(chatId)) {
 					await updateDoc(docRef, {
-						[PATH_ITEM_CHAT]: arrayRemove(chatId),
+						[ITEM_CHAT]: arrayRemove(chatId),
 					})
 					console.log('ChatId removed from from Profile')
 				} else {
@@ -539,7 +536,7 @@ export const UserService = {
 			const participants = [senderId, receiverId]
 			const chatRef = doc(
 				FIREBASE_DB,
-				PATH_COLLECTION_CHAT,
+				COLLECTION_CHAT,
 				senderId + '_' + receiverId
 			)
 
@@ -563,7 +560,7 @@ export const UserService = {
 		senderId: string
 	): Promise<string> {
 		try {
-			const chatRef = doc(FIREBASE_DB, PATH_COLLECTION_CHAT, chatID)
+			const chatRef = doc(FIREBASE_DB, COLLECTION_CHAT, chatID)
 			const messageData = {
 				_id: uuid.v4(),
 				text: message.text,
@@ -583,7 +580,7 @@ export const UserService = {
 
 	async getParticipantsByIdChat(chatID: string): Promise<string[]> {
 		try {
-			const chatRef = doc(FIREBASE_DB, PATH_COLLECTION_CHAT, chatID)
+			const chatRef = doc(FIREBASE_DB, COLLECTION_CHAT, chatID)
 			const docSnapshot = await getDoc(chatRef)
 
 			if (docSnapshot.exists()) {
@@ -600,7 +597,7 @@ export const UserService = {
 
 	async getChatMessages(chatID: string): Promise<IChatScreenMessage[]> {
 		try {
-			const chatRef = doc(FIREBASE_DB, PATH_COLLECTION_CHAT, chatID)
+			const chatRef = doc(FIREBASE_DB, COLLECTION_CHAT, chatID)
 			const messagesRef = collection(chatRef, 'messages')
 			const q = query(messagesRef, orderBy('createdAt'))
 			const querySnapshot = await getDocs(q)
@@ -664,7 +661,7 @@ export const UserService = {
 		chatId: string,
 		callback: (messages: IChatScreenMessage[]) => void
 	): Promise<Unsubscribe> {
-		const chatRef = doc(FIREBASE_DB, PATH_COLLECTION_CHAT, chatId)
+		const chatRef = doc(FIREBASE_DB, COLLECTION_CHAT, chatId)
 		const messagesRef = collection(chatRef, 'messages')
 		const q = query(messagesRef, orderBy('createdAt'))
 

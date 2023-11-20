@@ -1,9 +1,11 @@
 export const Constants = {
-	PATH_COLLECTION_ANIMALS: 'animals',
-	PATH_COLLECTION_USERS: 'users',
-	PATH_COLLECTION_CHAT: 'chats',
-	PATH_ITEM_NOTIFICATIONS: 'notifications',
-	PATH_ITEM_OWM_ANIMALS: 'ownAnimals',
-	PATH_ITEM_FAVORITE: 'favorites',
-	PATH_ITEM_CHAT: 'chat',
+	COLLECTION_ANIMALS: 'animals',
+	COLLECTION_USERS: 'users',
+	COLLECTION_CHAT: 'chats',
+	ITEM_NOTIFICATIONS: 'notifications',
+	ITEM_OWM_ANIMALS: 'ownAnimals',
+	ITEM_FAVORITE: 'favorites',
+	ITEM_CHAT: 'chat',
 }
+
+export type TCollections = keyof typeof Constants

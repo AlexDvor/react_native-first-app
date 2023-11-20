@@ -12,6 +12,7 @@ import { CONTAINER } from '~constants/theme'
 import { TGetDistance, getTimeDistance } from '~helper/number/getTimeDistance'
 import { truncateString } from '~helper/string/truncateString'
 import { useAuth } from '~hooks/useAuth'
+import { TNavigationComponent } from '~interfaces/home.navigation.types'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
 import {
 	NotificationService,
@@ -21,8 +22,8 @@ import {
 export const NotificationScreen: FC = () => {
 	const { user } = useAuth()
 	const [notificationData, setNotificationData] = useState<TNotification[]>([])
-	console.log('❌ ~ notificationData:', notificationData)
-	const { navigate } = useNavigation<ProfileNavigationComponent>()
+
+	const { navigate } = useNavigation<TNavigationComponent>()
 
 	useFocusEffect(
 		useCallback(() => {
@@ -30,7 +31,7 @@ export const NotificationScreen: FC = () => {
 				if (!user?.id) return
 				try {
 					const response = await NotificationService.getNotifications(user.id)
-					console.log('❌ ~ response:', response)
+
 					if (response) {
 						setNotificationData(response)
 					} else {
@@ -52,12 +53,16 @@ export const NotificationScreen: FC = () => {
 	}
 
 	const renderNotificationMessage = ({ item }: { item: TNotification }) => {
-		const { message, sendDate, read } = item
-		const getReceivedTime = getTimeDistance(sendDate)
+		const { message, sendDate, read, type } = item
+		const getReceivedTime = getTimeDistance(sendDate as TGetDistance)
 
 		return (
 			<TouchableOpacity
-				style={[styles.wrapperNotification, !read && styles.readNotification]}
+				style={[
+					styles.wrapperNotification,
+					!read && type === 'offer' && styles.readNotification,
+				]}
+				onPress={() => navigate('NotificationItemScreen', { message: item })}
 			>
 				<View style={styles.titleBlock}>
 					<Text style={styles.titleMessage}>{message.title}</Text>

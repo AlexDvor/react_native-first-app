@@ -7,12 +7,16 @@ interface IPrimaryBtn extends ButtonProps {
 	widthButton?: number
 	backgroundColorButton?: TypeColorComponents
 	title: string
+	margLeft?: number
+	margRight?: number
 }
 
 export const PrimaryButton: FC<IPrimaryBtn> = ({
 	title,
 	widthButton,
 	backgroundColorButton = 'primaryBtn',
+	margLeft = 0,
+	margRight = 0,
 	...rest
 }) => {
 	const selectedColor = COLORS[backgroundColorButton]
@@ -26,6 +30,8 @@ export const PrimaryButton: FC<IPrimaryBtn> = ({
 				justifyContent: 'center',
 				alignItems: 'center',
 				width: widthButton,
+				marginLeft: margLeft,
+				marginRight: margRight,
 			}}
 			{...rest}
 		>
