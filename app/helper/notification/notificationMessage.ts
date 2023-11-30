@@ -1,32 +1,125 @@
+import { TGetDistance } from '~helper/number/getTimeDistance'
 import { IAnimalsData } from '~interfaces/animals.types'
-import { TSenderData } from '~services/user/notification.services'
+import {
+	TNotification,
+	TSenderData,
+	TypeNotification,
+} from '~services/user/notification.services'
 
-export const NotificationTemplateMessages = {
-	getOfferMessage(
-		user: TSenderData,
-		animal: IAnimalsData,
-		idNotification: string
-	) {
+export interface INewMessage {
+	idMsg: string
+	typeMsg: TypeNotification
+	messageObj: { title: string; text: string } | undefined
+	sendTime: Date | TGetDistance
+	senderInfo: TSenderData
+	receiverInfo: { id: string; name: string }
+	animalInfo: IAnimalsData
+}
+
+export const NotifyTemplates = {
+	createMsg(objMsg: INewMessage, notifyType: TypeNotification): TNotification {
+		const {
+			idMsg,
+			messageObj,
+			receiverInfo,
+			senderInfo,
+			sendTime,
+			typeMsg,
+			animalInfo,
+		} = objMsg
+
+		if (notifyType === 'offer') {
+			const notifyMsg = this.getOfferMsgTemplate(senderInfo, animalInfo)
+
+			const message: TNotification = {
+				id: idMsg,
+				message: { ...notifyMsg },
+				sendDate: sendTime,
+				readDate: null,
+				read: false,
+				type: notifyType,
+				confirmInfo: {
+					confirmed: null,
+					reject: null,
+					date: null,
+				},
+				senderReceiverInfo: {
+					senderId: senderInfo.id,
+					receiverId: receiverInfo.id,
+				},
+			}
+
+			return message
+		}
+
+		if (notifyType === 'notification') {
+			const notifyMsg = this.getReqConfMsgTemplate(animalInfo)
+			const message: TNotification = {
+				id: idMsg,
+				message: { ...notifyMsg },
+				sendDate: sendTime,
+				readDate: null,
+				read: false,
+				type: notifyType,
+				confirmInfo: {
+					confirmed: null,
+					reject: null,
+					date: null,
+				},
+				senderReceiverInfo: {
+					senderId: senderInfo.id,
+					receiverId: receiverInfo.id,
+				},
+			}
+
+			return message
+		}
+
+		if (notifyType === 'confirmation') {
+			const notifyMsg = this.getConfMsgTemplate()
+			const message: TNotification = {
+				id: idMsg,
+				message: { ...notifyMsg },
+				sendDate: sendTime,
+				readDate: null,
+				read: false,
+				type: notifyType,
+				confirmInfo: {
+					confirmed: null,
+					reject: null,
+					date: null,
+				},
+				senderReceiverInfo: {
+					senderId: senderInfo.id,
+					receiverId: receiverInfo.id,
+				},
+			}
+
+			return message
+		}
+	},
+
+	getOfferMsgTemplate(user: TSenderData, animal: IAnimalsData) {
 		const title = `Request to Adopt ${animal.name}`
-		const text = `User ${user.name} wants to adopt your animal ${animal.name}. Please check and accept the request if you agree. Request id - ${idNotification}`
+		const text = `User ${user.name} wants to adopt your animal ${animal.name}. Please check and accept the request if you agree.`
 		return {
 			title,
 			text,
 		}
 	},
 
-	getRequestConfirmationMessage(animal: IAnimalsData, idNotification: string) {
+	getReqConfMsgTemplate(animal: IAnimalsData) {
 		const title = `Request to Adopt ${animal.name}`
-		const text = `"Your request has been successfully sent. Please await a response from the animal's owner. Thank you for your interest! Request id - ${idNotification}`
+		const text = `"Your request has been successfully sent. Please await a response from the animal's owner. Thank you for your interest!`
 		return {
 			title,
 			text,
 		}
 	},
 
-	getConfirmationMessage() {
-		const title = 'Action Confirmation'
-		const text = `Your action has been successfully confirmed. Thank you for your participation and cooperation!`
+	getConfMsgTemplate() {
+		const title = 'Request Confirmation'
+		const text = `Your Request has been successfully confirmed. Thank you for your participation and cooperation!`
 		return {
 			title,
 			text,

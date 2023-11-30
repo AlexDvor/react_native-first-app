@@ -16,6 +16,7 @@ export interface IUserInitialState {
 }
 
 export interface IAllCollectionsUser {
+	[key: string]: any
 	name: string
 	avatar: string
 	chat: string[]

@@ -13,6 +13,7 @@ export const NotificationItemScreen: FC<NotificationItemProps> = ({
 	const [isRead, setIsRead] = useState<boolean>(message.read)
 	const { user } = useAuth()
 
+	const notifyId = message.id
 	const senderId = message.senderReceiverInfo.senderId
 	const receiverId = message.senderReceiverInfo.receiverId
 
@@ -30,15 +31,18 @@ export const NotificationItemScreen: FC<NotificationItemProps> = ({
 		markAsReadMessage()
 	}, [isRead])
 
-	const handleAcceptBtn = () => {
-		console.log('❌ ~ handleAcceptBtn:', handleAcceptBtn)
-	}
-	const handleRejectBtn = async () => {
+	const handleAcceptBtn = async () => {
 		if (!user?.id) return
+
 		try {
-			await NotificationService.confirmAdoption('', user?.id)
+			await NotificationService.confirmAdoption(notifyId, {
+				senderId,
+				receiverId,
+			})
 		} catch (error) {}
 	}
+
+	const handleRejectBtn = async () => {}
 
 	// const remove = async () => {
 	// 	try {
@@ -60,7 +64,11 @@ export const NotificationItemScreen: FC<NotificationItemProps> = ({
 
 			{message.type === 'offer' && (
 				<View style={styles.buttonContainer}>
-					<PrimaryButton title={'Accept'} widthButton={100}></PrimaryButton>
+					<PrimaryButton
+						title={'Accept'}
+						widthButton={100}
+						onPress={handleAcceptBtn}
+					></PrimaryButton>
 					<PrimaryButton
 						title={'Reject'}
 						widthButton={100}

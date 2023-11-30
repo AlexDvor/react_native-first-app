@@ -11,11 +11,9 @@ import { Image, ImageSourcePropType } from 'react-native'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { TAnimalsData } from '~data/animals'
-import {
-	PATH_COLLECTION_ANIMALS,
-	PATH_COLLECTION_USERS,
-	PATH_ITEM_OWM_ANIMALS,
-} from '~services/user/user.services'
+import { Constants } from '~services/user/config.services'
+
+const { COLLECTION_USERS, COLLECTION_ANIMALS, ITEM_OWM_ANIMALS } = Constants
 
 export const FireBaseDefaultData = {
 	async uploadImages(imgArray: string[]) {
@@ -49,12 +47,9 @@ export const FireBaseDefaultData = {
 
 	async submitData(data: {}) {
 		try {
-			const docRef = await addDoc(
-				collection(FIREBASE_DB, PATH_COLLECTION_ANIMALS),
-				{
-					...data,
-				}
-			)
+			const docRef = await addDoc(collection(FIREBASE_DB, COLLECTION_ANIMALS), {
+				...data,
+			})
 			return docRef.id
 		} catch (error) {
 			console.log('submitData', error)
@@ -65,9 +60,9 @@ export const FireBaseDefaultData = {
 		if (!userId) return
 
 		try {
-			const docRef = doc(FIREBASE_DB, PATH_COLLECTION_USERS, userId)
+			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			await updateDoc(docRef, {
-				[PATH_ITEM_OWM_ANIMALS]: arrayUnion(animalId),
+				[ITEM_OWM_ANIMALS]: arrayUnion(animalId),
 			})
 		} catch (error) {
 			throw error

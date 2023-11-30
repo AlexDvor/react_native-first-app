@@ -9,14 +9,12 @@ import {
 } from './user.actions'
 
 interface initialStateProps {
-	user:
-		| {
-				name: string | null
-				id: string | null
-				email: string | null
-		  }
-		| null
-		| undefined
+	user: {
+		name: string | null
+		id: string | null
+		email: string | null
+	} | null
+
 	isLoading: boolean
 	stateChange: boolean
 	error: string

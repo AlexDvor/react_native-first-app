@@ -53,14 +53,18 @@ export const NotificationScreen: FC = () => {
 	}
 
 	const renderNotificationMessage = ({ item }: { item: TNotification }) => {
-		const { message, sendDate, read, type } = item
+		const { message, sendDate, read, type, confirmInfo } = item
 		const getReceivedTime = getTimeDistance(sendDate as TGetDistance)
+
+		const hasMarkedNotify =
+			(!read && type === 'offer' && confirmInfo.confirmed === null) ||
+			confirmInfo.reject === null
 
 		return (
 			<TouchableOpacity
 				style={[
 					styles.wrapperNotification,
-					!read && type === 'offer' && styles.readNotification,
+					hasMarkedNotify && styles.readNotification,
 				]}
 				onPress={() => navigate('NotificationItemScreen', { message: item })}
 			>
