@@ -2,8 +2,11 @@ import { TNotification } from '~services/user/notification.services'
 
 export interface IUserProfile {
 	id: string
-	name: string
-	avatar: string | null | undefined
+	name: string | null
+	email: string | null
+	avatar: string | null
+	phoneNumber: string | null
+	emailVerified: boolean
 }
 
 export interface IUserData extends IUserProfile {

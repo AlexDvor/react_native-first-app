@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { FirebaseError } from 'firebase/app'
 import {
 	IHandlerAuthErrors,
 	handlerAuthErrors,
 } from '~helper/firebase/handlerAuthErrors'
+import { IUserProfile } from '~interfaces/user.types'
 import { AuthService } from '~services/auth/auth.services'
 
 interface InterfaceLogin {
@@ -17,24 +17,29 @@ interface InterfaceEmailPassword {
 	name: string
 }
 
-type AuthStateChanged = {
-	email: string | null
+export type AuthStateChanged = {
 	id: string
 	name: string | null
+	email: string | null
+	avatar: string | null
+	phoneNumber: string | null
+	emailVerified: boolean
 } | null
 
-type IAuthResponse = any
-
-export const register = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
+export const register = createAsyncThunk<IUserProfile, InterfaceEmailPassword>(
 	'auth/register',
 	async ({ email, password, name }, thunkAPI) => {
 		try {
 			const { user } = await AuthService.register(email, password, name)
-			return {
-				email: user.email,
+			const userInfo: IUserProfile = {
 				id: user.uid,
 				name: user.displayName,
+				email: user.email,
+				avatar: user.photoURL,
+				emailVerified: user.emailVerified,
+				phoneNumber: user.phoneNumber,
 			}
+			return userInfo
 		} catch (error) {
 			return thunkAPI.rejectWithValue(
 				handlerAuthErrors(error as IHandlerAuthErrors)
@@ -43,12 +48,21 @@ export const register = createAsyncThunk<IAuthResponse, InterfaceEmailPassword>(
 	}
 )
 
-export const login = createAsyncThunk<IAuthResponse, InterfaceLogin>(
+export const login = createAsyncThunk<IUserProfile, InterfaceLogin>(
 	'auth/login',
 	async ({ email, password }, thunkAPI) => {
 		try {
 			const { user } = await AuthService.login(email, password)
-			return { email: user.email, id: user.uid, name: user.displayName }
+			const userInfo: IUserProfile = {
+				id: user.uid,
+				name: user.displayName,
+				email: user.email,
+				avatar: user.photoURL,
+				emailVerified: user.emailVerified,
+				phoneNumber: user.phoneNumber,
+			}
+
+			return userInfo
 		} catch (error) {
 			return thunkAPI.rejectWithValue(
 				handlerAuthErrors(error as IHandlerAuthErrors)

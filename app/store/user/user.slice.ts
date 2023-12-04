@@ -10,9 +10,12 @@ import {
 
 interface initialStateProps {
 	user: {
-		name: string | null
 		id: string | null
+		name: string | null
 		email: string | null
+		avatar: string | null
+		phoneNumber: string | null
+		emailVerified: boolean
 	} | null
 
 	isLoading: boolean

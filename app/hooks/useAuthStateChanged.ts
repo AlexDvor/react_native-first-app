@@ -2,15 +2,10 @@
 import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
-
-type TAuthStateChanged = {
-	email: string | null
-	id: string
-	name: string | null
-} | null
+import { AuthStateChanged } from '~store/user/user.actions'
 
 export const useAuthStateChanged = () => {
-	const [currentUser, setCurrentUser] = useState<TAuthStateChanged | null>(null)
+	const [currentUser, setCurrentUser] = useState<AuthStateChanged | null>(null)
 	// const { removeItem, setItem, getItem } = useAsyncStorage('user')
 
 	// const getItemFromStorage = async () => {
@@ -53,10 +48,14 @@ export const useAuthStateChanged = () => {
 		const unregisterAuthObserver = onAuthStateChanged(FIREBASE_AUTH, (user) => {
 			if (user) {
 				const userUpdatedProfile = {
-					email: user.email,
 					id: user.uid,
 					name: user.displayName,
+					email: user.email,
+					avatar: user.photoURL,
+					emailVerified: user.emailVerified,
+					phoneNumber: user.phoneNumber,
 				}
+				console.log('❌ ~ userUpdatedProfile:', userUpdatedProfile)
 				setCurrentUser(userUpdatedProfile)
 			} else {
 				setCurrentUser(null)

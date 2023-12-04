@@ -1,5 +1,6 @@
 import { formatDistanceToNow } from 'date-fns'
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
+import { UserCredential } from 'firebase/auth'
 import {
 	Unsubscribe,
 	addDoc,
@@ -62,14 +63,19 @@ export const UserService = {
 			const userDocSnapshot = await getDoc(userDocRef)
 
 			if (userDocSnapshot.exists()) {
-				const userData = userDocSnapshot.data()
+				const userData = userDocSnapshot.data() as IUserData
+
 				const user: IUserData = {
 					id: userDocRef.id,
+					name: userData?.name || '',
+					email: userData.email || '',
+					emailVerified: userData.emailVerified || false,
+					phoneNumber: userData.phoneNumber || '',
+					avatar: userData?.avatar || '',
 					chats: userData?.chats || [],
 					ownAnimals: userData?.ownAnimals || [],
-					name: userData?.name || '',
-					avatar: userData?.avatar || '',
 				}
+
 				return user
 			} else {
 				throw new Error(`User with ${userId} not found`)
@@ -78,6 +84,7 @@ export const UserService = {
 			throw error
 		}
 	},
+
 	async creatingOwnerProfile(userData: {
 		userId: string
 		avatar: string
@@ -631,6 +638,7 @@ export const UserService = {
 			const chatList = await Promise.all(
 				chatIdList.map(async (chatId: string) => {
 					const messages = await this.getChatMessages(chatId)
+
 					const participantIdList = await this.getParticipantsByIdChat(chatId)
 					const interlocutorId = participantIdList
 						.filter((id) => id !== userId)

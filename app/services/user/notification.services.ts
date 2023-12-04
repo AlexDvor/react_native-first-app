@@ -42,9 +42,10 @@ export type TNotification = {
 }
 
 export type TSenderData = {
-	name: string | null
-	id: string | null
-	email: string | null
+	id: string
+	name: string
+	avatar: string | null
+	email: string
 }
 
 export type TCreateNotification = {
