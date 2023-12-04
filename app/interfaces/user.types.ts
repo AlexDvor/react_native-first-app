@@ -9,6 +9,8 @@ export interface IUserProfile {
 	emailVerified: boolean
 }
 
+export type IUpdOwnProfile = Omit<IUserProfile, 'id'>
+
 export interface IUserData extends IUserProfile {
 	chats: []
 	ownAnimals: string[]

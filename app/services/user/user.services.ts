@@ -27,7 +27,7 @@ import uuid from 'react-native-uuid'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { IChatScreenMessage, IMessageList } from '~interfaces/message.types'
-import { IUserData } from '~interfaces/user.types'
+import { IUpdOwnProfile, IUserData, IUserProfile } from '~interfaces/user.types'
 
 import { Constants } from './config.services'
 
@@ -85,16 +85,15 @@ export const UserService = {
 		}
 	},
 
-	async creatingOwnerProfile(userData: {
-		userId: string
-		avatar: string
-		name: string
-	}): Promise<void> {
-		const { userId, avatar, name } = userData
+	async creatingOwnerProfile(
+		userId: string,
+		userData: IUpdOwnProfile
+	): Promise<void> {
 		if (!userId) return
 		try {
 			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
-			await setDoc(docRef, { name, avatar })
+
+			await setDoc(docRef, userData)
 		} catch (error) {
 			throw error
 		}
@@ -279,6 +278,7 @@ export const UserService = {
 					vaccine: docData.vaccine || false,
 					owner: docData.owner || {},
 					createdAt: docData.createdAt || '',
+					adoptedByUser: docData.adoptedByUser || null,
 					...docData,
 				}
 				return formattedData

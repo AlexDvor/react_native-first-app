@@ -6,6 +6,7 @@ import {
 	updateProfile,
 } from 'firebase/auth'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
+import { IUpdOwnProfile } from '~interfaces/user.types'
 import { UserService } from '~services/user/user.services'
 
 export const AuthService = {
@@ -25,12 +26,16 @@ export const AuthService = {
 
 			if (currentUser) {
 				await updateProfile(currentUser, { displayName: name })
-
-				await UserService.creatingOwnerProfile({
-					userId: currentUser.uid,
+				const userData: IUpdOwnProfile = {
 					name,
-					avatar: currentUser.photoURL || '',
-				})
+					avatar: currentUser.photoURL || null,
+					email: currentUser.email || null,
+					emailVerified: currentUser.emailVerified || false,
+					phoneNumber: currentUser.phoneNumber || null,
+				}
+
+				await UserService.creatingOwnerProfile(currentUser.uid, userData)
+
 				return userCredential
 			}
 

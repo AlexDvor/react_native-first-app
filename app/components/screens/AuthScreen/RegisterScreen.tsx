@@ -35,6 +35,11 @@ export const RegisterScreen: FC = () => {
 		password,
 	})
 
+	const handleRegister = () => {
+		keyBoardHide()
+		register({ email, password, name })
+	}
+
 	const keyBoardHide = () => {
 		handleResetError()
 		Keyboard.dismiss()
@@ -61,7 +66,7 @@ export const RegisterScreen: FC = () => {
 								autoCapitalize="none"
 								autoCorrect={false}
 								onChangeText={(userName) =>
-									userName && setName(normalizeWords(userName, 'First Upper'))
+									setName(normalizeWords(userName, 'First Upper'))
 								}
 								inputMode="text"
 								onFocus={handleResetError}
@@ -92,10 +97,7 @@ export const RegisterScreen: FC = () => {
 							<View style={styles.buttonWrapper}>
 								<FormButton
 									title="Sign Up"
-									onPress={() => {
-										keyBoardHide()
-										register({ email, password, name })
-									}}
+									onPress={handleRegister}
 									isFetching={isLoading}
 									disabled={hasEmptyFields}
 								/>

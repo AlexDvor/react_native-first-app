@@ -11,7 +11,7 @@ export const AnimalProfileScreen: FC<ProfileAnimalProps> = ({ route }) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const { user } = useAuth()
 	const animalData = route.params.item
-	const currentId = animalData.id
+	const currAnimalId = animalData.id
 
 	useEffect(() => {
 		const fetchCollection = async () => {
@@ -19,7 +19,8 @@ export const AnimalProfileScreen: FC<ProfileAnimalProps> = ({ route }) => {
 			try {
 				setIsLoading(true)
 				const idList = await UserService.getOwnAnimalIdList(user.id)
-				const isOwnerCard = idList.some((item: string) => item === currentId)
+
+				const isOwnerCard = idList.some((item: string) => item === currAnimalId)
 
 				if (isOwnerCard) {
 					setIsOwner(true)

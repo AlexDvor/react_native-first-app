@@ -16,13 +16,14 @@ import { FireBaseDefaultData } from '~helper/firebase/helperFireBaseData'
 import { submitPostFormToFireStorage } from '~helper/firebase/submitPostForm'
 import { useAuth } from '~hooks/useAuth'
 import { useValidateForm } from '~hooks/useValidateForm'
+import { IAnimalsData } from '~interfaces/animals.types'
 import { TFormState } from '~interfaces/form.state.types'
 import { RootNavigationApp } from '~interfaces/tab.navigation.types'
 
 const initialFormValue = {
 	name: '',
 	color: '',
-	age: { year: '', month: '', day: '' },
+	age: { year: 0, month: 0, day: 0 },
 	breed: '',
 	imageUri: [],
 	type: '',
@@ -30,7 +31,13 @@ const initialFormValue = {
 	gender: '',
 	weight: '',
 	vaccine: false,
-	owner: { id: '', name: '', avatar: '' },
+	adoptedByUser: null,
+	createdAt: '',
+	owner: {
+		id: '',
+		name: '',
+		avatar: '',
+	},
 }
 
 export const AddPostScreen: FC = () => {
@@ -64,8 +71,11 @@ export const AddPostScreen: FC = () => {
 			}
 			// await FireBaseDefaultData.createDefaultDataBase(dataAnimals, user.id)
 			await submitPostFormToFireStorage(formValue, user.id)
-			handleResetForm()
-			navigation.navigate('Profile', { screen: 'MyPetGalleryScreen' })
+			// handleResetForm()
+
+			//fix navigation to Gallery
+
+			// navigation.navigate('Profile', { screen: 'MyPetGalleryScreen' })
 		} catch (error) {
 			console.log(error)
 		} finally {
