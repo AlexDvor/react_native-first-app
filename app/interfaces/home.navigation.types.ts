@@ -1,7 +1,8 @@
 import type { StackScreenProps } from '@react-navigation/stack'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { IAnimalsData } from '~interfaces/animals.types'
-import { TNotification } from '~services/user/notification.services'
+
+import { TNotification } from './notification'
 
 export type THomeScreenName = 'AnimalProfileScreen'
 

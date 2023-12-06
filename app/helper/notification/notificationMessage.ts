@@ -4,7 +4,8 @@ import {
 	TNotification,
 	TSenderData,
 	TypeNotification,
-} from '~services/user/notification.services'
+} from '~interfaces/notification'
+import { IUserProfile } from '~interfaces/user.types'
 
 export interface INewMessage {
 	idMsg: string
@@ -12,7 +13,7 @@ export interface INewMessage {
 	messageObj: { title: string; text: string } | undefined
 	sendTime: Date | TGetDistance
 	senderInfo: TSenderData
-	receiverInfo: { id: string; name: string }
+	receiverInfo: IUserProfile
 	animalInfo: IAnimalsData
 }
 
@@ -47,6 +48,9 @@ export const NotifyTemplates = {
 					senderId: senderInfo.id,
 					receiverId: receiverInfo.id,
 				},
+				addInfoItem: {
+					id: animalInfo.id,
+				},
 			}
 
 			return message
@@ -70,6 +74,9 @@ export const NotifyTemplates = {
 					senderId: senderInfo.id,
 					receiverId: receiverInfo.id,
 				},
+				addInfoItem: {
+					id: animalInfo.id,
+				},
 			}
 
 			return message
@@ -92,6 +99,9 @@ export const NotifyTemplates = {
 				senderReceiverInfo: {
 					senderId: senderInfo.id,
 					receiverId: receiverInfo.id,
+				},
+				addInfoItem: {
+					id: animalInfo.id,
 				},
 			}
 

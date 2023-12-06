@@ -13,11 +13,9 @@ import { TGetDistance, getTimeDistance } from '~helper/number/getTimeDistance'
 import { truncateString } from '~helper/string/truncateString'
 import { useAuth } from '~hooks/useAuth'
 import { TNavigationComponent } from '~interfaces/home.navigation.types'
+import { TNotification } from '~interfaces/notification'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
-import {
-	NotificationService,
-	TNotification,
-} from '~services/user/notification.services'
+import { NotificationService } from '~services/user/notification.services'
 
 export const NotificationScreen: FC = () => {
 	const { user } = useAuth()
@@ -56,15 +54,31 @@ export const NotificationScreen: FC = () => {
 		const { message, sendDate, read, type, confirmInfo } = item
 		const getReceivedTime = getTimeDistance(sendDate as TGetDistance)
 
-		const hasMarkedNotify =
-			(!read && type === 'offer' && confirmInfo.confirmed === null) ||
-			confirmInfo.reject === null
+		// const hasMarkedNotify =
+		// 	(!read && type === 'offer' && confirmInfo.confirmed === null) ||
+		// 	(!read && type === 'notification')
+
+		const hasMarkedNotify = () => {
+			if (type === 'offer') {
+				const markOffer =
+					type === 'offer' &&
+					confirmInfo.confirmed === null &&
+					confirmInfo.reject === null
+				return markOffer
+			}
+
+			if (type === 'notification') {
+				return !read
+			}
+
+			return false
+		}
 
 		return (
 			<TouchableOpacity
 				style={[
 					styles.wrapperNotification,
-					hasMarkedNotify && styles.readNotification,
+					hasMarkedNotify() && styles.readNotification,
 				]}
 				onPress={() => navigate('NotificationItemScreen', { message: item })}
 			>

@@ -10,7 +10,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { Image, ImageSourcePropType } from 'react-native'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
-import { TAnimalsData } from '~data/animals'
+import { TestAnimalTypes } from '~data/animals'
 import { Constants } from '~services/user/config.services'
 
 const { COLLECTION_USERS, COLLECTION_ANIMALS, ITEM_OWM_ANIMALS } = Constants
@@ -69,7 +69,7 @@ export const FireBaseDefaultData = {
 		}
 	},
 
-	async createDefaultDataBase(animalsData: TAnimalsData[], userId: string) {
+	async createDefaultDataBase(animalsData: TestAnimalTypes[], userId: string) {
 		if (!userId) return
 		try {
 			for (const animal of animalsData) {

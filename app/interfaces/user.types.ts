@@ -1,4 +1,4 @@
-import { TNotification } from '~services/user/notification.services'
+import { TNotification } from './notification'
 
 export interface IUserProfile {
 	id: string

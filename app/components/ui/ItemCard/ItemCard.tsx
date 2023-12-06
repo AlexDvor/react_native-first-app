@@ -22,10 +22,8 @@ import {
 	MessageNavigationComponent,
 	MessageRootStackParamList,
 } from '~interfaces/message.navigation.types'
-import {
-	NotificationService,
-	TCreateNotification,
-} from '~services/user/notification.services'
+import { TCreateNotification } from '~interfaces/notification'
+import { NotificationService } from '~services/user/notification.services'
 import { UserService } from '~services/user/user.services'
 
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
@@ -65,7 +63,11 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 
 		const notification: TCreateNotification = {
 			receiverInfo: item.owner,
-			senderInfo: user,
+			senderInfo: {
+				id: user.id || '',
+				avatar: user.avatar || '',
+				name: user.avatar || '',
+			},
 			animalInfo: item,
 			type: 'offer',
 		}

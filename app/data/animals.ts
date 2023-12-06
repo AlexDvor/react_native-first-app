@@ -1,6 +1,6 @@
 import { FieldValue, serverTimestamp } from 'firebase/firestore'
 
-export type TAnimalsData = {
+export type TestAnimalTypes = {
 	name: string
 	color: string
 	age: { year: number; month: number; day: number }
@@ -16,7 +16,7 @@ export type TAnimalsData = {
 	adoptedByUser: { id: string; name: string; avatar: string | null } | null
 }
 
-// export const dataAnimals: TAnimalsData[] = [
+// export const dataAnimals: TestAnimalTypes[] = [
 // 	{
 // 		name: 'Jerry',
 // 		age: { year: 2022, month: 2, day: 15 },
@@ -189,7 +189,7 @@ export type TAnimalsData = {
 // 	},
 // ]
 
-export const dataAnimals: TAnimalsData[] = [
+export const dataAnimals: TestAnimalTypes[] = [
 	{
 		name: 'Toby',
 		age: { year: 2022, month: 2, day: 15 },

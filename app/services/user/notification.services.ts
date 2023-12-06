@@ -13,65 +13,17 @@ import {
 	INewMessage,
 	NotifyTemplates,
 } from '~helper/notification/notificationMessage'
-import { TGetDistance } from '~helper/number/getTimeDistance'
-import { IAnimalsData } from '~interfaces/animals.types'
-import { IAllCollectionsUser, IUserProfile } from '~interfaces/user.types'
+import {
+	TCreateNotification,
+	TIdUsers,
+	TNotification,
+} from '~interfaces/notification'
+import { IAllCollectionsUser } from '~interfaces/user.types'
+import { AnimalService } from '~services/animal.services'
 
 import { Constants, TCollections } from './config.services'
 
 const { COLLECTION_USERS, ITEM_NOTIFICATIONS } = Constants
-
-export type TypeNotification = 'offer' | 'notification' | 'confirmation'
-
-export type TNotification = {
-	id: string
-	message: { title: string; text: string }
-	sendDate: Date | TGetDistance
-	readDate: Date | null
-	read: boolean
-	type: TypeNotification
-	confirmInfo: {
-		confirmed: boolean | null
-		reject: boolean | null
-		date: Date | null
-	}
-	senderReceiverInfo: {
-		senderId: string
-		receiverId: string
-	}
-}
-
-export type TSenderData = {
-	id: string
-	name: string
-	avatar: string | null
-	email: string
-}
-
-export type TCreateNotification = {
-	receiverInfo: IUserProfile
-	senderInfo: TSenderData
-	animalInfo: IAnimalsData
-	type: TypeNotification
-	messageObj?: { title: string; text: string }
-}
-
-export type TSendNotification = {
-	receiverId: string
-	notificationObj: { title: string; text: string }
-	notificationId: string
-	type: TypeNotification
-	time: Date
-	senderReceiverInfo: {
-		receiverId: string
-		senderId: string
-	}
-}
-
-export type TIdUsers = {
-	senderId: string
-	receiverId: string
-}
 
 export const NotificationService = {
 	async getNotifications(userId: string) {
@@ -231,22 +183,23 @@ export const NotificationService = {
 		const currentTime = new Date()
 		const notifyParams: INewMessage = {
 			idMsg: notifyId,
+			typeMsg: type,
+			sendTime: currentTime,
+			senderInfo,
 			messageObj,
 			receiverInfo,
-			senderInfo,
-			sendTime: currentTime,
 			animalInfo,
-			typeMsg: type,
 		}
 
 		try {
 			if (type === 'offer' && senderInfo.id) {
-				const notifyForOwner = NotifyTemplates.createMsg(notifyParams, 'offer')
+				const notifyOwner = NotifyTemplates.createMsg(notifyParams, 'offer')
 
-				const notifyForSender = NotifyTemplates.createMsg(
+				const notifySender = NotifyTemplates.createMsg(
 					notifyParams,
 					'notification'
 				)
+
 				// const notifyOwner = NotificationTemplateMessages.getOfferMessage(
 				// 	senderInfo,
 				// 	animalInfo,
@@ -295,8 +248,8 @@ export const NotificationService = {
 				// 	},
 				// }
 
-				// await this.sendNotificationToUser(ownerMessage, animalInfo.owner.id)
-				// await this.sendNotificationToUser(userMessage, senderInfo.id)
+				await this.sendNotificationToUser(notifyOwner, animalInfo.owner.id)
+				await this.sendNotificationToUser(notifySender, senderInfo.id)
 
 				return
 			}
@@ -391,9 +344,10 @@ export const NotificationService = {
 			throw error
 		}
 	},
+
 	async confirmAdoption(notifyId: string, idUsers: TIdUsers) {
-		const currentTime = new Date()
 		const { receiverId, senderId } = idUsers
+
 		try {
 			const { data: recvData, userDocRef: recvRef } =
 				await this.getAllCollectionsUser(receiverId)
@@ -416,40 +370,62 @@ export const NotificationService = {
 
 			if (recvIndex >= 0 && sendIndex >= 0) {
 				if (recvNotifyColl[recvIndex].type === 'offer') {
-					recvNotifyColl[recvIndex].confirmInfo.confirmed = true
-					recvNotifyColl[recvIndex].confirmInfo.date = currentTime
+					// recvNotifyColl[recvIndex].confirmInfo.confirmed = true
+					// recvNotifyColl[recvIndex].confirmInfo.date = currentTime
 				}
 
 				if (sendNotifyColl[recvIndex].type === 'notification') {
-					// you can change notification for senderUser
 					const newId = uuid.v4() as string
-					const generateMessage =
-						NotificationTemplateMessages.getConfirmationMessage()
+					const adoptAnimalId = sendNotifyColl[recvIndex].addInfoItem.id
 
-					const confirmMessage: TNotification = {
-						id: newId,
-						message: { ...generateMessage },
-						sendDate: currentTime,
-						readDate: null,
-						read: false,
-						type: 'notification',
-						confirmInfo: {
-							confirmed: null,
-							reject: null,
-							date: null,
-						},
-						senderReceiverInfo: {
-							receiverId: idUsers.receiverId,
-							senderId: idUsers.senderId,
-						},
+					if (adoptAnimalId) {
+						const currAnimalInfo = await AnimalService.getAnimalById(
+							adoptAnimalId
+						)
+
+						const notifyObj: TCreateNotification = {
+							animalInfo: currAnimalInfo,
+							type: 'confirmation',
+							senderInfo: {
+								id: senderId,
+								name: sendData.name,
+								avatar: sendData.avatar,
+						
+							}
+							receiverInfo: {
+								id: receiverId,
+								name: recvData.name,
+								avatar:recvData.avatar,
+							}
+						}
 					}
-					await this.createdNotification()
+
+					// const confirmMessage: TNotification = {
+					// 	id: newId,
+					// 	message: { ...generateMessage },
+					// 	sendDate: currentTime,
+					// 	readDate: null,
+					// 	read: false,
+					// 	type: 'notification',
+					// 	confirmInfo: {
+					// 		confirmed: null,
+					// 		reject: null,
+					// 		date: null,
+					// 	},
+					// 	senderReceiverInfo: {
+					// 		receiverId: idUsers.receiverId,
+					// 		senderId: idUsers.senderId,
+					// 	},
+					// }
+					// await this.createdNotification()
 				}
 			}
 
 			// const userDoc= await NotificationService.getAllCollectionsUser()
 			// await this this.updateDocCollection("","ITEM_NOTIFICATIONS",{})
-		} catch (error) {}
+		} catch (error) {
+			console.log('❌ ~ confirmAdoption', error)
+		}
 	},
 	async rejectAdoption(notifyId: string, idUsers: TIdUsers) {
 		try {
