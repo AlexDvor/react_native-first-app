@@ -25,15 +25,18 @@ export type TNotification = {
 		id: string | null
 	}
 }
-export type TSenderData = {
+
+export interface IReceiverInfo {
 	id: string
 	name: string
 	avatar: string | null
 }
 
+export interface TSenderInfo extends IReceiverInfo {}
+
 export type TCreateNotification = {
-	receiverInfo: IUserProfile
-	senderInfo: TSenderData
+	receiverInfo: IReceiverInfo
+	senderInfo: TSenderInfo
 	animalInfo: IAnimalsData
 	type: TypeNotification
 	messageObj?: { title: string; text: string }

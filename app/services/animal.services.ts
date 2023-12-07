@@ -1,7 +1,7 @@
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { FIREBASE_DB } from '~config/firebaseConfig'
 import { TestAnimalTypes } from '~data/animals'
-import { IAnimalsData } from '~interfaces/animals.types'
+import { IAnimalsData, IOwnerInfo } from '~interfaces/animals.types'
 
 import { Constants } from './user/config.services'
 
@@ -33,6 +33,23 @@ export const AnimalService = {
 				return formattedData
 			} else {
 				throw new Error(`Animal with ${animalId} not found`)
+			}
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async updateAdoptedByUser(animalId: string, newAdoptedByUser: IOwnerInfo) {
+		try {
+			const docRef = doc(FIREBASE_DB, COLLECTION_ANIMALS, animalId)
+			const docSnapshot = await getDoc(docRef)
+
+			if (docSnapshot.exists()) {
+				await updateDoc(docRef, {
+					adoptedByUser: newAdoptedByUser,
+				})
+			} else {
+				throw new Error(`Animal with ID ${animalId} not found`)
 			}
 		} catch (error) {
 			throw error

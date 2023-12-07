@@ -62,7 +62,11 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 		if (!user) return
 
 		const notification: TCreateNotification = {
-			receiverInfo: item.owner,
+			receiverInfo: {
+				id: item.owner.id,
+				name: item.owner.name,
+				avatar: item.owner.avatar,
+			},
 			senderInfo: {
 				id: user.id || '',
 				avatar: user.avatar || '',
@@ -72,7 +76,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 			type: 'offer',
 		}
 
-		await NotificationService.createdNotification(notification)
+		await NotificationService.createAndSendNotify(notification)
 		try {
 		} catch (error) {
 			console.log('❌ ~ submitAdoptForm:', error)

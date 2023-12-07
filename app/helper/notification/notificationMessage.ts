@@ -1,24 +1,27 @@
 import { TGetDistance } from '~helper/number/getTimeDistance'
 import { IAnimalsData } from '~interfaces/animals.types'
 import {
+	IReceiverInfo,
 	TNotification,
-	TSenderData,
+	TSenderInfo,
 	TypeNotification,
 } from '~interfaces/notification'
-import { IUserProfile } from '~interfaces/user.types'
 
 export interface INewMessage {
 	idMsg: string
 	typeMsg: TypeNotification
 	messageObj: { title: string; text: string } | undefined
 	sendTime: Date | TGetDistance
-	senderInfo: TSenderData
-	receiverInfo: IUserProfile
+	senderInfo: TSenderInfo
+	receiverInfo: IReceiverInfo
 	animalInfo: IAnimalsData
 }
 
 export const NotifyTemplates = {
-	createMsg(objMsg: INewMessage, notifyType: TypeNotification): TNotification {
+	createMsg(
+		objMsg: INewMessage,
+		notifyType: TypeNotification
+	): TNotification | undefined {
 		const {
 			idMsg,
 			messageObj,
@@ -109,7 +112,7 @@ export const NotifyTemplates = {
 		}
 	},
 
-	getOfferMsgTemplate(user: TSenderData, animal: IAnimalsData) {
+	getOfferMsgTemplate(user: TSenderInfo, animal: IAnimalsData) {
 		const title = `Request to Adopt ${animal.name}`
 		const text = `User ${user.name} wants to adopt your animal ${animal.name}. Please check and accept the request if you agree.`
 		return {

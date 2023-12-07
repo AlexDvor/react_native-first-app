@@ -1,6 +1,10 @@
 import { ImageSourcePropType } from 'react-native'
 
-import { IUserProfile } from './user.types'
+export interface IOwnerInfo {
+	id: string
+	name: string
+	avatar: string | null
+}
 
 export interface IAnimalsData {
 	[key: string]: any
@@ -15,7 +19,7 @@ export interface IAnimalsData {
 	gender: string
 	weight: number | string
 	vaccine: boolean
-	owner: IUserProfile
-	adoptedByUser: IUserProfile | null
+	owner: IOwnerInfo
+	adoptedByUser: IOwnerInfo | null
 	createdAt: string
 }

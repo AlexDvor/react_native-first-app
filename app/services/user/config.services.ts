@@ -6,6 +6,13 @@ export const Constants = {
 	ITEM_OWM_ANIMALS: 'ownAnimals',
 	ITEM_FAVORITE: 'favorites',
 	ITEM_CHAT: 'chat',
-}
+} as const
 
 export type TCollections = keyof typeof Constants
+
+type ExcludedCollectionKeys =
+	| 'COLLECTION_ANIMALS'
+	| 'COLLECTION_CHAT'
+	| 'COLLECTION_USERS'
+
+export type TypeOwnUserColl = Exclude<TCollections, ExcludedCollectionKeys>

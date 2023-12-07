@@ -1,10 +1,12 @@
 import { FC, useEffect, useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
 import { TGetDistance, getTimeDistance } from '~helper/number/getTimeDistance'
 import { useAuth } from '~hooks/useAuth'
 import { NotificationItemProps } from '~interfaces/home.navigation.types'
 import { NotificationService } from '~services/user/notification.services'
+
+type TButtons = 'Accept' | 'Reject'
 
 export const NotificationItemScreen: FC<NotificationItemProps> = ({
 	route,
@@ -12,6 +14,8 @@ export const NotificationItemScreen: FC<NotificationItemProps> = ({
 	const { message } = route.params
 	const [isRead, setIsRead] = useState<boolean>(message.read)
 	const { user } = useAuth()
+	const [isLoading, setIsLoading] = useState(false)
+	const [isBlockedBtn, setIsBlockedBtn] = useState(false)
 
 	const notifyId = message.id
 	const senderId = message.senderReceiverInfo.senderId
@@ -25,7 +29,7 @@ export const NotificationItemScreen: FC<NotificationItemProps> = ({
 			try {
 				await NotificationService.markNotificationAsRead(message.id, user?.id)
 			} catch (error) {
-				console.log('❌ ~ error:', error)
+				console.log('❌ ~ markAsReadMessage:', error)
 			}
 		}
 		markAsReadMessage()
@@ -35,28 +39,46 @@ export const NotificationItemScreen: FC<NotificationItemProps> = ({
 		if (!user?.id) return
 
 		try {
+			setIsLoading(true)
 			await NotificationService.confirmAdoption(notifyId, {
 				senderId,
 				receiverId,
 			})
+			setIsBlockedBtn(true)
+		} catch (error) {
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
+	const handleRejectBtn = async () => {
+		try {
 		} catch (error) {}
 	}
 
-	const handleRejectBtn = async () => {}
+	const checkDisabledBtn = (type: TButtons) => {
+		if (type === 'Accept') {
+			const isConfirmed =
+				message.type === 'offer' && message.confirmInfo.confirmed
+			return isConfirmed ? true : false
+		}
 
-	// const remove = async () => {
-	// 	try {
-	// 		if (!user?.id) return
-	// 		await NotificationService.removeNotificationFromUserColl(
-	// 			user?.id,
-	// 			message.id
-	// 		)
-	// 	} catch (error) {}
-	// }
+		if (type === 'Reject') {
+			const isRejected = message.type === 'offer' && message.confirmInfo.reject
+			return isRejected ? true : false
+		}
+	}
+
+	const confirmMsg =
+		'Success! Your request has been confirmed. Thank you for your confirmation!'
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>{message.message.title}</Text>
+			{message.confirmInfo.confirmed ? (
+				<Text style={styles.title}>{confirmMsg}</Text>
+			) : (
+				<Text style={styles.title}>{message.message.title}</Text>
+			)}
 			<Text style={styles.date}>
 				{getTimeDistance(message.sendDate as TGetDistance)}
 			</Text>
@@ -68,12 +90,15 @@ export const NotificationItemScreen: FC<NotificationItemProps> = ({
 						title={'Accept'}
 						widthButton={100}
 						onPress={handleAcceptBtn}
+						isFetching={isLoading}
+						disabled={isLoading || checkDisabledBtn('Accept') || isBlockedBtn}
 					></PrimaryButton>
 					<PrimaryButton
 						title={'Reject'}
 						widthButton={100}
 						margLeft={10}
 						onPress={handleRejectBtn}
+						disabled={isLoading || checkDisabledBtn('Reject') || isBlockedBtn}
 					></PrimaryButton>
 				</View>
 			)}
