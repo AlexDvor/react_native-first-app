@@ -2,6 +2,8 @@ import { formatDistanceToNow } from 'date-fns'
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
 import { UserCredential } from 'firebase/auth'
 import {
+	DocumentData,
+	DocumentReference,
 	Unsubscribe,
 	addDoc,
 	arrayRemove,
@@ -57,14 +59,15 @@ export interface IChatMessage extends Message {
 export const UserService = {
 	////// User and common
 
-	async getUserDataById(userId: string): Promise<IUserData> {
+	async getUserRef(
+		userId: string
+	): Promise<{ user: IUserData; userDocRef: DocumentReference<DocumentData> }> {
 		try {
 			const userDocRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
 			const userDocSnapshot = await getDoc(userDocRef)
 
 			if (userDocSnapshot.exists()) {
 				const userData = userDocSnapshot.data() as IUserData
-
 				const user: IUserData = {
 					id: userDocRef.id,
 					name: userData?.name || '',
@@ -74,9 +77,11 @@ export const UserService = {
 					avatar: userData?.avatar || '',
 					chats: userData?.chats || [],
 					ownAnimals: userData?.ownAnimals || [],
+					favorites: userData.favorites || [],
+					notifications: userData.notifications || [],
 				}
 
-				return user
+				return { user, userDocRef }
 			} else {
 				throw new Error(`User with ${userId} not found`)
 			}
@@ -643,7 +648,7 @@ export const UserService = {
 					const interlocutorId = participantIdList
 						.filter((id) => id !== userId)
 						.toString()
-					const interlocutorData = await this.getUserDataById(interlocutorId)
+					const interlocutorData = await this.getUserRef(interlocutorId)
 					const firstMessage = messages[0]
 					const messageTimeDistance = formatDistanceToNow(
 						new Date(firstMessage.createdAt),
@@ -654,8 +659,8 @@ export const UserService = {
 						id: chatId,
 						messageText: messages[0].text,
 						messageTime: messageTimeDistance,
-						userImg: interlocutorData.avatar || '',
-						userName: interlocutorData.name || '',
+						userImg: interlocutorData.user.avatar || '',
+						userName: interlocutorData.user.name || '',
 					}
 				})
 			)

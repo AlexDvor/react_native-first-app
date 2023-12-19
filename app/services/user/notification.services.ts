@@ -1,11 +1,4 @@
-import {
-	DocumentData,
-	DocumentReference,
-	arrayUnion,
-	doc,
-	getDoc,
-	updateDoc,
-} from 'firebase/firestore'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import 'firebase/firestore'
 import uuid from 'react-native-uuid'
 import { FIREBASE_DB } from '~config/firebaseConfig'
@@ -18,64 +11,24 @@ import {
 	TIdUsers,
 	TNotification,
 } from '~interfaces/notification'
-import { IAllCollectionsUser } from '~interfaces/user.types'
 import { AnimalService } from '~services/animal.services'
 import { CollectionServices } from '~services/coll.services'
 
-import { Constants, TCollections } from './config.services'
+import { Constants } from './config.services'
+import { UserService } from './user.services'
 
 const { COLLECTION_USERS, ITEM_NOTIFICATIONS } = Constants
 
 export const NotificationService = {
-	async getNotifications(userId: string) {
+	async getNotifications(userId: string): Promise<TNotification[]> {
 		try {
-			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
-			const docSnapshot = await getDoc(docRef)
-			if (docSnapshot.exists()) {
-				const userData = docSnapshot.data()
-				const notificationList = userData?.notifications || []
-				return notificationList
-			} else {
-				throw new Error('You dont have notification list')
-			}
+			const { user } = await UserService.getUserRef(userId)
+			const notifyColl = user.notifications
+			return notifyColl.reverse()
 		} catch (error) {
 			throw error
 		}
 	},
-
-	// async sendNotificationToOwner(
-	// 	userId: string,
-	// 	notificationItem: TCreateNotification
-	// ): Promise<void> {
-	// 	try {
-	// 		const newID = uuid.v4().slice(0, 12)
-	// 		const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
-
-	// 		const docSnap = await getDoc(docRef)
-	// 		if (docSnap.exists()) {
-	// 			const userData = docSnap.data()
-	// 			const notifications = userData[ITEM_NOTIFICATIONS] || []
-
-	// 			const existingNotificationIndex = notifications.findIndex(
-	// 				(notification: TNotification) => notification.id === newID
-	// 			)
-
-	// 			if (existingNotificationIndex !== -1) {
-	// 				notifications[existingNotificationIndex] = {
-	// 					...notificationItem,
-	// 					id: newID,
-	// 					sendDate: new Date(),
-	// 				}
-	// 			} else {
-	// 				notifications.push(notificationItem)
-	// 			}
-
-	// 			await updateDoc(docRef, { [ITEM_NOTIFICATIONS]: notifications })
-	// 		}
-	// 	} catch (error) {
-	// 		throw error
-	// 	}
-	// },
 
 	async createAndSendNotify(
 		notificationObj: TCreateNotification
@@ -135,9 +88,7 @@ export const NotificationService = {
 		receiverId: string
 	): Promise<void> {
 		try {
-			const { userDocRef } = await CollectionServices.getAllCollectionsUser(
-				receiverId
-			)
+			const { userDocRef } = await UserService.getUserRef(receiverId)
 			await CollectionServices.addDocToCollection(
 				'ITEM_NOTIFICATIONS',
 				notifyObj,
@@ -188,9 +139,8 @@ export const NotificationService = {
 	): Promise<void> {
 		const currentTime = new Date()
 		try {
-			const { data, userDocRef } =
-				await CollectionServices.getAllCollectionsUser(userId)
-			const notifyColl = data.notifications
+			const { user, userDocRef } = await UserService.getUserRef(userId)
+			const notifyColl = user.notifications
 			if (!notifyColl) {
 				throw new Error('Notifications data not found')
 			}
@@ -221,10 +171,10 @@ export const NotificationService = {
 		const { receiverId, senderId } = idUsers
 
 		try {
-			const { data: recvData, userDocRef: recvRef } =
-				await CollectionServices.getAllCollectionsUser(receiverId)
-			const { data: sendData, userDocRef: sendRef } =
-				await CollectionServices.getAllCollectionsUser(senderId)
+			const { user: recvData, userDocRef: recvRef } =
+				await UserService.getUserRef(receiverId)
+			const { user: sendData, userDocRef: sendRef } =
+				await UserService.getUserRef(senderId)
 
 			const notifyCollRecv = recvData.notifications
 			const notifyCollSend = sendData.notifications
@@ -240,6 +190,7 @@ export const NotificationService = {
 			)
 
 			if (recvIndex >= 0 && sendIndex >= 0) {
+				//changed notify data for receiver user
 				if (notifyCollRecv[recvIndex].type === 'offer') {
 					notifyCollRecv[recvIndex].confirmInfo.confirmed = true
 					notifyCollRecv[recvIndex].confirmInfo.date = currentTime
@@ -250,8 +201,9 @@ export const NotificationService = {
 					)
 				}
 
-				if (notifyCollSend[recvIndex].type === 'notification') {
-					const adoptAnimalId = notifyCollSend[recvIndex].addInfoItem.id
+				if (notifyCollSend[sendIndex].type === 'notification') {
+					//changed notify data for sender user
+					const adoptAnimalId = notifyCollSend[sendIndex].addInfoItem.id
 
 					if (adoptAnimalId) {
 						const currAnimalInfo = await AnimalService.getAnimalById(
@@ -263,12 +215,12 @@ export const NotificationService = {
 							type: 'confirmation',
 							senderInfo: {
 								id: senderId,
-								name: sendData.name,
+								name: sendData.name || '',
 								avatar: sendData.avatar,
 							},
 							receiverInfo: {
 								id: receiverId,
-								name: recvData.name,
+								name: recvData.name || '',
 								avatar: recvData.avatar,
 							},
 						}

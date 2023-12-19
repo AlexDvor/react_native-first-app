@@ -12,6 +12,7 @@ interface IPrimaryBtn extends ButtonProps {
 	margLeft?: number
 	margRight?: number
 	isFetching?: boolean
+	disabledColor?: TypeColorComponents
 }
 
 export const PrimaryButton: FC<IPrimaryBtn> = ({
@@ -22,15 +23,17 @@ export const PrimaryButton: FC<IPrimaryBtn> = ({
 	margRight = 0,
 	isFetching = false,
 	disabled,
+	disabledColor = 'disableBackgroundBtn',
 	...rest
 }) => {
-	const selectedColor = COLORS[backgroundColorButton]
+	const activeColor = COLORS[backgroundColorButton]
+	const inactiveColor = COLORS[disabledColor]
 
 	return (
 		<TouchableOpacity
 			disabled={disabled || isFetching}
 			style={{
-				backgroundColor: disabled ? COLORS.disableBackgroundBtn : selectedColor,
+				backgroundColor: disabled ? inactiveColor : activeColor,
 				height: 50,
 				borderRadius: 30,
 				justifyContent: 'center',

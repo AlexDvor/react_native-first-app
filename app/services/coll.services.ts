@@ -2,13 +2,9 @@ import {
 	DocumentData,
 	DocumentReference,
 	arrayUnion,
-	doc,
-	getDoc,
 	updateDoc,
 } from 'firebase/firestore'
-import { FIREBASE_DB } from '~config/firebaseConfig'
 import { TNotification } from '~interfaces/notification'
-import { IAllCollectionsUser } from '~interfaces/user.types'
 
 import {
 	Constants,
@@ -19,58 +15,6 @@ import {
 const { ITEM_NOTIFICATIONS, COLLECTION_USERS } = Constants
 
 export const CollectionServices = {
-	async getAllCollectionsUser(userId: string): Promise<{
-		data: IAllCollectionsUser
-		userDocRef: DocumentReference<DocumentData>
-	}> {
-		// remove to another class
-		try {
-			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)
-			const docSnapshot = await getDoc(docRef)
-
-			if (!docSnapshot.exists()) {
-				throw new Error('User not found')
-			}
-
-			const userData = docSnapshot.data()
-			if (userData) {
-				return {
-					data: userData as IAllCollectionsUser,
-					userDocRef: docRef,
-				}
-			} else {
-				throw new Error('User data is invalid')
-			}
-		} catch (error) {
-			throw error
-		}
-	},
-
-	// async getCollByName(
-	// 	collName: TCollections,
-	// 	allCollectionUser: IAllCollectionsUser
-	// ): Promise<TNotification[]> {
-	// 	try {
-	// 		const nameColl = Constants[collName]
-
-	// 		if (nameColl) {
-	// 			const collection = allCollectionUser[nameColl]
-
-	// 			if (collection) {
-	// 				return collection
-	// 			} else {
-	// 				throw new Error(`❌ ~ This ${collection} not exist`)
-	// 			}
-	// 		} else {
-	// 			throw new Error(
-	// 				`❌ ~ This ${collName} name does not exist in the users database`
-	// 			)
-	// 		}
-	// 	} catch (error) {
-	// 		throw error
-	// 	}
-	// },
-
 	async updateOwnUserColl(
 		coll: TypeOwnUserColl,
 		newData: [] | {} | boolean,

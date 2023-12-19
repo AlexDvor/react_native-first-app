@@ -26,6 +26,7 @@ import { TCreateNotification } from '~interfaces/notification'
 import { NotificationService } from '~services/user/notification.services'
 import { UserService } from '~services/user/user.services'
 
+import { AdoptedBadge } from '../AdoptedBadge/AdoptedBadge'
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
 import { PrimaryButton } from '../PrimaryButton/PrimaryButton'
 import { ReadMoreContainer } from '../ReadMoreContainer/ReadMoreContainer'
@@ -46,6 +47,8 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const monthOfBirthday = item.age.month
 	const yearOfBirthday = item.age.year
 	const { goBack } = useNavigation()
+
+	item.adoptedByUser
 
 	const removeAnimalFromOwnColl = async () => {
 		if (!user?.id) return
@@ -96,6 +99,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<ScrollView ref={scrollCurrentRef} style={{}}>
 				<Slider imageData={item.imageUri} />
+				{item.adoptedByUser !== null && <AdoptedBadge />}
 
 				<View style={styles.infoWrapper}>
 					<Text style={styles.breed}>{item.breed}</Text>
@@ -201,10 +205,12 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 						></PrimaryButton>
 					) : (
 						<PrimaryButton
-							title="Adopt Now"
+							title={item.adoptedByUser ? 'You are late' : 'Adopt Now'}
 							widthButton={300}
 							backgroundColorButton={'secondaryBtn'}
 							onPress={submitAdoptForm}
+							disabled={item.adoptedByUser ? true : false}
+							disabledColor={'inactiveBtn'}
 						></PrimaryButton>
 					)}
 				</View>

@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import {
 	Button,
 	SafeAreaView,
@@ -18,6 +18,7 @@ import { COLORS, CONTAINER } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
 import { usePaginatedCollection } from '~hooks/usePaginatedCollection'
 import { IAnimalsData } from '~interfaces/animals.types'
+import { TNotification } from '~interfaces/notification'
 import { UserService } from '~services/user/user.services'
 
 import {
@@ -34,16 +35,12 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')
+	const [hasNotify, setHasNotify] = useState(false)
+	const { user } = useAuth()
 	const { navigate } = useNavigation<TNavigationComponent>()
 
-	const {
-		animals,
-		totalPage,
-		isFetching,
-		isPaginationLoading,
-		currentPage,
-		loadMoreAnimals,
-	} = usePaginatedCollection(selectedAnimalType)
+	const { animals, isFetching, isPaginationLoading, loadMoreAnimals } =
+		usePaginatedCollection(selectedAnimalType)
 
 	const handleOnPressTypeMenu = (animalType: TSelectedAnimalType) => {
 		setSelectedAnimalType(animalType)
@@ -73,6 +70,26 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 	// 	}, [selectedAnimalType])
 	// )
 
+	useFocusEffect(
+		useCallback(() => {
+			const fetchNotify = async () => {
+				if (!user?.id) return
+
+				try {
+					const userData = await UserService.getUserRef(user?.id)
+					const notifyColl = userData.user.notifications
+					const hasUnreadMessages = notifyColl.some(
+						(notify) => notify.read === false
+					)
+					setHasNotify(hasUnreadMessages)
+				} catch (error) {
+				} finally {
+				}
+			}
+			fetchNotify()
+		}, [selectedAnimalType])
+	)
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<View style={styles.container}>
@@ -84,7 +101,7 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 							<Ionicons name="notifications-outline" size={32} color="black" />
 						</View>
 
-						{true && (
+						{hasNotify && (
 							<View style={styles.notificationWrapper}>
 								<View style={styles.notificationDot}></View>
 							</View>

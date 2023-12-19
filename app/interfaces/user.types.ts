@@ -14,21 +14,23 @@ export type IUpdOwnProfile = Omit<IUserProfile, 'id'>
 export interface IUserData extends IUserProfile {
 	chats: []
 	ownAnimals: string[]
+	notifications: TNotification[]
+	favorites: string[]
 }
 export interface IUserInitialState {
 	user: IUserProfile | null
 	isLoading: boolean
 }
 
-export interface IAllCollectionsUser {
-	[key: string]: any
-	name: string
-	avatar: string
-	chat: string[]
-	favorites: string[]
-	notifications: TNotification[]
-	ownAnimals: string[]
-}
+// export interface IAllCollectionsUser {
+// 	[key: string]: any
+// 	name: string
+// 	avatar: string
+// 	chat: string[]
+// 	favorites: string[]
+// 	notifications: TNotification[]
+// 	ownAnimals: string[]
+// }
 
 // export interface IUserState {
 // 	email: string
