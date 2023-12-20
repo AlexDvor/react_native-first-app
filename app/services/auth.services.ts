@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { IUpdOwnProfile } from '~interfaces/user.types'
-import { UserService } from '~services/user/user.services'
+import { UserService } from '~services/user.services'
 
 export const AuthService = {
 	async register(

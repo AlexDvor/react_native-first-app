@@ -1,25 +1,15 @@
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { FC, useCallback, useEffect, useState } from 'react'
-import {
-	Button,
-	SafeAreaView,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-} from 'react-native'
+import { FC, useCallback, useState } from 'react'
+import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Logo } from '~components/ui/Logo/Logo'
 import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenuList'
 import { menuData } from '~components/ui/ScrollableMenu/menu.data'
-import { Spinner } from '~components/ui/Spinner/Spinner'
 import { COLORS, CONTAINER } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
 import { usePaginatedCollection } from '~hooks/usePaginatedCollection'
-import { IAnimalsData } from '~interfaces/animals.types'
-import { TNotification } from '~interfaces/notification'
-import { UserService } from '~services/user/user.services'
+import { UserService } from '~services/user.services'
 
 import {
 	DefaultHomeProps,
@@ -28,10 +18,7 @@ import {
 
 export type TSelectedAnimalType = 'All' | 'Dog' | 'Cat'
 
-export const HomeScreen: FC<DefaultHomeProps> = ({
-	route,
-	navigation,
-}: DefaultHomeProps) => {
+export const HomeScreen: FC<DefaultHomeProps> = () => {
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')
@@ -78,10 +65,12 @@ export const HomeScreen: FC<DefaultHomeProps> = ({
 				try {
 					const userData = await UserService.getUserRef(user?.id)
 					const notifyColl = userData.user.notifications
+					const favorIdList = userData.user.favorites
 					const hasUnreadMessages = notifyColl.some(
 						(notify) => notify.read === false
 					)
 					setHasNotify(hasUnreadMessages)
+					setFavoriteIdList(favorIdList)
 				} catch (error) {
 				} finally {
 				}

@@ -1,7 +1,5 @@
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
-import { serverTimestamp } from 'firebase/firestore'
 import React, { FC, useRef, useState } from 'react'
 import {
 	Image,
@@ -12,20 +10,15 @@ import {
 	View,
 } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { COLORS } from '~constants/theme'
-import { widthScreenDevice } from '~constants/theme'
+import { COLORS, widthScreenDevice } from '~constants/theme'
 import calculateAge from '~helper/number/calculateAgeInYears'
 import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
-import { HomeRootStackParamList } from '~interfaces/home.navigation.types'
-import {
-	MessageNavigationComponent,
-	MessageRootStackParamList,
-} from '~interfaces/message.navigation.types'
+import { MessageNavigationComponent } from '~interfaces/message.navigation.types'
 import { TCreateNotification } from '~interfaces/notification'
-import { NotificationService } from '~services/user/notification.services'
-import { UserService } from '~services/user/user.services'
-
+import { ChatService } from '~services/chat.services'
+import { CollectionServices } from '~services/coll.services'
+import { NotificationService } from '~services/notification.services'
 import { AdoptedBadge } from '../AdoptedBadge/AdoptedBadge'
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
 import { PrimaryButton } from '../PrimaryButton/PrimaryButton'
@@ -54,7 +47,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 		if (!user?.id) return
 		try {
 			setIsLoading(true)
-			await UserService.removeOwnAnimalFromProfile(item.id, user.id)
+			await CollectionServices.removeOwnAnimalFromProfile(item.id, user.id)
 			goBack()
 		} catch (error) {
 		} finally {
@@ -90,7 +83,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 
 	const handleChatPress = async () => {
 		try {
-			const chatId = await UserService.createChat(user?.id || '', item.owner.id)
+			const chatId = await ChatService.createChat(user?.id || '', item.owner.id)
 			navigate('ChatScreen', { chatId })
 		} catch (error) {}
 	}

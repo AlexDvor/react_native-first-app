@@ -1,5 +1,5 @@
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import 'firebase/firestore'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import uuid from 'react-native-uuid'
 import { FIREBASE_DB } from '~config/firebaseConfig'
 import {

@@ -27,6 +27,7 @@ export const Gallery: FC<IGallery> = ({
 	onLoadMore,
 	isPaginationLoading,
 }) => {
+	console.log('❌ ~ favoriteListId:', favoriteListId)
 	const renderFooter = () => {
 		return (
 			<View style={styles.footer}>

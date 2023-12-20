@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { IAnimalsData } from '~interfaces/animals.types'
-import { UserService } from '~services/user/user.services'
+import { CollectionServices } from '~services/coll.services'
 
 type TSelectedAnimalType = 'All' | 'Dog' | 'Cat'
 
@@ -30,8 +30,7 @@ export const usePaginatedCollection = (
 			} else {
 				setIsFetching(true)
 			}
-
-			const { data, totalPages } = await UserService.getCollection(
+			const { data, totalPages } = await CollectionServices.getHomeCollection(
 				selectedAnimalType,
 				currentPage,
 				PAGE_SIZE

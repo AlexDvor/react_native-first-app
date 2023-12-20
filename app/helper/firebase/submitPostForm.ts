@@ -1,7 +1,8 @@
 import { serverTimestamp } from 'firebase/firestore'
 import { FIREBASE_AUTH } from '~config/firebaseConfig'
 import { TFormState } from '~interfaces/form.state.types'
-import { UserService } from '~services/user/user.services'
+import { CollectionServices } from '~services/coll.services'
+import { ImageService } from '~services/image.services'
 
 export const submitPostFormToFireStorage = async (
 	formValue: TFormState,
@@ -10,7 +11,8 @@ export const submitPostFormToFireStorage = async (
 	if (!userId) return
 
 	try {
-		const imageUrl = await UserService.uploadImageAsync(formValue.imageUri)
+		const imageUrl = await ImageService.uploadImageAsync(formValue.imageUri)
+
 		const formData = {
 			...formValue,
 			imageUri: imageUrl,
@@ -23,10 +25,11 @@ export const submitPostFormToFireStorage = async (
 			adoptedByUser: null,
 		}
 		//save item to firebase and return animal id
-		const animalId = await UserService.saveAnimalToGeneralColl(formData)
+
+		const animalId = await CollectionServices.saveAnimalToGeneralColl(formData)
 
 		// add information about animal to owner profile
-		await UserService.addOwnAnimalToProfile(animalId, userId)
+		await CollectionServices.addOwnAnimalToProfile(animalId, userId)
 	} catch (error) {
 		throw error
 	}

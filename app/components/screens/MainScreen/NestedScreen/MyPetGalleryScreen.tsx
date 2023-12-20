@@ -3,10 +3,10 @@ import { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Spinner } from '~components/ui/Spinner/Spinner'
-import { CONTAINER } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
-import { UserService } from '~services/user/user.services'
+import { CollectionServices } from '~services/coll.services'
+
 
 export const MyPetGalleryScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -20,8 +20,7 @@ export const MyPetGalleryScreen: FC = () => {
 				try {
 					if (!user?.id) return
 					setIsLoading(true)
-					const response = await UserService.getOwnAnimalColl(user.id)
-					console.log('❌ ~ response:', response)
+					const response = await CollectionServices.getOwnAnimalColl(user.id)
 					setPetList(response as IAnimalsData[])
 				} catch (error) {
 					setPetList([])

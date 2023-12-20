@@ -4,7 +4,8 @@ import { TouchableOpacity } from 'react-native'
 import { COLORS } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
 import { TypeColorComponents } from '~interfaces/theme.types'
-import { UserService } from '~services/user/user.services'
+import { CollectionServices } from '~services/coll.services'
+import { UserService } from '~services/user.services'
 
 interface IFavoriteIconProps {
 	backgroundColorIcon?: TypeColorComponents
@@ -31,7 +32,7 @@ export const FavoriteIcon: FC<IFavoriteIconProps> = ({
 	const handleTouch = async () => {
 		if (!user?.id) return
 		try {
-			await UserService.toggleFavoriteList(itemId, user.id)
+			await CollectionServices.toggleFavoriteList(itemId, user.id)
 			setFavorite(!isFavorite)
 		} catch (error) {
 			console.log(error)
@@ -42,12 +43,11 @@ export const FavoriteIcon: FC<IFavoriteIconProps> = ({
 		const fetchFavoriteList = async () => {
 			if (!user?.id) return
 			try {
-				const idList = await UserService.getFavoriteIdList(user.id)
-				const response = idList.some((id: string) => id === itemId)
-
-				if (response) {
-					setFavorite(true)
-				}
+				const idList = await UserService.getUserRef(user.id)
+				const isFavoriteItem = idList.user.favorites.some(
+					(id: string) => id === itemId
+				)
+				setFavorite(isFavoriteItem)
 			} catch (error) {
 				console.log('fetchFavoriteList:', error)
 			}

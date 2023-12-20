@@ -3,11 +3,10 @@ import { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
 import { Spinner } from '~components/ui/Spinner/Spinner'
-import { FIREBASE_AUTH } from '~config/firebaseConfig'
-import { CONTAINER } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
-import { UserService } from '~services/user/user.services'
+import { CollectionServices } from '~services/coll.services'
+
 
 export const FavoriteScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -21,7 +20,7 @@ export const FavoriteScreen: FC = () => {
 				try {
 					if (!user?.id) return
 					setIsLoading(true)
-					const response = await UserService.getFavoriteColl(user.id)
+					const response = await CollectionServices.getFavoriteColl(user.id)
 					setFavoriteList(response as IAnimalsData[])
 				} catch (error) {
 					setFavoriteList([])

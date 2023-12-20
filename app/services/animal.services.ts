@@ -1,9 +1,8 @@
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { FIREBASE_DB } from '~config/firebaseConfig'
-import { TestAnimalTypes } from '~data/animals'
 import { IAnimalsData, IOwnerInfo } from '~interfaces/animals.types'
 
-import { Constants } from './user/config.services'
+import { Constants } from './config.services'
 
 const { COLLECTION_ANIMALS, ITEM_OWM_ANIMALS } = Constants
 

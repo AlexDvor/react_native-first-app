@@ -8,7 +8,8 @@ import { Spinner } from '~components/ui/Spinner/Spinner'
 import { useAuth } from '~hooks/useAuth'
 import { ChatProps } from '~interfaces/message.navigation.types'
 import { IChatScreenMessage } from '~interfaces/message.types'
-import { UserService } from '~services/user/user.services'
+import { ChatService } from '~services/chat.services'
+
 
 export const ChatScreen: FC<ChatProps> = ({ route }) => {
 	const { user } = useAuth()
@@ -24,9 +25,9 @@ export const ChatScreen: FC<ChatProps> = ({ route }) => {
 		const unsubscribeFocus = navigation.addListener('focus', () => {
 			const fetchChatMessages = async () => {
 				try {
-					const fetchedMessages = await UserService.getChatMessages(chatId)
+					const fetchedMessages = await ChatService.getChatMessages(chatId)
 					setMessages(fetchedMessages)
-					const unsubscribeFromMessages = UserService.subscribeToChatMessages(
+					const unsubscribeFromMessages = ChatService.subscribeToChatMessages(
 						chatId,
 						(updatedMessages) => {
 							setMessages(updatedMessages)
@@ -58,7 +59,7 @@ export const ChatScreen: FC<ChatProps> = ({ route }) => {
 
 			const { text: messageText, user: senderData } = newMessages[0]
 
-			await UserService.saveMessageToChat(
+			await ChatService.saveMessageToChat(
 				chatId,
 				{ text: messageText, sender: senderData._id },
 				user?.id

@@ -1,15 +1,13 @@
 import { useNavigation } from '@react-navigation/native'
-import { formatDistanceToNow } from 'date-fns'
 import { FC, useEffect, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import uuid from 'react-native-uuid'
 import { MessageItem } from '~components/ui/MessageItem/MessageItem'
 import { Spinner } from '~components/ui/Spinner/Spinner'
 import { CONTAINER } from '~constants/theme'
-import { messages } from '~data/messages'
 import { useAuth } from '~hooks/useAuth'
 import { IMessageList } from '~interfaces/message.types'
-import { UserService } from '~services/user/user.services'
+import { ChatService } from '~services/chat.services'
+
 
 import { MessageNavigationComponent } from '../../../interfaces/message.navigation.types'
 
@@ -28,7 +26,7 @@ export const MessagesScreen: FC = () => {
 				try {
 					setIsLoading(true)
 					if (!user?.id) return
-					const chatList = await UserService.getChatList(user?.id)
+					const chatList = await ChatService.getChatList(user?.id)
 					setChats(chatList)
 				} catch (error) {
 					setChats([])

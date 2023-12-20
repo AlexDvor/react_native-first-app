@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { Card } from '~components/ui/ItemCard/ItemCard'
 import { useAuth } from '~hooks/useAuth'
-import { UserService } from '~services/user/user.services'
+import { UserService } from '~services/user.services'
 
 import { ProfileAnimalProps } from '../../../../interfaces/home.navigation.types'
 
@@ -18,9 +18,10 @@ export const AnimalProfileScreen: FC<ProfileAnimalProps> = ({ route }) => {
 			if (!user?.id) return
 			try {
 				setIsLoading(true)
-				const idList = await UserService.getOwnAnimalIdList(user.id)
-
-				const isOwnerCard = idList.some((item: string) => item === currAnimalId)
+				const { user: userData } = await UserService.getUserRef(user.id)
+				const isOwnerCard = userData.ownAnimals.some(
+					(item: string) => item === currAnimalId
+				)
 
 				if (isOwnerCard) {
 					setIsOwner(true)

@@ -4,7 +4,7 @@ import {
 	handlerAuthErrors,
 } from '~helper/firebase/handlerAuthErrors'
 import { IUserProfile } from '~interfaces/user.types'
-import { AuthService } from '~services/auth/auth.services'
+import { AuthService } from '~services/auth.services'
 
 interface InterfaceLogin {
 	email: string

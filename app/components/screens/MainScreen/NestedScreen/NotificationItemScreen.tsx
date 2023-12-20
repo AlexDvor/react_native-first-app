@@ -4,7 +4,7 @@ import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
 import { TGetDistance, getTimeDistance } from '~helper/number/getTimeDistance'
 import { useAuth } from '~hooks/useAuth'
 import { NotificationItemProps } from '~interfaces/home.navigation.types'
-import { NotificationService } from '~services/user/notification.services'
+import { NotificationService } from '~services/notification.services'
 
 type TButtons = 'Accept' | 'Reject'
 

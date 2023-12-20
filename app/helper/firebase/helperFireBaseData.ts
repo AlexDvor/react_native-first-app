@@ -8,10 +8,13 @@ import {
 } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { Image, ImageSourcePropType } from 'react-native'
-import { FIREBASE_AUTH } from '~config/firebaseConfig'
-import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
+import {
+	FIREBASE_AUTH,
+	FIREBASE_DB,
+	FIREBASE_STORAGE,
+} from '~config/firebaseConfig'
 import { TestAnimalTypes } from '~data/animals'
-import { Constants } from '~services/user/config.services'
+import { Constants } from '~services/config.services'
 
 const { COLLECTION_USERS, COLLECTION_ANIMALS, ITEM_OWM_ANIMALS } = Constants
 

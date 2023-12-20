@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { UserService } from '~services/user/user.services'
+import { UserService } from '~services/user.services'
 
 // Імпортувати ваш сервіс для отримання повідомлень
 

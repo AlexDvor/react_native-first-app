@@ -1,5 +1,4 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { formatDistanceToNow } from 'date-fns'
 import { FC, useCallback, useState } from 'react'
 import {
 	FlatList,
@@ -14,8 +13,7 @@ import { truncateString } from '~helper/string/truncateString'
 import { useAuth } from '~hooks/useAuth'
 import { TNavigationComponent } from '~interfaces/home.navigation.types'
 import { TNotification } from '~interfaces/notification'
-import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
-import { NotificationService } from '~services/user/notification.services'
+import { NotificationService } from '~services/notification.services'
 
 export const NotificationScreen: FC = () => {
 	const { user } = useAuth()
