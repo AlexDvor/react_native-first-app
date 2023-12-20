@@ -20,10 +20,10 @@ export type TSelectedAnimalType = 'All' | 'Dog' | 'Cat'
 
 export const HomeScreen: FC<DefaultHomeProps> = () => {
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
-	const [selectedAnimalType, setSelectedAnimalType] =
-		useState<TSelectedAnimalType>('All')
 	const [hasNotify, setHasNotify] = useState(false)
 	const { user } = useAuth()
+	const [selectedAnimalType, setSelectedAnimalType] =
+	useState<TSelectedAnimalType>('All')
 	const { navigate } = useNavigation<TNavigationComponent>()
 
 	const { animals, isFetching, isPaginationLoading, loadMoreAnimals } =
@@ -33,35 +33,10 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 		setSelectedAnimalType(animalType)
 	}
 
-	// useFocusEffect(
-	// 	useCallback(() => {
-	// 		const fetchCollection = async () => {
-	// 			if (!user?.id) return
-	// 			try {
-	// 				setIsLoading(true)
-	// 				const allCollection = await UserService.getCollection(
-	// 					selectedAnimalType
-	// 				)
-	// 				const idFavoriteList = await UserService.getFavoriteIdList(user?.id)
-	// 				setFavoriteIdList(idFavoriteList)
-	// 				if (allCollection) {
-	// 					setAllCollection(allCollection)
-	// 				}
-	// 			} catch (error) {
-	// 				setAllCollection([])
-	// 			} finally {
-	// 				setIsLoading(false)
-	// 			}
-	// 		}
-	// 		fetchCollection()
-	// 	}, [selectedAnimalType])
-	// )
-
 	useFocusEffect(
 		useCallback(() => {
 			const fetchNotify = async () => {
 				if (!user?.id) return
-
 				try {
 					const userData = await UserService.getUserRef(user?.id)
 					const notifyColl = userData.user.notifications
@@ -71,9 +46,7 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 					)
 					setHasNotify(hasUnreadMessages)
 					setFavoriteIdList(favorIdList)
-				} catch (error) {
-				} finally {
-				}
+				} catch (error) {} 
 			}
 			fetchNotify()
 		}, [selectedAnimalType])
@@ -97,20 +70,13 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 						)}
 					</TouchableOpacity>
 				</View>
+				
 				<ScrollableMenuList
 					menu={menuData}
 					onPressTypeMenu={handleOnPressTypeMenu}
 					selectedAnimalType={selectedAnimalType}
 				/>
-				{/* <View>
-					<Text style={{ textAlign: 'center', color: 'red' }}>
-						{'TEST OPTIONS'}
-					</Text>
-					<Text>{`Total items : ${animals.length || undefined} `}</Text>
-					<Text>{`Total Pages :${totalPage || undefined} `}</Text>
-					<Text>{`Current Page :${currentPage || undefined} `}</Text>
-				</View> */}
-
+			
 				<View style={styles.galleryWrapper}>
 					<Gallery
 						items={animals}
@@ -132,6 +98,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		...CONTAINER.mainContainer,
 	},
+
 	headerContainer: {
 		justifyContent: 'space-between',
 		alignItems: 'center',
@@ -141,6 +108,7 @@ const styles = StyleSheet.create({
 	iconWrapper: {
 		position: 'relative',
 	},
+
 	notificationWrapper: {
 		position: 'absolute',
 		top: 2,

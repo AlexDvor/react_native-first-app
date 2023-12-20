@@ -10,6 +10,8 @@ import {
 	TNavigationComponent,
 } from '~interfaces/home.navigation.types'
 
+import { AdoptedBadge } from '../AdoptedBadge/AdoptedBadge'
+
 interface IGalleryItemProps {
 	item: IAnimalsData
 	lastIdElements?: string[]
@@ -37,6 +39,7 @@ export const GalleryItem: FC<IGalleryItemProps> = ({
 					style={styles.image}
 					source={{ uri: String(item.imageUri[0]) }}
 				></Image>
+				{item.adoptedByUser !== null && <AdoptedBadge size="sm" />}
 			</View>
 
 			{isFavorite && (
@@ -87,8 +90,8 @@ const styles = StyleSheet.create({
 
 	icon: {
 		position: 'absolute',
-		top: 5,
-		right: 5,
+		top: 9,
+		left: 8,
 		width: 24,
 		height: 24,
 		borderRadius: 50,
