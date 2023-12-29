@@ -5,7 +5,7 @@ import { ScrollView, StatusBar, StyleSheet, View } from 'react-native'
 import { DatePickerInput } from '~components/ui/FormComponents/DatePickerInput/DatePickerInput'
 import FormButton from '~components/ui/FormComponents/FormButton/FormButton'
 import { PostDescriptionField } from '~components/ui/FormComponents/PostDescriptionField/PostDescriptionField'
-import { PostImageGalleryList } from '~components/ui/FormComponents/PostImageGallery/PostImageGalleryList'
+import { ImagePickerGalley } from '~components/ui/FormComponents/PostImageGallery/ImagePickerGalley'
 import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
 import { CONTAINER } from '~constants/theme'
@@ -92,7 +92,7 @@ export const AddPostScreen: FC = () => {
 				style={{ width: '100%' }}
 				showsVerticalScrollIndicator={false}
 			>
-				<PostImageGalleryList
+				<ImagePickerGalley
 					formState={setFormValue}
 					resetPicker={resetPicker}
 					setResetPicker={setResetPicker}

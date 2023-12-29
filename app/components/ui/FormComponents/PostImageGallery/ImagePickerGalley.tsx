@@ -2,15 +2,15 @@ import { FC } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { TFormState } from '~interfaces/form.state.types'
 
-import { PostImageGalleryItem } from './PostImageGalleryItem'
+import { ImagePickerItem } from './ImagePickerItem'
 
-interface PostImageGalleryListProps {
+interface ImagePickerGalleyProps {
 	formState: React.Dispatch<React.SetStateAction<TFormState>>
 	resetPicker: boolean
 	setResetPicker: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const PostImageGalleryList: FC<PostImageGalleryListProps> = ({
+export const ImagePickerGalley: FC<ImagePickerGalleyProps> = ({
 	formState,
 	resetPicker,
 	setResetPicker,
@@ -21,7 +21,7 @@ export const PostImageGalleryList: FC<PostImageGalleryListProps> = ({
 		<>
 			<View style={styles.container}>
 				{dataDefaultImg.slice(0, 5).map((_, index) => (
-					<PostImageGalleryItem
+					<ImagePickerItem
 						key={index}
 						formState={formState}
 						indexElement={index}
@@ -32,7 +32,7 @@ export const PostImageGalleryList: FC<PostImageGalleryListProps> = ({
 			</View>
 			<View style={[styles.container, styles.lastItem]}>
 				{dataDefaultImg.slice(5).map((_, index) => (
-					<PostImageGalleryItem
+					<ImagePickerItem
 						key={index + 5}
 						indexElement={index + 5}
 						formState={formState}

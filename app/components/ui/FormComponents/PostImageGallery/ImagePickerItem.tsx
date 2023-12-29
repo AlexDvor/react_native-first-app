@@ -6,14 +6,14 @@ import { COLORS } from '~constants/theme'
 import { widthScreenDevice } from '~constants/theme'
 import { TFormState } from '~interfaces/form.state.types'
 
-interface PostImageGalleryItemProps {
+interface ImagePickerItemProps {
 	formState: React.Dispatch<React.SetStateAction<TFormState>>
 	indexElement: number
 	resetPicker: boolean
 	setResetPicker: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const PostImageGalleryItem: FC<PostImageGalleryItemProps> = ({
+export const ImagePickerItem: FC<ImagePickerItemProps> = ({
 	indexElement,
 	formState,
 	resetPicker,

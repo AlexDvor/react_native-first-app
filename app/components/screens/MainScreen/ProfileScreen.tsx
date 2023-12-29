@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { FC } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
+import { UserAvatarPicker } from '~components/ui/UserAvatarPicker/UserAvatarPicker'
 import { widthScreenDevice } from '~constants/theme'
 import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
@@ -25,10 +26,11 @@ export const ProfileScreen: FC = () => {
 				>
 					<Text style={styles.ownerName}>Kate Lopez</Text>
 					<View style={styles.imageWrapper}>
-						<Image
+						{/* <Image
 							style={{ width: '100%', height: '100%' }}
 							source={require('../../../assets/images/owner.jpg')}
-						></Image>
+						></Image> */}
+						<UserAvatarPicker />
 					</View>
 				</LinearGradient>
 			</View>
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
 	imageWrapper: {
 		position: 'relative',
 		top: 25,
-		borderWidth: 1,
+		// borderWidth: 1,
 		width: 120,
 		height: 120,
 		borderRadius: 100,
