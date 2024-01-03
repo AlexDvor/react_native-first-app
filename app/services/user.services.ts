@@ -1,15 +1,19 @@
-
+import { updateProfile } from 'firebase/auth'
+import { User } from 'firebase/auth'
 import {
 	DocumentData,
 	DocumentReference,
 	doc,
 	getDoc,
 	setDoc,
+	updateDoc,
 } from 'firebase/firestore'
-import { FIREBASE_DB } from '~config/firebaseConfig'
-import { IUpdOwnProfile, IUserData } from '~interfaces/user.types'
+import { FIREBASE_AUTH, FIREBASE_DB } from '~config/firebaseConfig'
+import { IUpdOwnProfile, IUserData, IUserProfile } from '~interfaces/user.types'
 
 import { Constants } from './config.services'
+
+type TUserCredential = Pick<User, 'displayName' | 'email' | 'photoURL'>
 
 const { COLLECTION_USERS } = Constants
 
@@ -45,6 +49,27 @@ export const UserService = {
 		}
 	},
 
+	async updateDataUser(
+		userId: string,
+		updatedUserData: Partial<IUserProfile>
+	): Promise<IUserData> {
+		try {
+			const { userDocRef } = await this.getUserRef(userId)
+			const userDocSnapshot = await getDoc(userDocRef)
+			if (userDocSnapshot.exists()) {
+				await updateDoc(userDocRef, updatedUserData)
+				await this.updateNameOrAvatar(updatedUserData)
+				const updatedUserDocSnapshot = await getDoc(userDocRef)
+				const userData = updatedUserDocSnapshot.data() as IUserData
+				return userData
+			} else {
+				throw new Error(`User with ID ${userId} not found`)
+			}
+		} catch (error) {
+			throw error
+		}
+	},
+
 	async creatingOwnerProfile(
 		userId: string,
 		userData: IUpdOwnProfile
@@ -59,5 +84,25 @@ export const UserService = {
 		}
 	},
 
-	
+	async updateNameOrAvatar(updatedUserData: Partial<IUserProfile>) {
+		const { avatar, name } = updatedUserData
+		const currentUser = FIREBASE_AUTH.currentUser
+
+		try {
+			if (currentUser) {
+				if (avatar) {
+					await updateProfile(currentUser, { photoURL: avatar })
+				}
+
+				if (name) {
+					await updateProfile(currentUser, { displayName: name })
+				}
+			} else {
+				throw new Error('User not found')
+			}
+		} catch (error) {
+			console.error('updateNameOrAvatar:', error)
+			throw error
+		}
+	},
 }

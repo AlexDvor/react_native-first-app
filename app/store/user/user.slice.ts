@@ -6,6 +6,7 @@ import {
 	resetError,
 	singOut,
 	stateChangeUser,
+	updateUser,
 } from './user.actions'
 
 interface initialStateProps {
@@ -103,8 +104,27 @@ export const userSlice = createSlice({
 				state.user = null
 				state.error = 'Something is wrong with sing Out operation'
 			})
+
 			.addCase(resetError.fulfilled, (state) => {
 				state.error = ''
+			})
+
+			.addCase(updateUser.pending, (state) => {
+				state.isLoading = true
+			})
+			.addCase(updateUser.fulfilled, (state, { payload }) => {
+				state.isLoading = false
+				state.user = payload
+			})
+			.addCase(updateUser.rejected, (state, { payload }) => {
+				state.isLoading = false
+				state.user = null
+
+				if (typeof payload === 'string') {
+					state.error = payload
+				} else {
+					state.error = 'An unknown error occurred during log in operation'
+				}
 			})
 	},
 })

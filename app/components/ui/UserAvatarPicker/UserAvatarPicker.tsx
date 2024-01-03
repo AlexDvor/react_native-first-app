@@ -1,25 +1,13 @@
 import * as ImagePicker from 'expo-image-picker'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { Image, StyleSheet, TouchableOpacity } from 'react-native'
-import { defaultUserAvatar } from '~constants/icons'
 import { COLORS } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
-import { ImageService } from '~services/image.services'
-
-type TUserAvatar = {
-	uri: string
-	id: string
-}
+import { useAvatarUser } from '~hooks/useAvatarUser'
 
 export const UserAvatarPicker: FC = () => {
-	const [itemImage, setItemImage] = useState<TUserAvatar | null>(null)
+	const { urlAvatar, updateAvatarUser } = useAvatarUser()
 	const { user } = useAuth()
-
-	useEffect(() => {
-		if (itemImage !== null) {
-			ImageService.uploadAvatarImage(itemImage)
-		}
-	}, [itemImage])
 
 	const pickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
@@ -32,7 +20,7 @@ export const UserAvatarPicker: FC = () => {
 		if (result.assets !== null && !result.canceled) {
 			const imageUri = result.assets[0].uri
 			const selectImage = { uri: imageUri, id: user?.id || '1' }
-			setItemImage(selectImage)
+			updateAvatarUser(selectImage)
 		}
 	}
 
@@ -42,10 +30,7 @@ export const UserAvatarPicker: FC = () => {
 
 	return (
 		<TouchableOpacity style={styles.item} onPress={onHandleOnPress}>
-			<Image
-				source={itemImage ? { uri: itemImage.uri } : defaultUserAvatar}
-				style={{ width: '100%', height: '100%' }}
-			/>
+			<Image source={urlAvatar} style={{ width: '100%', height: '100%' }} />
 		</TouchableOpacity>
 	)
 }

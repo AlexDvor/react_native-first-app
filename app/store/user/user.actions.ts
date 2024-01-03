@@ -3,8 +3,9 @@ import {
 	IHandlerAuthErrors,
 	handlerAuthErrors,
 } from '~helper/firebase/handlerAuthErrors'
-import { IUserProfile } from '~interfaces/user.types'
+import { IUserData, IUserProfile } from '~interfaces/user.types'
 import { AuthService } from '~services/auth.services'
+import { UserService } from '~services/user.services'
 
 interface InterfaceLogin {
 	email: string
@@ -70,6 +71,18 @@ export const login = createAsyncThunk<IUserProfile, InterfaceLogin>(
 		}
 	}
 )
+
+export const updateUser = createAsyncThunk<
+	IUserData,
+	{ userId: string; newData: Partial<IUserProfile> }
+>('auth/updateRef', async ({ userId, newData }, thunkAPI) => {
+	try {
+		const updUser = await UserService.updateDataUser(userId, newData)
+		return updUser as IUserData
+	} catch (error) {
+		return thunkAPI.rejectWithValue(error)
+	}
+})
 
 export const singOut = createAsyncThunk('auth/singOut', async (_, thunkAPI) => {
 	try {

@@ -1,12 +1,12 @@
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { getDownloadURL, listAll, ref, uploadBytes } from 'firebase/storage'
 import { FIREBASE_STORAGE } from '~config/firebaseConfig'
 
 import { Constants } from './config.services'
 
 const { STORAGE_AVATAR_USERS, STORAGE_IMAGE_ANIMALS } = Constants
 
-type uploadImageAsyncParam = {
+export type uploadImageAsyncParam = {
 	uri: string
 	id: string
 }
@@ -14,6 +14,7 @@ type uploadImageAsyncParam = {
 const COMPRESS_SIZE = 0.8
 
 export const ImageService = {
+	
 	async uploadAvatarImage(imageRef: uploadImageAsyncParam): Promise<string> {
 		if (imageRef === null) {
 			return 'undefined'
@@ -67,6 +68,25 @@ export const ImageService = {
 				pathArray.push(downloadURL)
 			}
 			return pathArray
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async findAvatarByName(avatarName: string): Promise<string | null> {
+		try {
+			const storageRef = ref(FIREBASE_STORAGE, STORAGE_AVATAR_USERS)
+			const listResult = await listAll(storageRef)
+
+			for (const item of listResult.items) {
+				const itemName = item.name
+				if (itemName === avatarName) {
+					const downloadURL = await getDownloadURL(item)
+					return downloadURL
+				}
+			}
+
+			return null
 		} catch (error) {
 			throw error
 		}
