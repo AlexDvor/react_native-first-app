@@ -8,13 +8,15 @@ import { useAuth } from '~hooks/useAuth'
 import { IMessageList } from '~interfaces/message.types'
 import { ChatService } from '~services/chat.services'
 
-
 import { MessageNavigationComponent } from '../../../interfaces/message.navigation.types'
 
 export const MessagesScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [chats, setChats] = useState<IMessageList[]>([])
+	console.log('❌ ~ chats:', chats)
+
 	const { user } = useAuth()
+
 	const navigation = useNavigation<MessageNavigationComponent>()
 
 	const handlePress = (id: string) =>

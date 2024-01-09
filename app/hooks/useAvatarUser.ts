@@ -13,9 +13,10 @@ export const useAvatarUser = () => {
 	const { updateUser } = useActions()
 	const { user } = useAuth()
 
+
 	useEffect(() => {
 		const fetchAvatar = async () => {
-			if (user?.avatar && user.id) {
+			if (user?.avatar) {
 				setImageUser({ uri: user.avatar })
 			} else {
 				try {

@@ -19,6 +19,7 @@ import { TCreateNotification } from '~interfaces/notification'
 import { ChatService } from '~services/chat.services'
 import { CollectionServices } from '~services/coll.services'
 import { NotificationService } from '~services/notification.services'
+
 import { AdoptedBadge } from '../AdoptedBadge/AdoptedBadge'
 import { FavoriteIcon } from '../FavoriteIcon/FavoriteIcon'
 import { PrimaryButton } from '../PrimaryButton/PrimaryButton'
@@ -31,6 +32,7 @@ interface IAnimalProfileCard {
 }
 
 export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
+	
 	const [isLoading, setIsLoading] = useState(false)
 	const { user } = useAuth()
 	const scrollCurrentRef = useRef(null)
@@ -134,7 +136,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 							{item.owner.avatar ? (
 								<Image
 									style={{ width: '100%', height: '100%' }}
-									source={require('../../../assets/images/owner.jpg')}
+									source={{ uri: item.owner.avatar }}
 								></Image>
 							) : (
 								<Image

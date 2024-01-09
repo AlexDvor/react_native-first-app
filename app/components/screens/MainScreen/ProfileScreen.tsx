@@ -26,10 +26,6 @@ export const ProfileScreen: FC = () => {
 				>
 					<Text style={styles.ownerName}>Kate Lopez</Text>
 					<View style={styles.imageWrapper}>
-						{/* <Image
-							style={{ width: '100%', height: '100%' }}
-							source={require('../../../assets/images/owner.jpg')}
-						></Image> */}
 						<UserAvatarPicker />
 					</View>
 				</LinearGradient>
@@ -132,7 +128,6 @@ const styles = StyleSheet.create({
 	imageWrapper: {
 		position: 'relative',
 		top: 25,
-		// borderWidth: 1,
 		width: 120,
 		height: 120,
 		borderRadius: 100,

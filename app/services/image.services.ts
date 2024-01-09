@@ -1,10 +1,14 @@
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
+import { collection, doc, getDocs, updateDoc } from 'firebase/firestore'
 import { getDownloadURL, listAll, ref, uploadBytes } from 'firebase/storage'
-import { FIREBASE_STORAGE } from '~config/firebaseConfig'
+import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
+import { IAnimalsData } from '~interfaces/animals.types'
 
 import { Constants } from './config.services'
+import { UserService } from './user.services'
 
-const { STORAGE_AVATAR_USERS, STORAGE_IMAGE_ANIMALS } = Constants
+const { STORAGE_AVATAR_USERS, STORAGE_IMAGE_ANIMALS, COLLECTION_ANIMALS } =
+	Constants
 
 export type uploadImageAsyncParam = {
 	uri: string
@@ -14,7 +18,6 @@ export type uploadImageAsyncParam = {
 const COMPRESS_SIZE = 0.8
 
 export const ImageService = {
-	
 	async uploadAvatarImage(imageRef: uploadImageAsyncParam): Promise<string> {
 		if (imageRef === null) {
 			return 'undefined'
@@ -34,6 +37,7 @@ export const ImageService = {
 			)
 			const snapshot = await uploadBytes(storageRef, blob)
 			const downloadURL = await getDownloadURL(snapshot.ref)
+			await this.addOwnAvatarToAnimalProfile(downloadURL, imageRef.id)
 			return downloadURL
 		} catch (error) {
 			throw error
@@ -87,6 +91,33 @@ export const ImageService = {
 			}
 
 			return null
+		} catch (error) {
+			throw error
+		}
+	},
+
+	async addOwnAvatarToAnimalProfile(urlAvatar: string, idUser: string) {
+		try {
+			const { user } = await UserService.getUserRef(idUser)
+			const animalIds = user.ownAnimals
+
+			if (animalIds.length > 0) {
+				const collectionRef = collection(FIREBASE_DB, COLLECTION_ANIMALS)
+				const querySnapshot = await getDocs(collectionRef)
+				const data: IAnimalsData[] = querySnapshot.docs
+					.map((doc) => ({ ...doc.data(), id: doc.id }))
+					.filter((item) => animalIds.includes(item.id)) as IAnimalsData[]
+
+				const updatePromises = data.map(async (item) => {
+					const docRef = doc(FIREBASE_DB, COLLECTION_ANIMALS, item.id)
+					await updateDoc(docRef, {
+						owner: { ...item.owner, avatar: urlAvatar },
+					})
+				})
+
+				await Promise.all(updatePromises)
+				return
+			}
 		} catch (error) {
 			throw error
 		}

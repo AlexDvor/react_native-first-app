@@ -1,7 +1,6 @@
 import {
 	DocumentData,
 	DocumentReference,
-	Unsubscribe,
 	addDoc,
 	arrayRemove,
 	arrayUnion,
@@ -11,11 +10,8 @@ import {
 	getDoc,
 	getDocs,
 	limit,
-	onSnapshot,
 	orderBy,
 	query,
-	serverTimestamp,
-	setDoc,
 	startAfter,
 	updateDoc,
 	where,
@@ -164,6 +160,7 @@ export const CollectionServices = {
 			throw error
 		}
 	},
+
 	async removeAnimalFromGeneralColl(animalId: string): Promise<void> {
 		try {
 			if (!animalId) {
@@ -183,6 +180,7 @@ export const CollectionServices = {
 			throw error
 		}
 	},
+	
 	async addOwnAnimalToProfile(itemId: string, userId: string): Promise<void> {
 		try {
 			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)

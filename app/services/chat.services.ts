@@ -194,27 +194,46 @@ export const ChatService = {
 					const messages = await this.getChatMessages(chatId)
 
 					const participantIdList = await this.getParticipantsByIdChat(chatId)
-					const interlocutorId = participantIdList
-						.filter((id) => id !== userId)
-						.toString()
-					const interlocutorData = await UserService.getUserRef(interlocutorId)
-					const firstMessage = messages[0]
-					const messageTimeDistance = formatDistanceToNow(
-						new Date(firstMessage.createdAt),
-						{ addSuffix: false }
-					)
+					const interlocutorId = participantIdList.find((id) => id !== userId)
 
-					return {
-						id: chatId,
-						messageText: messages[0].text,
-						messageTime: messageTimeDistance,
-						userImg: interlocutorData.user.avatar || '',
-						userName: interlocutorData.user.name || '',
+					if (interlocutorId) {
+						const interlocutorData = await UserService.getUserRef(
+							interlocutorId
+						)
+
+						let messageText = ''
+						let messageTime = ''
+						if (messages.length > 0) {
+							const firstMessage = messages[0]
+
+							if (firstMessage && firstMessage.createdAt) {
+								messageText = firstMessage.text
+								messageTime = formatDistanceToNow(
+									new Date(firstMessage.createdAt),
+									{ addSuffix: false }
+								)
+							}
+						}
+
+						return {
+							id: chatId,
+							messageText,
+							messageTime,
+							userImg: interlocutorData.user.avatar || '',
+							userName: interlocutorData.user.name || '',
+						}
 					}
+					return null
 				})
 			)
-			return chatList
+
+			const filteredChatList = chatList.filter(
+				(chat) => chat !== null
+			) as IMessageList[]
+
+			return filteredChatList
 		} catch (error) {
+			console.log('❌ ~ error getChatList:', error)
 			throw error
 		}
 	},

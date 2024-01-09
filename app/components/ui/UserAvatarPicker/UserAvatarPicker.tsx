@@ -1,5 +1,6 @@
 import * as ImagePicker from 'expo-image-picker'
 import { FC } from 'react'
+import { Alert } from 'react-native'
 import { Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { COLORS } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
@@ -8,8 +9,24 @@ import { useAvatarUser } from '~hooks/useAvatarUser'
 export const UserAvatarPicker: FC = () => {
 	const { urlAvatar, updateAvatarUser } = useAvatarUser()
 	const { user } = useAuth()
+	const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions()
 
 	const pickImage = async () => {
+		if (status?.status === 'denied') {
+			Alert.alert(
+				'Permission Required',
+				'The permission to access is required to choose an image.',
+				[{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+			)
+			return
+		}
+
+		if (!status?.granted) {
+			console.log('stat', status)
+			await requestPermission()
+			return
+		}
+
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,

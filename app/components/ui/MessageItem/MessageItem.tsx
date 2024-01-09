@@ -9,6 +9,7 @@ interface MessageItemProps {
 
 export const MessageItem: FC<MessageItemProps> = ({ user, handleOnPress }) => {
 	const { id, messageText, messageTime, userImg, userName } = user
+
 	return (
 		<TouchableOpacity
 			style={styles.container}
@@ -17,7 +18,7 @@ export const MessageItem: FC<MessageItemProps> = ({ user, handleOnPress }) => {
 			<View style={styles.userInfo}>
 				<View style={styles.userImageWrapper}>
 					{userImg ? (
-						<Image style={styles.userImage} source={userImg} />
+						<Image style={styles.userImage} source={{ uri: userImg }} />
 					) : (
 						<Image
 							style={styles.userImage}

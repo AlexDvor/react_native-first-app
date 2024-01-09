@@ -3,7 +3,7 @@ import { ImageSourcePropType } from 'react-native'
 export interface IMessageList {
 	id: string
 	userName: string
-	userImg: ImageSourcePropType
+	userImg: string
 	messageTime: string
 	messageText: string
 }

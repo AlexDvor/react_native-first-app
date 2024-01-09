@@ -52,7 +52,7 @@ export const UserService = {
 	async updateDataUser(
 		userId: string,
 		updatedUserData: Partial<IUserProfile>
-	): Promise<IUserData> {
+	): Promise<IUserProfile> {
 		try {
 			const { userDocRef } = await this.getUserRef(userId)
 			const userDocSnapshot = await getDoc(userDocRef)
@@ -61,7 +61,14 @@ export const UserService = {
 				await this.updateNameOrAvatar(updatedUserData)
 				const updatedUserDocSnapshot = await getDoc(userDocRef)
 				const userData = updatedUserDocSnapshot.data() as IUserData
-				return userData
+				return {
+					avatar:userData.avatar,
+					email:userData.email,
+					emailVerified: userData.emailVerified,
+					id:userId,
+					name:userData.name,
+					phoneNumber:userData.phoneNumber
+				}
 			} else {
 				throw new Error(`User with ID ${userId} not found`)
 			}

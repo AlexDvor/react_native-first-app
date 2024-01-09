@@ -10,11 +10,10 @@ import { ChatProps } from '~interfaces/message.navigation.types'
 import { IChatScreenMessage } from '~interfaces/message.types'
 import { ChatService } from '~services/chat.services'
 
-
 export const ChatScreen: FC<ChatProps> = ({ route }) => {
 	const { user } = useAuth()
 	const [messages, setMessages] = useState<IChatScreenMessage[]>([])
-
+	console.log('❌ ~ messages:', messages)
 	const [unsubscribe, setUnsubscribe] = useState<Promise<Unsubscribe> | null>(
 		null
 	)
