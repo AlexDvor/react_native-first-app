@@ -13,7 +13,6 @@ export const useAvatarUser = () => {
 	const { updateUser } = useActions()
 	const { user } = useAuth()
 
-
 	useEffect(() => {
 		const fetchAvatar = async () => {
 			if (user?.avatar) {
@@ -21,7 +20,7 @@ export const useAvatarUser = () => {
 			} else {
 				try {
 					setIsLoading(true)
-					const imgUri = await ImageService.findAvatarByName(user?.id || '')
+					const imgUri = await ImageService.findAvatarByIdUser(user?.id || '')
 					if (imgUri) {
 						setImageUser({ uri: imgUri })
 					} else {

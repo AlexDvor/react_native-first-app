@@ -77,7 +77,7 @@ export const ImageService = {
 		}
 	},
 
-	async findAvatarByName(avatarName: string): Promise<string | null> {
+	async findAvatarByIdUser(avatarName: string): Promise<string | null> {
 		try {
 			const storageRef = ref(FIREBASE_STORAGE, STORAGE_AVATAR_USERS)
 			const listResult = await listAll(storageRef)
