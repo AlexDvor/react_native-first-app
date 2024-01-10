@@ -118,7 +118,8 @@ export const ChatService = {
 	async saveMessageToChat(
 		chatID: string,
 		message: Message,
-		senderId: string
+		senderId: string,
+		urlAvatar: string
 	): Promise<string> {
 		try {
 			const chatRef = doc(FIREBASE_DB, COLLECTION_CHAT, chatID)
@@ -127,7 +128,7 @@ export const ChatService = {
 				text: message.text,
 				sender: message.sender,
 				createdAt: serverTimestamp(),
-				user: { _id: senderId, avatar: 'https://placeimg.com/140/140/any' },
+				user: { _id: senderId, avatar: urlAvatar },
 			}
 
 			const messagesRef = collection(chatRef, 'messages')
@@ -264,5 +265,36 @@ export const ChatService = {
 			})
 			callback(messages.reverse())
 		})
+	},
+
+	async updateChatUserAvatar(userId: string, newAvatarUrl: string) {
+		try {
+			const { user } = await UserService.getUserRef(userId)
+
+			const chatIdList = user.chats
+
+			for (const chatId of chatIdList) {
+				const chatRef = doc(FIREBASE_DB, COLLECTION_CHAT, chatId)
+				const messagesRef = collection(chatRef, 'messages')
+				console.log('❌ ~ messagesRef:', messagesRef)
+
+				const querySnapshot = await getDocs(messagesRef)
+
+				querySnapshot.forEach(async (doc) => {
+					const messageData = doc.data()
+					console.log('❌ ~ messageData:', messageData)
+					if (messageData.user._id === userId) {
+						messageData.user.avatar = newAvatarUrl
+
+						await updateDoc(doc.ref, messageData)
+					}
+				})
+			}
+
+			console.log('Avatar updated successfully')
+		} catch (error) {
+			console.error('Error updating user avatar in chat:', error)
+			throw error
+		}
 	},
 }

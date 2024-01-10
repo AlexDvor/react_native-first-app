@@ -9,6 +9,7 @@ import { widthScreenDevice } from '~constants/theme'
 import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
+import { ChatService } from '~services/chat.services'
 
 export const ProfileScreen: FC = () => {
 	const { user } = useAuth()

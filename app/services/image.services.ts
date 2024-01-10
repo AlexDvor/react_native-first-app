@@ -4,6 +4,7 @@ import { getDownloadURL, listAll, ref, uploadBytes } from 'firebase/storage'
 import { FIREBASE_DB, FIREBASE_STORAGE } from '~config/firebaseConfig'
 import { IAnimalsData } from '~interfaces/animals.types'
 
+import { ChatService } from './chat.services'
 import { Constants } from './config.services'
 import { UserService } from './user.services'
 
@@ -19,13 +20,14 @@ const COMPRESS_SIZE = 0.8
 
 export const ImageService = {
 	async uploadAvatarImage(imageRef: uploadImageAsyncParam): Promise<string> {
+		const { id: userId, uri: urlAvatar } = imageRef
 		if (imageRef === null) {
 			return 'undefined'
 		}
 
 		try {
 			const manipulatedImage = await manipulateAsync(
-				imageRef.uri,
+				urlAvatar,
 				[{ resize: { width: 800 } }],
 				{ compress: COMPRESS_SIZE, format: SaveFormat.JPEG }
 			)
@@ -33,11 +35,12 @@ export const ImageService = {
 			const blob = await response.blob()
 			const storageRef = ref(
 				FIREBASE_STORAGE,
-				`${STORAGE_AVATAR_USERS}/${imageRef.id}`
+				`${STORAGE_AVATAR_USERS}/${userId}`
 			)
 			const snapshot = await uploadBytes(storageRef, blob)
 			const downloadURL = await getDownloadURL(snapshot.ref)
-			await this.addOwnAvatarToAnimalProfile(downloadURL, imageRef.id)
+			await this.addOwnAvatarToAnimalProfile(downloadURL, userId)
+			await ChatService.updateChatUserAvatar(userId, downloadURL)
 			return downloadURL
 		} catch (error) {
 			throw error

@@ -11,12 +11,12 @@ import { IChatScreenMessage } from '~interfaces/message.types'
 import { ChatService } from '~services/chat.services'
 
 export const ChatScreen: FC<ChatProps> = ({ route }) => {
-	const { user } = useAuth()
-	const [messages, setMessages] = useState<IChatScreenMessage[]>([])
-	console.log('❌ ~ messages:', messages)
 	const [unsubscribe, setUnsubscribe] = useState<Promise<Unsubscribe> | null>(
 		null
 	)
+	const [messages, setMessages] = useState<IChatScreenMessage[]>([])
+	const { user } = useAuth()
+
 	const navigation = useNavigation()
 	const chatId = route.params.chatId
 
@@ -61,7 +61,8 @@ export const ChatScreen: FC<ChatProps> = ({ route }) => {
 			await ChatService.saveMessageToChat(
 				chatId,
 				{ text: messageText, sender: senderData._id },
-				user?.id
+				user?.id,
+				user.avatar || ''
 			)
 		} catch (error) {
 			console.log(error)

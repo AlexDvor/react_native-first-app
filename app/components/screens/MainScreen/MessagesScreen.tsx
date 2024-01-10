@@ -13,7 +13,6 @@ import { MessageNavigationComponent } from '../../../interfaces/message.navigati
 export const MessagesScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [chats, setChats] = useState<IMessageList[]>([])
-	console.log('❌ ~ chats:', chats)
 
 	const { user } = useAuth()
 

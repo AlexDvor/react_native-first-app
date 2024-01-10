@@ -26,7 +26,7 @@ export const UserService = {
 			const userDocSnapshot = await getDoc(userDocRef)
 
 			if (userDocSnapshot.exists()) {
-				const userData = userDocSnapshot.data() as IUserData
+				const userData = userDocSnapshot.data()
 				const user: IUserData = {
 					id: userDocRef.id,
 					name: userData?.name || '',
@@ -34,7 +34,7 @@ export const UserService = {
 					emailVerified: userData.emailVerified || false,
 					phoneNumber: userData.phoneNumber || '',
 					avatar: userData?.avatar || '',
-					chats: userData?.chats || [],
+					chats: userData?.chat || [],
 					ownAnimals: userData?.ownAnimals || [],
 					favorites: userData.favorites || [],
 					notifications: userData.notifications || [],
@@ -62,12 +62,12 @@ export const UserService = {
 				const updatedUserDocSnapshot = await getDoc(userDocRef)
 				const userData = updatedUserDocSnapshot.data() as IUserData
 				return {
-					avatar:userData.avatar,
-					email:userData.email,
+					avatar: userData.avatar,
+					email: userData.email,
 					emailVerified: userData.emailVerified,
-					id:userId,
-					name:userData.name,
-					phoneNumber:userData.phoneNumber
+					id: userId,
+					name: userData.name,
+					phoneNumber: userData.phoneNumber,
 				}
 			} else {
 				throw new Error(`User with ID ${userId} not found`)
