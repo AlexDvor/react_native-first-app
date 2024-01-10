@@ -42,8 +42,6 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const yearOfBirthday = item.age.year
 	const { goBack } = useNavigation()
 
-	item.adoptedByUser
-
 	const removeAnimalFromOwnColl = async () => {
 		if (!user?.id) return
 		try {
@@ -79,8 +77,6 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 			console.log('❌ ~ submitAdoptForm:', error)
 		}
 	}
-
-	// const handleChatPress = () => navigate('ChatScreen', { user: item.owner.id })
 
 	const handleChatPress = async () => {
 		try {

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { ButtonProps, Text, TouchableOpacity } from 'react-native'
+import { ButtonProps, Text, TouchableOpacity, ViewStyle } from 'react-native'
 import { COLORS, FONTS } from '~constants/theme'
 import { TypeColorComponents } from '~interfaces/theme.types'
 
@@ -13,6 +13,7 @@ interface IPrimaryBtn extends ButtonProps {
 	margRight?: number
 	isFetching?: boolean
 	disabledColor?: TypeColorComponents
+	styleButton?: ViewStyle
 }
 
 export const PrimaryButton: FC<IPrimaryBtn> = ({
@@ -24,6 +25,7 @@ export const PrimaryButton: FC<IPrimaryBtn> = ({
 	isFetching = false,
 	disabled,
 	disabledColor = 'disableBackgroundBtn',
+	styleButton,
 	...rest
 }) => {
 	const activeColor = COLORS[backgroundColorButton]
@@ -41,6 +43,7 @@ export const PrimaryButton: FC<IPrimaryBtn> = ({
 				width: widthButton,
 				marginLeft: margLeft,
 				marginRight: margRight,
+				...styleButton,
 			}}
 			{...rest}
 		>

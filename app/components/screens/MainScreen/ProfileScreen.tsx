@@ -22,10 +22,10 @@ export const ProfileScreen: FC = () => {
 			<View style={styles.header}>
 				<LinearGradient
 					start={{ x: 0.4, y: 0.0 }}
-					colors={['rgba(242, 150, 143,1)', 'rgba(242, 150, 143,0.3)']}
+					colors={['#ff6ba6', '#ffcc5c']}
 					style={styles.backgroundHeader}
 				>
-					<Text style={styles.ownerName}>Kate Lopez</Text>
+					<Text style={styles.ownerName}>{user?.name}</Text>
 					<View style={styles.imageWrapper}>
 						<UserAvatarPicker />
 					</View>
@@ -105,8 +105,6 @@ export const ProfileScreen: FC = () => {
 
 const styles = StyleSheet.create({
 	header: {
-		width: widthScreenDevice,
-
 		flex: 0.3,
 		alignItems: 'center',
 		marginBottom: 30,
@@ -115,11 +113,12 @@ const styles = StyleSheet.create({
 	ownerName: {
 		fontSize: 20,
 		fontWeight: 'bold',
+		marginVertical: 8,
 	},
 
 	backgroundHeader: {
-		width: widthScreenDevice + 100,
-		height: '100%',
+		width: '100%',
+		aspectRatio: 2,
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 		borderBottomLeftRadius: 300,
@@ -133,6 +132,8 @@ const styles = StyleSheet.create({
 		height: 120,
 		borderRadius: 100,
 		overflow: 'hidden',
+		borderWidth: 1,
+		borderColor: 'white',
 	},
 
 	contentContainer: {
@@ -153,11 +154,13 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: 'rgba(88, 89, 87,0.3)',
 	},
+
 	iconWrapper: {
 		marginLeft: 10,
 	},
+
 	text: {
-		marginLeft: 35,
+		marginLeft: 20,
 		fontSize: 16,
 	},
 

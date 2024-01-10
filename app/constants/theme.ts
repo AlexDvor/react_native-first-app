@@ -11,9 +11,9 @@ export const COLORS = {
 
 	// Button color
 	primaryBtn: '#F2968F',
-	secondaryBtn: '#111c1e',
+	secondaryBtn: '#ffcc5c',
 	inactiveBtn: '#cccecf',
-	primaryTextColorBtn: '#FCFCFC',
+	primaryTextColorBtn: '#253336',
 	disableBackgroundBtn: '#755a58',
 
 	//Notification
