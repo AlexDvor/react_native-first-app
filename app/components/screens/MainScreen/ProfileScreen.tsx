@@ -63,6 +63,14 @@ export const ProfileScreen: FC = () => {
 
 					<View style={styles.item}>
 						<View style={styles.iconWrapper}>
+							<Entypo name="location" size={SIZE_ICON} color={COLOR_ICON} />
+						</View>
+
+						<Text style={styles.text}>Location</Text>
+					</View>
+
+					<View style={styles.item}>
+						<View style={styles.iconWrapper}>
 							<AntDesign name="eyeo" size={SIZE_ICON} color={COLOR_ICON} />
 						</View>
 
