@@ -42,6 +42,11 @@ export const COLORS = {
 
 	//spinner
 	spinnerColor: '#F2968F',
+
+	//screens
+
+	screenBackgroundColor: '#ffffff',
+	screenHeaderBackgroundColor: '#ffffff',
 }
 
 export const CONTAINER = {
