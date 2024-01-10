@@ -35,12 +35,11 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const { user } = useAuth()
 	const scrollCurrentRef = useRef(null)
-	const { navigate } = useNavigation<MessageNavigationComponent>()
+	const { navigate, goBack } = useNavigation<MessageNavigationComponent>()
 	const sizeIcon = 18
 	const dayOfBirthday = item.age.day
 	const monthOfBirthday = item.age.month
 	const yearOfBirthday = item.age.year
-	const { goBack } = useNavigation()
 
 	const removeAnimalFromOwnColl = async () => {
 		if (!user?.id) return

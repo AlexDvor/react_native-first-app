@@ -61,13 +61,16 @@ export const ProfileScreen: FC = () => {
 						<Text style={styles.text}>{user?.email}</Text>
 					</View>
 
-					<View style={styles.item}>
+					<TouchableOpacity
+						style={styles.item}
+						onPress={() => navigate('LocationScreen')}
+					>
 						<View style={styles.iconWrapper}>
 							<Entypo name="location" size={SIZE_ICON} color={COLOR_ICON} />
 						</View>
 
 						<Text style={styles.text}>Location</Text>
-					</View>
+					</TouchableOpacity>
 
 					<View style={styles.item}>
 						<View style={styles.iconWrapper}>

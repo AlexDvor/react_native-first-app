@@ -1,7 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { FC } from 'react'
 import { AnimalProfileScreen } from '~components/screens/MainScreen/NestedScreen/AnimalProfileScreen'
+import { LocationScreen } from '~components/screens/MainScreen/NestedScreen/LocationScreen'
 import { MyPetGalleryScreen } from '~components/screens/MainScreen/NestedScreen/MyPetGalleryScreen'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
 import { COLORS } from '~constants/theme'
@@ -11,6 +12,7 @@ export type ProfileRootStackParamList = {
 	ProfileScreen: undefined
 	MyPetGalleryScreen: undefined
 	AnimalProfileScreen: { item: IAnimalsData }
+	LocationScreen: undefined
 }
 
 export type ProfileNavigationComponent =
@@ -57,6 +59,18 @@ export const ProfileStackNavigator: FC = () => {
 				options={{
 					headerShown: true,
 					title: 'My Animals',
+					cardStyle: {
+						backgroundColor: COLORS.screenBackgroundColor,
+					},
+					headerStyle: {
+						backgroundColor: COLORS.screenHeaderBackgroundColor,
+					},
+				}}
+			></Screen>
+			<Screen
+				name="LocationScreen"
+				component={LocationScreen}
+				options={{
 					cardStyle: {
 						backgroundColor: COLORS.screenBackgroundColor,
 					},
