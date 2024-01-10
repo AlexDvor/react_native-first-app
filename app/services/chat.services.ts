@@ -276,13 +276,12 @@ export const ChatService = {
 			for (const chatId of chatIdList) {
 				const chatRef = doc(FIREBASE_DB, COLLECTION_CHAT, chatId)
 				const messagesRef = collection(chatRef, 'messages')
-				console.log('❌ ~ messagesRef:', messagesRef)
 
 				const querySnapshot = await getDocs(messagesRef)
 
 				querySnapshot.forEach(async (doc) => {
 					const messageData = doc.data()
-					console.log('❌ ~ messageData:', messageData)
+
 					if (messageData.user._id === userId) {
 						messageData.user.avatar = newAvatarUrl
 
@@ -294,6 +293,41 @@ export const ChatService = {
 			console.log('Avatar updated successfully')
 		} catch (error) {
 			console.error('Error updating user avatar in chat:', error)
+			throw error
+		}
+	},
+
+	async hasChatByUserIds(
+		senderId: string,
+		receiverId: string
+	): Promise<string | null> {
+		const idChat = `${senderId}_${receiverId}`
+		const reverseId = `${receiverId}_${senderId}`
+
+		try {
+			const chatIdToCheck = await this.checkChatExistence(idChat)
+			if (chatIdToCheck) {
+				return idChat
+			}
+
+			const reverseChatIdToCheck = await this.checkChatExistence(reverseId)
+			if (reverseChatIdToCheck) {
+				return reverseId
+			}
+
+			return null
+		} catch (error) {
+			console.error('Error checking chat existence:', error)
+			throw error
+		}
+	},
+
+	async checkChatExistence(chatId: string): Promise<boolean> {
+		try {
+			const docRef = doc(FIREBASE_DB, COLLECTION_CHAT, chatId)
+			const docSnapshot = await getDoc(docRef)
+			return docSnapshot.exists()
+		} catch (error) {
 			throw error
 		}
 	},

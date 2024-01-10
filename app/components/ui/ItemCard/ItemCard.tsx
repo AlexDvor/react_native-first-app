@@ -32,7 +32,6 @@ interface IAnimalProfileCard {
 }
 
 export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
-	
 	const [isLoading, setIsLoading] = useState(false)
 	const { user } = useAuth()
 	const scrollCurrentRef = useRef(null)
@@ -85,8 +84,20 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 
 	const handleChatPress = async () => {
 		try {
-			const chatId = await ChatService.createChat(user?.id || '', item.owner.id)
-			navigate('ChatScreen', { chatId })
+			const chatAlreadyExists = await ChatService.hasChatByUserIds(
+				user?.id || '',
+				item.owner.id
+			)
+
+			if (!chatAlreadyExists) {
+				const chatId = await ChatService.createChat(
+					user?.id || '',
+					item.owner.id
+				)
+				navigate('ChatScreen', { chatId })
+			} else {
+				navigate('ChatScreen', { chatId: chatAlreadyExists })
+			}
 		} catch (error) {}
 	}
 
