@@ -120,6 +120,7 @@ export const ProfileScreen: FC = () => {
 					onPress={() => singOut()}
 				/>
 			</View>
+
 			<CustomAlert
 				visible={showLocationAlert}
 				message="Do you want to update your location?"
@@ -144,8 +145,15 @@ const styles = StyleSheet.create({
 	},
 
 	backgroundHeader: {
+		// width: '100%',
+		// aspectRatio: 2,
+		// justifyContent: 'flex-end',
+		// alignItems: 'center',
+		// borderBottomLeftRadius: 300,
+		// borderBottomRightRadius: 300,
+
+		flex: 1,
 		width: '100%',
-		aspectRatio: 2,
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 		borderBottomLeftRadius: 300,

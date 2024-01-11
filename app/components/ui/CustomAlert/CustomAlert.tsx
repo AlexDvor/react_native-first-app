@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import Modal from 'react-native-modal'
 import { COLORS } from '~constants/theme'
 
 interface CustomAlertProps {
@@ -17,10 +18,12 @@ export const CustomAlert: FC<CustomAlertProps> = ({
 }) => {
 	return (
 		<Modal
-			transparent={true}
-			animationType="fade"
-			visible={visible}
-			onRequestClose={() => onClose()}
+			isVisible={visible}
+			animationIn="fadeIn"
+			animationOut="fadeOut"
+			backdropOpacity={0.5}
+			onBackdropPress={onClose}
+			style={styles.modal}
 		>
 			<View style={styles.container}>
 				<View style={styles.alert}>
@@ -86,5 +89,9 @@ const styles = StyleSheet.create({
 		color: COLORS.primaryTextColorBtn,
 		fontSize: 16,
 		fontWeight: 'bold',
+	},
+	modal: {
+		margin: 0,
+		justifyContent: 'flex-end',
 	},
 })
