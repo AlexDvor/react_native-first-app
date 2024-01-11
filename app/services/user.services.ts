@@ -38,6 +38,7 @@ export const UserService = {
 					ownAnimals: userData?.ownAnimals || [],
 					favorites: userData.favorites || [],
 					notifications: userData.notifications || [],
+					location: userData.location || null,
 				}
 
 				return { user, userDocRef }

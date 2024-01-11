@@ -32,6 +32,7 @@ export const AuthService = {
 					email: currentUser.email || null,
 					emailVerified: currentUser.emailVerified || false,
 					phoneNumber: currentUser.phoneNumber || null,
+					location: null,
 				}
 
 				await UserService.creatingOwnerProfile(currentUser.uid, userData)

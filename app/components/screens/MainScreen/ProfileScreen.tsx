@@ -1,8 +1,9 @@
 import { AntDesign, Entypo, Fontisto, MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { CustomAlert } from '~components/ui/CustomAlert/CustomAlert'
 import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
 import { UserAvatarPicker } from '~components/ui/UserAvatarPicker/UserAvatarPicker'
 import { widthScreenDevice } from '~constants/theme'
@@ -14,8 +15,24 @@ export const ProfileScreen: FC = () => {
 	const { user } = useAuth()
 	const { singOut } = useActions()
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
+	const [showLocationAlert, setShowLocationAlert] = useState(false)
 	const SIZE_ICON = 32
 	const COLOR_ICON = 'black'
+
+	const handlePressLocation = () => {
+		setShowLocationAlert((prev) => !prev)
+		// if (user?.location) {
+		// 	console.log('You have location')
+		// } else {
+		// 	console.log('dont have loc')
+		// }
+		// navigate('LocationScreen')
+	}
+
+	const handlePressMyGallery = () => {
+		navigate('MyPetGalleryScreen')
+	}
+
 	return (
 		<>
 			<View style={styles.header}>
@@ -61,10 +78,7 @@ export const ProfileScreen: FC = () => {
 						<Text style={styles.text}>{user?.email}</Text>
 					</View>
 
-					<TouchableOpacity
-						style={styles.item}
-						onPress={() => navigate('LocationScreen')}
-					>
+					<TouchableOpacity style={styles.item} onPress={handlePressLocation}>
 						<View style={styles.iconWrapper}>
 							<Entypo name="location" size={SIZE_ICON} color={COLOR_ICON} />
 						</View>
@@ -80,10 +94,7 @@ export const ProfileScreen: FC = () => {
 						<Text style={styles.text}>Password</Text>
 					</View>
 
-					<TouchableOpacity
-						style={styles.item}
-						onPress={() => navigate('MyPetGalleryScreen')}
-					>
+					<TouchableOpacity style={styles.item} onPress={handlePressMyGallery}>
 						<View style={styles.iconWrapper}>
 							<Image
 								style={{ width: SIZE_ICON, height: SIZE_ICON }}
@@ -109,6 +120,12 @@ export const ProfileScreen: FC = () => {
 					onPress={() => singOut()}
 				/>
 			</View>
+			<CustomAlert
+				visible={showLocationAlert}
+				message="Do you want to update your location?"
+				onClose={() => setShowLocationAlert(false)}
+				onConfirm={() => {}}
+			/>
 		</>
 	)
 }

@@ -33,6 +33,8 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 		setSelectedAnimalType(animalType)
 	}
 
+	console.log('state User', user)
+
 	useFocusEffect(
 		useCallback(() => {
 			const fetchNotify = async () => {

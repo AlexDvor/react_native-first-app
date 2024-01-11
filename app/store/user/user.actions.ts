@@ -54,6 +54,8 @@ export const login = createAsyncThunk<IUserProfile, InterfaceLogin>(
 	async ({ email, password }, thunkAPI) => {
 		try {
 			const { user } = await AuthService.login(email, password)
+			const { user: dataUser } = await UserService.getUserRef(user.uid)
+
 			const userInfo: IUserProfile = {
 				id: user.uid,
 				name: user.displayName,
@@ -61,6 +63,7 @@ export const login = createAsyncThunk<IUserProfile, InterfaceLogin>(
 				avatar: user.photoURL,
 				emailVerified: user.emailVerified,
 				phoneNumber: user.phoneNumber,
+				location: dataUser.location,
 			}
 
 			return userInfo
