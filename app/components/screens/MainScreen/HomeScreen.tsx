@@ -23,7 +23,7 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 	const [hasNotify, setHasNotify] = useState(false)
 	const { user } = useAuth()
 	const [selectedAnimalType, setSelectedAnimalType] =
-	useState<TSelectedAnimalType>('All')
+		useState<TSelectedAnimalType>('All')
 	const { navigate } = useNavigation<TNavigationComponent>()
 
 	const { animals, isFetching, isPaginationLoading, loadMoreAnimals } =
@@ -46,7 +46,7 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 					)
 					setHasNotify(hasUnreadMessages)
 					setFavoriteIdList(favorIdList)
-				} catch (error) {} 
+				} catch (error) {}
 			}
 			fetchNotify()
 		}, [selectedAnimalType])
@@ -56,7 +56,7 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<View style={styles.container}>
 				<View style={styles.headerContainer}>
-					<Logo logoColor={'#2B2B2E'} />
+					{/* <Logo logoColor={'#2B2B2E'} /> */}
 
 					<TouchableOpacity onPress={() => navigate('NotificationScreen')}>
 						<View style={styles.iconWrapper}>
@@ -70,13 +70,13 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 						)}
 					</TouchableOpacity>
 				</View>
-				
+
 				<ScrollableMenuList
 					menu={menuData}
 					onPressTypeMenu={handleOnPressTypeMenu}
 					selectedAnimalType={selectedAnimalType}
 				/>
-			
+
 				<View style={styles.galleryWrapper}>
 					<Gallery
 						items={animals}

@@ -68,6 +68,7 @@ export const UserService = {
 					id: userId,
 					name: userData.name,
 					phoneNumber: userData.phoneNumber,
+					location: userData.location,
 				}
 			} else {
 				throw new Error(`User with ID ${userId} not found`)

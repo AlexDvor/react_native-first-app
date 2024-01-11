@@ -17,6 +17,10 @@ interface initialStateProps {
 		avatar: string | null
 		phoneNumber: string | null
 		emailVerified: boolean
+		location?: {
+			latitude: number
+			longitude: number
+		} | null
 	} | null
 
 	isLoading: boolean

@@ -1,6 +1,6 @@
 import * as Location from 'expo-location'
 
-export type UserLocation = {
+export type TUserLocation = {
 	coords: {
 		latitude: number
 		longitude: number
@@ -22,7 +22,7 @@ type ErrorResponse = {
 type ResponseData = LocationData | ErrorResponse
 
 export const LocationService = {
-	async getLocationAsync(): Promise<UserLocation | null> {
+	async getLocationAsync(): Promise<TUserLocation | null> {
 		let { status } = await Location.requestForegroundPermissionsAsync()
 		if (status !== 'granted') {
 			console.log('Permission to access location was denied')

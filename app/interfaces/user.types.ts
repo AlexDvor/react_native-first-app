@@ -7,6 +7,10 @@ export interface IUserProfile {
 	avatar: string | null
 	phoneNumber: string | null
 	emailVerified: boolean
+	location?: {
+		latitude: number
+		longitude: number
+	} | null
 }
 
 export type IUpdOwnProfile = Omit<IUserProfile, 'id'>
