@@ -3,15 +3,17 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { COLORS } from '~constants/theme'
 
-interface CustomAlertProps {
+interface CustomModalProps {
 	visible: boolean
+	title?: string
 	message: string
 	onClose: () => void
 	onConfirm: () => void
 }
 
-export const CustomAlert: FC<CustomAlertProps> = ({
+export const CustomAlert: FC<CustomModalProps> = ({
 	visible,
+	title,
 	message,
 	onClose,
 	onConfirm,
@@ -27,6 +29,7 @@ export const CustomAlert: FC<CustomAlertProps> = ({
 		>
 			<View style={styles.container}>
 				<View style={styles.alert}>
+					{title && <Text style={styles.titleText}>{title}</Text>}
 					<Text style={styles.messageText}>{message}</Text>
 					<View style={styles.buttonContainer}>
 						<TouchableOpacity
@@ -61,6 +64,15 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		width: '80%',
 	},
+
+	titleText: {
+		fontSize: 18,
+		fontWeight: 'bold',
+		marginBottom: 10,
+		textAlign: 'center',
+		color: COLORS.primaryTextColorBtn,
+	},
+
 	messageText: {
 		fontSize: 16,
 		fontWeight: 'bold',

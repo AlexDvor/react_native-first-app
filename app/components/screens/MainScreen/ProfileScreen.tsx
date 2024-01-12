@@ -1,35 +1,37 @@
 import { AntDesign, Entypo, Fontisto, MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { CustomAlert } from '~components/ui/CustomAlert/CustomAlert'
 import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
 import { UserAvatarPicker } from '~components/ui/UserAvatarPicker/UserAvatarPicker'
 import { widthScreenDevice } from '~constants/theme'
 import { useCustomModal } from '~context/ModalProvider'
 import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
+import { useLocation } from '~hooks/useLocation'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
+import { LocationService } from '~services/location.services'
+
+const SIZE_ICON = 32
+const COLOR_ICON = 'black'
 
 export const ProfileScreen: FC = () => {
 	const { user } = useAuth()
 	const { singOut } = useActions()
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
-	const [showLocationAlert, setShowLocationAlert] = useState(false)
 	const { showModal } = useCustomModal()
-	const SIZE_ICON = 32
-	const COLOR_ICON = 'black'
+	const { locationDataUser } = useLocation()
 
 	const handlePressLocation = () => {
-		// setShowLocationAlert((prev) => !prev)
-		showModal('f', 'f')
-		// if (user?.location) {
-		// 	console.log('You have location')
-		// } else {
-		// 	console.log('dont have loc')
-		// }
-		// navigate('LocationScreen')
+		if (user?.location) {
+			showModal({
+				title: 'Dou you want to updated your location?',
+				text: `Your current location is ${locationDataUser?.displayName} `,
+			})
+		} else {
+			navigate('LocationScreen')
+		}
 	}
 
 	const handlePressMyGallery = () => {
@@ -123,13 +125,6 @@ export const ProfileScreen: FC = () => {
 					onPress={() => singOut()}
 				/>
 			</View>
-
-			{/* <CustomAlert
-				visible={showLocationAlert}
-				message="Do you want to update your location?"
-				onClose={() => setShowLocationAlert(false)}
-				onConfirm={() => {}}
-			/> */}
 		</>
 	)
 }
@@ -148,17 +143,11 @@ const styles = StyleSheet.create({
 	},
 
 	backgroundHeader: {
-		// width: '100%',
-		// aspectRatio: 2,
-		// justifyContent: 'flex-end',
-		// alignItems: 'center',
-		// borderBottomLeftRadius: 300,
-		// borderBottomRightRadius: 300,
-
 		flex: 1,
 		width: '100%',
 		justifyContent: 'flex-end',
 		alignItems: 'center',
+		aspectRatio: 2,
 		borderBottomLeftRadius: 300,
 		borderBottomRightRadius: 300,
 	},

@@ -5,45 +5,45 @@ import React, {
 	useContext,
 	useState,
 } from 'react'
-import { CustomAlert } from '~components/ui/CustomAlert/CustomAlert'
+import { CustomAlert } from '~components/ui/CustomAlert/CustomModal'
 
 interface ModalState {
-	title: string
+	title?: string
 	text: string
 	showModal: boolean
 }
 
 interface ModalContextProps {
 	modalState: ModalState
-	showModal: (title: string, text: string) => void
-	hideAlert: () => void
+	showModal: (options: { title?: string; text: string }) => void
+	hideModal: () => void
 }
 
 const ModelContext = createContext<ModalContextProps | undefined>(undefined)
 
-interface AlertProviderProps {
+interface ModalProviderProps {
 	children: ReactNode
 }
 
-export const ModalProvider: FC<AlertProviderProps> = ({ children }) => {
+export const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
 	const [modalState, setModalState] = useState<ModalState>({
-		title: '',
 		text: '',
+		title: '',
 		showModal: false,
 	})
 
-	const showModal = (title: string, text: string) => {
+	const showModal = (options: { title?: string; text: string }) => {
 		setModalState({
-			title,
-			text,
+			text: options.text,
+			title: options.title,
 			showModal: true,
 		})
 	}
 
-	const hideAlert = () => {
+	const hideModal = () => {
 		setModalState({
-			title: '',
 			text: '',
+			title: '',
 			showModal: false,
 		})
 	}
@@ -51,7 +51,7 @@ export const ModalProvider: FC<AlertProviderProps> = ({ children }) => {
 	const value: ModalContextProps = {
 		modalState,
 		showModal,
-		hideAlert,
+		hideModal,
 	}
 
 	return (
@@ -60,10 +60,9 @@ export const ModalProvider: FC<AlertProviderProps> = ({ children }) => {
 			<CustomAlert
 				visible={modalState.showModal}
 				message={modalState.text}
-				onClose={hideAlert}
-				onConfirm={() => {
-					hideAlert()
-				}}
+				title={modalState.title}
+				onClose={hideModal}
+				onConfirm={hideModal}
 			/>
 		</ModelContext.Provider>
 	)
@@ -72,7 +71,7 @@ export const ModalProvider: FC<AlertProviderProps> = ({ children }) => {
 export const useCustomModal = (): ModalContextProps => {
 	const context = useContext(ModelContext)
 	if (!context) {
-		throw new Error('useCustomModal must be used within an ModalProvider')
+		throw new Error('useCustomModal must be used within a ModalProvider')
 	}
 	return context
 }

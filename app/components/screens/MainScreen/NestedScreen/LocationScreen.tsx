@@ -7,16 +7,14 @@ import { useLocation } from '~hooks/useLocation'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
 
 export const LocationScreen: FC = () => {
-	const { isFetchingLocation, userLocation } = useLocation()
+	const { isFetchingLocation, locationDataUser } = useLocation()
 	const { goBack } = useNavigation<ProfileNavigationComponent>()
 
-	// TESTING LOCATION SCREEN + REDUX  + DATA BASE  + TYPE ITEM
-
 	useEffect(() => {
-		if (userLocation) {
+		if (locationDataUser) {
 			goBack()
 		}
-	}, [userLocation])
+	}, [locationDataUser])
 
 	return (
 		<View style={styles.container}>

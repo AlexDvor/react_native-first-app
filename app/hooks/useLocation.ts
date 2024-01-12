@@ -1,13 +1,36 @@
 import { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
-import { LocationService, TUserLocation } from '~services/location.services'
+import {
+	LocationService,
+	TLocationData,
+	TResponseLocationData,
+	TUserLocationCoords,
+} from '~services/location.services'
 
 import { useActions } from './useActions'
 import { useAuth } from './useAuth'
 
+type TUserLocationData = Partial<TUserLocationCoords> & Partial<TLocationData>
+
+const initialLocationState =
+	{
+		coords: {
+			latitude: 0,
+			longitude: 0,
+		},
+		address: {
+			country: '',
+			stateDistrict: '',
+			town: '',
+			postcode: '',
+		},
+		displayName: '',
+	} || null
+
 export const useLocation = () => {
 	const [isFetchingLocation, setIsFetchingLocation] = useState(false)
-	const [userLocation, setUserLocation] = useState<TUserLocation>(null)
+	const [locationDataUser, setLocationDataUser] = useState<TUserLocationData>(
+		initialLocationState || null
+	)
 	const { updateUser } = useActions()
 	const { user } = useAuth()
 
@@ -18,12 +41,36 @@ export const useLocation = () => {
 	const fetchLocation = async () => {
 		try {
 			setIsFetchingLocation(true)
-			const coordsUser: TUserLocation = await LocationService.getLocationAsync()
-			setUserLocation(coordsUser)
-			updateUser({
-				userId: user?.id || '',
-				newData: { location: coordsUser?.coords },
-			})
+			const coordsUser: TUserLocationCoords =
+				await LocationService.getLocationCoords()
+
+			const currPlace: TResponseLocationData =
+				await LocationService.getPlaceFromCoordinates(
+					coordsUser?.coords.latitude || 0,
+					coordsUser?.coords.longitude || 0
+				)
+			if (coordsUser && currPlace) {
+				setLocationDataUser(() => ({
+					coords: {
+						latitude: coordsUser?.coords.latitude || 0,
+						longitude: coordsUser?.coords.longitude || 0,
+					},
+					address: {
+						country: currPlace.address.country || '',
+						postcode: currPlace.address.postcode || '',
+						stateDistrict: currPlace.address.stateDistrict || '',
+						town: currPlace.address.town || '',
+					},
+					displayName: currPlace.display_name,
+				}))
+
+				updateUser({
+					userId: user?.id || '',
+					newData: { location: coordsUser?.coords },
+				})
+			} else {
+				throw new Error('Error in coordUser')
+			}
 		} catch (error) {
 			console.error('❌ ~ useLocation:', error)
 		} finally {
@@ -35,19 +82,24 @@ export const useLocation = () => {
 		try {
 			if (user?.location) {
 				const { latitude, longitude } = user.location
-				const currLocation = await LocationService.getPlaceFromCoordinates(
-					latitude,
-					longitude
-				)
+				const currLocation: TResponseLocationData =
+					await LocationService.getPlaceFromCoordinates(latitude, longitude)
 
-				if ('error' in currLocation) {
+				if (!currLocation) {
 					console.error('There are problems with user location data')
 				} else {
-					setUserLocation({ coords: { latitude, longitude } })
-					Alert.alert(`Your current location is ${currLocation.display_name}`)
+					setLocationDataUser(() => ({
+						coords: { latitude, longitude },
+						address: {
+							country: currLocation.address.country || '',
+							postcode: currLocation.address.postcode || '',
+							stateDistrict: currLocation.address.stateDistrict || '',
+							town: currLocation.address.town || '',
+						},
+						displayName: currLocation.display_name || '',
+					}))
 				}
 			} else {
-				console.log('fetch ubi')
 				fetchLocation()
 			}
 		} catch (error) {}
@@ -57,7 +109,7 @@ export const useLocation = () => {
 
 	return {
 		isFetchingLocation,
-		userLocation,
+		locationDataUser,
 		updateLocationUser,
 	}
 }

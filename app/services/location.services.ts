@@ -1,35 +1,38 @@
 import * as Location from 'expo-location'
 
-export type TUserLocation = {
+export type TUserLocationCoords = {
 	coords: {
 		latitude: number
 		longitude: number
 	}
 } | null
 
-type LocationData = {
-	address: {
-		country: string
-		city: string
-	}
+export type TAddress = {
+	stateDistrict: string
+	town: string
+	postcode: string
+	country: string
+}
+
+export type TResponseLocationData = {
+	address: TAddress
 	display_name: string
-}
+} | null
 
-type ErrorResponse = {
-	error: unknown
+export type TLocationData = {
+	address: TAddress
+	displayName: string
 }
-
-type ResponseData = LocationData | ErrorResponse
 
 export const LocationService = {
-	async getLocationAsync(): Promise<TUserLocation | null> {
+	async getLocationCoords(): Promise<TUserLocationCoords | null> {
 		let { status } = await Location.requestForegroundPermissionsAsync()
 		if (status !== 'granted') {
 			console.log('Permission to access location was denied')
 			return null
 		}
 		try {
-			const location = await Location.getCurrentPositionAsync({})
+			const location = await Location.getCurrentPositionAsync()
 			return location
 		} catch (error) {
 			console.error('Error getting user location:', error)
@@ -40,19 +43,16 @@ export const LocationService = {
 	async getPlaceFromCoordinates(
 		latitude: number,
 		longitude: number
-	): Promise<ResponseData> {
+	): Promise<TResponseLocationData> {
 		try {
 			const response = await fetch(
 				`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
 			)
 			const data = await response.json()
-			if ('error' in data) {
-				return data as ErrorResponse
-			}
-			return data as LocationData
+			return data as TResponseLocationData
 		} catch (error) {
 			console.error('Error getting place from coordinates:', error)
-			return { error }
+			return null
 		}
 	},
 }
