@@ -7,6 +7,7 @@ import { CustomAlert } from '~components/ui/CustomAlert/CustomAlert'
 import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
 import { UserAvatarPicker } from '~components/ui/UserAvatarPicker/UserAvatarPicker'
 import { widthScreenDevice } from '~constants/theme'
+import { useCustomModal } from '~context/ModalProvider'
 import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
@@ -16,11 +17,13 @@ export const ProfileScreen: FC = () => {
 	const { singOut } = useActions()
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
 	const [showLocationAlert, setShowLocationAlert] = useState(false)
+	const { showModal } = useCustomModal()
 	const SIZE_ICON = 32
 	const COLOR_ICON = 'black'
 
 	const handlePressLocation = () => {
-		setShowLocationAlert((prev) => !prev)
+		// setShowLocationAlert((prev) => !prev)
+		showModal('f', 'f')
 		// if (user?.location) {
 		// 	console.log('You have location')
 		// } else {
@@ -121,12 +124,12 @@ export const ProfileScreen: FC = () => {
 				/>
 			</View>
 
-			<CustomAlert
+			{/* <CustomAlert
 				visible={showLocationAlert}
 				message="Do you want to update your location?"
 				onClose={() => setShowLocationAlert(false)}
 				onConfirm={() => {}}
-			/>
+			/> */}
 		</>
 	)
 }
