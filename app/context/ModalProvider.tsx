@@ -5,17 +5,24 @@ import React, {
 	useContext,
 	useState,
 } from 'react'
-import { CustomAlert } from '~components/ui/CustomAlert/CustomModal'
+import { CustomModal } from '~components/ui/CustomModal/CustomModal'
 
 interface ModalState {
 	title?: string
 	text: string
+	handleConfirmFn: () => void
+	handleCancelFn?: () => void
 	showModal: boolean
 }
 
 interface ModalContextProps {
 	modalState: ModalState
-	showModal: (options: { title?: string; text: string }) => void
+	showModal: (options: {
+		title?: string
+		text: string
+		confirmFn: () => void
+		cancelFn?: () => void
+	}) => void
 	hideModal: () => void
 }
 
@@ -30,12 +37,21 @@ export const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
 		text: '',
 		title: '',
 		showModal: false,
+		handleConfirmFn: () => {},
+		handleCancelFn: () => {},
 	})
 
-	const showModal = (options: { title?: string; text: string }) => {
+	const showModal = (options: {
+		title?: string
+		text: string
+		confirmFn: () => void
+		cancelFn?: () => void
+	}) => {
 		setModalState({
 			text: options.text,
 			title: options.title,
+			handleConfirmFn: options.confirmFn,
+			handleCancelFn: options.cancelFn,
 			showModal: true,
 		})
 	}
@@ -45,7 +61,22 @@ export const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
 			text: '',
 			title: '',
 			showModal: false,
+			handleConfirmFn() {},
 		})
+	}
+
+	const handleConfirm = () => {
+		if (modalState.handleConfirmFn) {
+			modalState.handleConfirmFn()
+		}
+		hideModal()
+	}
+
+	const handleCancel = () => {
+		if (modalState.handleCancelFn) {
+			modalState.handleCancelFn()
+		}
+		hideModal()
 	}
 
 	const value: ModalContextProps = {
@@ -57,12 +88,12 @@ export const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
 	return (
 		<ModelContext.Provider value={value}>
 			{children}
-			<CustomAlert
+			<CustomModal
 				visible={modalState.showModal}
 				message={modalState.text}
 				title={modalState.title}
-				onClose={hideModal}
-				onConfirm={hideModal}
+				onClose={handleCancel}
+				onConfirm={handleConfirm}
 			/>
 		</ModelContext.Provider>
 	)

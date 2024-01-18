@@ -9,7 +9,8 @@ import {
 import { useActions } from './useActions'
 import { useAuth } from './useAuth'
 
-type TUserLocationData = Partial<TUserLocationCoords> & Partial<TLocationData>
+export type TUserLocationData = Partial<TUserLocationCoords> &
+	Partial<TLocationData>
 
 const initialLocationState =
 	{
@@ -49,6 +50,7 @@ export const useLocation = () => {
 					coordsUser?.coords.latitude || 0,
 					coordsUser?.coords.longitude || 0
 				)
+
 			if (coordsUser && currPlace) {
 				setLocationDataUser(() => ({
 					coords: {
@@ -58,8 +60,9 @@ export const useLocation = () => {
 					address: {
 						country: currPlace.address.country || '',
 						postcode: currPlace.address.postcode || '',
-						stateDistrict: currPlace.address.stateDistrict || '',
-						town: currPlace.address.town || '',
+						stateDistrict:
+							currPlace.address.state_district || currPlace.address.state || '',
+						town: currPlace.address.town || currPlace.address.city || '',
 					},
 					displayName: currPlace.display_name,
 				}))
@@ -93,8 +96,12 @@ export const useLocation = () => {
 						address: {
 							country: currLocation.address.country || '',
 							postcode: currLocation.address.postcode || '',
-							stateDistrict: currLocation.address.stateDistrict || '',
-							town: currLocation.address.town || '',
+							stateDistrict:
+								currLocation.address.state_district ||
+								currLocation.address.state ||
+								'',
+							town:
+								currLocation.address.town || currLocation.address.city || '',
 						},
 						displayName: currLocation.display_name || '',
 					}))

@@ -14,8 +14,17 @@ export type TAddress = {
 	country: string
 }
 
+export type TResponseAddress = {
+	state_district: string
+	town: string
+	postcode: string
+	country: string
+	state?: string
+	city?: string
+}
+
 export type TResponseLocationData = {
-	address: TAddress
+	address: TResponseAddress
 	display_name: string
 } | null
 
@@ -43,7 +52,7 @@ export const LocationService = {
 	async getPlaceFromCoordinates(
 		latitude: number,
 		longitude: number
-	): Promise<TResponseLocationData> {
+	): Promise<TResponseLocationData | null> {
 		try {
 			const response = await fetch(
 				`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`

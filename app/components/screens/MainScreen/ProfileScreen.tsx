@@ -7,6 +7,7 @@ import { PrimaryButton } from '~components/ui/PrimaryButton/PrimaryButton'
 import { UserAvatarPicker } from '~components/ui/UserAvatarPicker/UserAvatarPicker'
 import { widthScreenDevice } from '~constants/theme'
 import { useCustomModal } from '~context/ModalProvider'
+import { getPlaceName } from '~helper/string/getPlaceName'
 import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
 import { useLocation } from '~hooks/useLocation'
@@ -20,7 +21,8 @@ export const ProfileScreen: FC = () => {
 	const { user } = useAuth()
 	const { singOut } = useActions()
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
-	const { showModal } = useCustomModal()
+	const { showModal, modalState } = useCustomModal()
+
 	const { locationDataUser } = useLocation()
 
 	const handlePressLocation = () => {
@@ -28,6 +30,9 @@ export const ProfileScreen: FC = () => {
 			showModal({
 				title: 'Dou you want to updated your location?',
 				text: `Your current location is ${locationDataUser?.displayName} `,
+				confirmFn() {
+					console.log('confirm method')
+				},
 			})
 		} else {
 			navigate('LocationScreen')
@@ -88,7 +93,7 @@ export const ProfileScreen: FC = () => {
 							<Entypo name="location" size={SIZE_ICON} color={COLOR_ICON} />
 						</View>
 
-						<Text style={styles.text}>Location</Text>
+						<Text style={styles.text}>{getPlaceName(locationDataUser)}</Text>
 					</TouchableOpacity>
 
 					<View style={styles.item}>

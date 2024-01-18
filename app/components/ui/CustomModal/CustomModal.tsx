@@ -11,7 +11,7 @@ interface CustomModalProps {
 	onConfirm: () => void
 }
 
-export const CustomAlert: FC<CustomModalProps> = ({
+export const CustomModal: FC<CustomModalProps> = ({
 	visible,
 	title,
 	message,
