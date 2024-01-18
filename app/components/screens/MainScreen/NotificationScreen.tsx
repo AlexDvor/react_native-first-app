@@ -52,10 +52,6 @@ export const NotificationScreen: FC = () => {
 		const { message, sendDate, read, type, confirmInfo } = item
 		const getReceivedTime = getTimeDistance(sendDate as TGetDistance)
 
-		// const hasMarkedNotify =
-		// 	(!read && type === 'offer' && confirmInfo.confirmed === null) ||
-		// 	(!read && type === 'notification')
-
 		const hasMarkedNotify = () => {
 			if (type === 'offer') {
 				const markOffer =

@@ -52,6 +52,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 			setIsLoading(false)
 		}
 	}
+
 	const submitAdoptForm = async () => {
 		if (!user) return
 

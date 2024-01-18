@@ -55,7 +55,7 @@ export const useAuthStateChanged = () => {
 					emailVerified: user.emailVerified,
 					phoneNumber: user.phoneNumber,
 				}
-				console.log('❌ ~ userUpdatedProfile:', userUpdatedProfile)
+
 				setCurrentUser(userUpdatedProfile)
 			} else {
 				setCurrentUser(null)

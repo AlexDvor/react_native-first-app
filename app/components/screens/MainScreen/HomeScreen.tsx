@@ -22,6 +22,7 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
 	const [hasNotify, setHasNotify] = useState(false)
 	const { user } = useAuth()
+
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')
 	const { navigate } = useNavigation<TNavigationComponent>()

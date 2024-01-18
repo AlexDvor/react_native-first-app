@@ -1,7 +1,6 @@
 import { TGetDistance } from '~helper/number/getTimeDistance'
 
 import { IAnimalsData } from './animals.types'
-import { IUserProfile } from './user.types'
 
 export type TypeNotification = 'offer' | 'notification' | 'confirmation'
 
