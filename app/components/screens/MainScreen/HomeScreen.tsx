@@ -33,8 +33,6 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 		setSelectedAnimalType(animalType)
 	}
 
-	console.log('state User', user)
-
 	useFocusEffect(
 		useCallback(() => {
 			const fetchNotify = async () => {
@@ -58,7 +56,7 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<View style={styles.container}>
 				<View style={styles.headerContainer}>
-					{/* <Logo logoColor={'#2B2B2E'} /> */}
+					<Logo logoColor={'#2B2B2E'} />
 
 					<TouchableOpacity onPress={() => navigate('NotificationScreen')}>
 						<View style={styles.iconWrapper}>

@@ -23,16 +23,14 @@ export const ProfileScreen: FC = () => {
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
 	const { showModal, modalState } = useCustomModal()
 
-	const { locationDataUser } = useLocation()
+	const { locationDataUser, updateLocationUser } = useLocation()
 
 	const handlePressLocation = () => {
 		if (user?.location) {
 			showModal({
 				title: 'Dou you want to updated your location?',
-				text: `Your current location is ${locationDataUser?.displayName} `,
-				confirmFn() {
-					console.log('confirm method')
-				},
+				text: `Your current location is ${getPlaceName(locationDataUser)} `,
+				confirmFn: updateLocationUser,
 			})
 		} else {
 			navigate('LocationScreen')

@@ -55,7 +55,7 @@ export const RegisterScreen: FC = () => {
 				<TouchableWithoutFeedback onPress={keyBoardHide}>
 					<View style={styles.container}>
 						<View style={styles.logoWrapper}>
-							{/* <Logo logoColor={'#F8F8F8'} /> */}
+							<Logo logoColor={'#F8F8F8'} />
 						</View>
 
 						<View style={styles.formWrapper}>
