@@ -20,6 +20,10 @@ export const COLORS = {
 	notificationDotColor: '#F2968F',
 	notificationBackgroundColor: '#FCFCFC',
 
+	// Messages
+
+	messageDotColor: 'red',
+
 	// favoriteIcon
 	iconFavoriteBg: '#111c1e',
 	iconFavoriteColor: '#FCFCFC',

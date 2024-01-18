@@ -3,6 +3,7 @@ import MaterialIcon from '@expo/vector-icons/MaterialCommunityIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { AddPostScreen } from '~components/screens/MainScreen/AddPostScreen'
+import { ChatIndicator } from '~components/ui/ChatIndicator/ChatIndicator'
 import { tabBarNavigatorConfig } from '~config/tabBarNavigator.config'
 import { MainTabsParamList } from '~interfaces/tab.navigation.types'
 
@@ -33,11 +34,14 @@ export const MainStackNavigator = () => {
 				component={MessageStackNavigator}
 				options={({ route }) => ({
 					tabBarIcon: ({ size, color }) => (
-						<Ionicons
-							name="chatbubble-ellipses-outline"
-							size={size}
-							color={color}
-						/>
+						<>
+							<Ionicons
+								name="chatbubble-ellipses-outline"
+								size={size}
+								color={color}
+							/>
+							<ChatIndicator hasNewMessages={true} />
+						</>
 					),
 
 					tabBarStyle: ((route) => {
