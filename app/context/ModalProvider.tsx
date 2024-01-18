@@ -62,6 +62,7 @@ export const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
 			title: '',
 			showModal: false,
 			handleConfirmFn() {},
+			handleCancelFn() {},
 		})
 	}
 

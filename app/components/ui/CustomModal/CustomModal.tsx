@@ -18,6 +18,9 @@ export const CustomModal: FC<CustomModalProps> = ({
 	onClose,
 	onConfirm,
 }) => {
+	if (!visible) {
+		return null
+	}
 	return (
 		<Modal
 			isVisible={visible}
