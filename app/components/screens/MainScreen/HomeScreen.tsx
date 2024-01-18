@@ -47,7 +47,9 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 					)
 					setHasNotify(hasUnreadMessages)
 					setFavoriteIdList(favorIdList)
-				} catch (error) {}
+				} catch (error) {
+					console.error('Error fetching notifications:', error)
+				}
 			}
 			fetchNotify()
 		}, [selectedAnimalType])
