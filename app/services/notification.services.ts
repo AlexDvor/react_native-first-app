@@ -1,5 +1,14 @@
 import 'firebase/firestore'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import {
+	DocumentData,
+	QueryDocumentSnapshot,
+	Unsubscribe,
+	collection,
+	doc,
+	getDoc,
+	onSnapshot,
+	updateDoc,
+} from 'firebase/firestore'
 import uuid from 'react-native-uuid'
 import { FIREBASE_DB } from '~config/firebaseConfig'
 import {
@@ -18,6 +27,11 @@ import { Constants } from './config.services'
 import { UserService } from './user.services'
 
 const { COLLECTION_USERS, ITEM_NOTIFICATIONS } = Constants
+
+interface IStartListeningParams {
+	userId: string
+	callback: (notifications: TNotification[]) => void
+}
 
 export const NotificationService = {
 	async getNotifications(userId: string): Promise<TNotification[]> {
@@ -237,6 +251,31 @@ export const NotificationService = {
 			}
 		} catch (error) {
 			console.log('❌ ~ confirmAdoption', error)
+		}
+	},
+
+	async startListeningForUserNotifications({
+		userId,
+		callback,
+	}: IStartListeningParams): Promise<Unsubscribe> {
+		try {
+			const { userDocRef } = await UserService.getUserRef(userId)
+			const notificationsRef = collection(userDocRef, 'notifications')
+
+			const unsubscribe = onSnapshot(
+				notificationsRef,
+				(snapshot: { docs: Array<QueryDocumentSnapshot<DocumentData>> }) => {
+					const notifications = snapshot.docs.map(
+						(doc) => doc.data() as TNotification
+					)
+					callback(notifications)
+				}
+			)
+
+			return unsubscribe
+		} catch (error) {
+			console.error('Error starting listening for user notifications:', error)
+			throw error
 		}
 	},
 
