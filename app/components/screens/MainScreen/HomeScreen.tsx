@@ -21,7 +21,6 @@ export type TSelectedAnimalType = 'All' | 'Dog' | 'Cat'
 
 export const HomeScreen: FC<DefaultHomeProps> = () => {
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
-
 	const { user } = useAuth()
 	const { hasNotify } = useNotify()
 

@@ -1,5 +1,5 @@
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { FC, useCallback, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import { FC } from 'react'
 import {
 	FlatList,
 	StyleSheet,
@@ -10,43 +10,13 @@ import {
 import { CONTAINER } from '~constants/theme'
 import { TGetDistance, getTimeDistance } from '~helper/number/getTimeDistance'
 import { truncateString } from '~helper/string/truncateString'
-import { useAuth } from '~hooks/useAuth'
+import { useNotify } from '~hooks/useNotify'
 import { TNavigationComponent } from '~interfaces/home.navigation.types'
 import { TNotification } from '~interfaces/notification'
-import { NotificationService } from '~services/notification.services'
 
 export const NotificationScreen: FC = () => {
-	const { user } = useAuth()
-	const [notificationData, setNotificationData] = useState<TNotification[]>([])
-
 	const { navigate } = useNavigation<TNavigationComponent>()
-
-	useFocusEffect(
-		useCallback(() => {
-			const fetchCollection = async () => {
-				if (!user?.id) return
-				try {
-					const response = await NotificationService.getNotifications(user.id)
-
-					if (response) {
-						setNotificationData(response)
-					} else {
-						setNotificationData([])
-					}
-				} catch (error) {
-				} finally {
-				}
-			}
-			fetchCollection()
-		}, [])
-	)
-
-	const markAsRead = (id: string) => {
-		const updatedData = notificationData.map((item: TNotification) =>
-			item.id === id ? { ...item, read: true } : item
-		)
-		setNotificationData(updatedData)
-	}
+	const { notification: notificationData } = useNotify()
 
 	const renderNotificationMessage = ({ item }: { item: TNotification }) => {
 		const { message, sendDate, read, type, confirmInfo } = item

@@ -3,6 +3,7 @@ import MaterialIcon from '@expo/vector-icons/MaterialCommunityIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 import { AddPostScreen } from '~components/screens/MainScreen/AddPostScreen'
+import { AnimalProfileScreen } from '~components/screens/MainScreen/NestedScreen/AnimalProfileScreen'
 import { ChatIndicator } from '~components/ui/ChatIndicator/ChatIndicator'
 import { tabBarNavigatorConfig } from '~config/tabBarNavigator.config'
 import { MainTabsParamList } from '~interfaces/tab.navigation.types'
@@ -22,11 +23,21 @@ export const MainStackNavigator = () => {
 			<Screen
 				name="Home"
 				component={HomeStackNavigator}
-				options={{
+				options={({ route }) => ({
 					tabBarIcon: ({ size, color }) => (
-						<Ionicons name="home-outline" size={size} color={color} />
+						<>
+							<Ionicons name="home-outline" size={size} color={color} />
+						</>
 					),
-				}}
+
+					tabBarStyle: ((route) => {
+						const routeName = getFocusedRouteNameFromRoute(route) ?? ''
+						if (routeName === 'AnimalProfileScreen') {
+							return { display: 'none' }
+						}
+						return tabBarNavigatorConfig.tabBarStyle
+					})(route),
+				})}
 			/>
 
 			<Screen
