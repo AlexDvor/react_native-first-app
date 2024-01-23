@@ -23,8 +23,7 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
 
 	const { user } = useAuth()
-	// const { hasNotify } = useNotify()
-	const hasNotify = true
+	const { hasNotify } = useNotify()
 
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')

@@ -49,7 +49,7 @@ export const MessagesScreen: FC = () => {
 					<FlatList
 						data={chats}
 						keyExtractor={(item) => item.id}
-						renderItem={({ item }) => (
+						renderItem={({ item }: { item: IMessageList }) => (
 							<MessageItem user={item} handleOnPress={handlePress} />
 						)}
 					/>
