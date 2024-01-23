@@ -8,6 +8,7 @@ import { ScrollableMenuList } from '~components/ui/ScrollableMenu/ScrollableMenu
 import { menuData } from '~components/ui/ScrollableMenu/menu.data'
 import { COLORS, CONTAINER } from '~constants/theme'
 import { useAuth } from '~hooks/useAuth'
+import { useNotify } from '~hooks/useNotify'
 import { usePaginatedCollection } from '~hooks/usePaginatedCollection'
 import { UserService } from '~services/user.services'
 
@@ -20,8 +21,10 @@ export type TSelectedAnimalType = 'All' | 'Dog' | 'Cat'
 
 export const HomeScreen: FC<DefaultHomeProps> = () => {
 	const [favoriteIdList, setFavoriteIdList] = useState<null | string[]>(null)
-	const [hasNotify, setHasNotify] = useState(false)
+
 	const { user } = useAuth()
+	// const { hasNotify } = useNotify()
+	const hasNotify = true
 
 	const [selectedAnimalType, setSelectedAnimalType] =
 		useState<TSelectedAnimalType>('All')
@@ -36,22 +39,17 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 
 	useFocusEffect(
 		useCallback(() => {
-			const fetchNotify = async () => {
+			const fetchFavoriteList = async () => {
 				if (!user?.id) return
 				try {
 					const userData = await UserService.getUserRef(user?.id)
-					const notifyColl = userData.user.notifications
 					const favorIdList = userData.user.favorites
-					const hasUnreadMessages = notifyColl.some(
-						(notify) => notify.read === false
-					)
-					setHasNotify(hasUnreadMessages)
 					setFavoriteIdList(favorIdList)
 				} catch (error) {
-					console.error('Error fetching notifications:', error)
+					console.error('Error fetching favorite list:', error)
 				}
 			}
-			fetchNotify()
+			fetchFavoriteList()
 		}, [selectedAnimalType])
 	)
 
