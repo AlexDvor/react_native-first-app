@@ -1,9 +1,11 @@
 import { ImageSourcePropType } from 'react-native'
+import { TUserLocationCoords } from '~services/location.services'
 
 export interface IOwnerInfo {
 	id: string
 	name: string
 	avatar: string | null
+	location?: TUserLocationCoords
 }
 
 export interface IAnimalsData {

@@ -9,12 +9,14 @@ import { ImagePickerGalley } from '~components/ui/FormComponents/PostImageGaller
 import { PostInput } from '~components/ui/FormComponents/PostInput/PostInput'
 import { SelectPicker } from '~components/ui/FormComponents/SelectPicker/SelectPicker'
 import { CONTAINER } from '~constants/theme'
+import { useCustomModal } from '~context/ModalProvider'
 import { dataAnimals } from '~data/animals'
 import { catBreedsList } from '~data/cat.breeds'
 import { dogBreedsList } from '~data/dog.breeds'
 import { FireBaseDefaultData } from '~helper/firebase/helperFireBaseData'
 import { submitPostFormToFireStorage } from '~helper/firebase/submitPostForm'
 import { useAuth } from '~hooks/useAuth'
+import { useLocation } from '~hooks/useLocation'
 import { useValidateForm } from '~hooks/useValidateForm'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { TFormState } from '~interfaces/form.state.types'
@@ -50,6 +52,8 @@ export const AddPostScreen: FC = () => {
 	const { isValidFormState } = useValidateForm(formValue)
 	const { user } = useAuth()
 	const navigation = useNavigation<RootNavigationApp>()
+	const { locationDataUser } = useLocation()
+	const { showModal } = useCustomModal()
 
 	useEffect(() => {
 		if (formValue.type === 'Dog' || formValue.type === 'Cat') {
@@ -63,14 +67,30 @@ export const AddPostScreen: FC = () => {
 		setResetPicker(true)
 	}
 
+	const hasLocCoords =
+		locationDataUser.coords?.latitude || locationDataUser.coords?.longitude
+			? true
+			: false
+
 	const handleSubmitForm = async () => {
 		try {
 			setIsLoading(true)
 			if (!user?.id) {
 				throw new Error('Something is wrong with userId')
 			}
+			///////////FIx
+			if (true) {
+				showModal({
+					text: 'To enhance your experience and ensure accurate data submission, please grant permission for location access before submitting, as we use your geolocation data solely to improve our services, prioritizing your privacy and data security.',
+					confirmFn: () => {
+						console.log('fetch')
+					},
+					cancelFn() {},
+				})
+			}
+
 			// await FireBaseDefaultData.createDefaultDataBase(dataAnimals, user.id)
-			await submitPostFormToFireStorage(formValue, user.id)
+			// await submitPostFormToFireStorage(formValue, user.id)
 			// handleResetForm()
 
 			//fix navigation to Gallery
