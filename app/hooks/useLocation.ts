@@ -66,7 +66,6 @@ export const useLocation = () => {
 					},
 					displayName: currPlace.display_name,
 				}))
-
 				updateUser({
 					userId: user?.id || '',
 					newData: { location: coordsUser?.coords },
@@ -112,11 +111,20 @@ export const useLocation = () => {
 		} catch (error) {}
 	}
 
-	const updateLocationUser = () => fetchLocation()
+	const updateLocationUser = async () => await fetchLocation()
+
+	const resetLocationUser = () => {
+		setLocationDataUser(initialLocationState)
+		updateUser({
+			userId: user?.id || '',
+			newData: { location: { latitude: 0, longitude: 0 } },
+		})
+	}
 
 	return {
 		isFetchingLocation,
 		locationDataUser,
 		updateLocationUser,
+		resetLocationUser,
 	}
 }

@@ -5,6 +5,6 @@ export const getPlaceName = (data: TUserLocationData) => {
 	if (currLocation.length >= 6) {
 		return currLocation
 	} else {
-		return 'Null'
+		return 'Unknown'
 	}
 }

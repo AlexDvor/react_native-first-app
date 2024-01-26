@@ -33,12 +33,13 @@ const initialFormValue = {
 	gender: '',
 	weight: '',
 	vaccine: false,
-	adoptedByUser: null,
-	createdAt: '',
 	owner: {
 		id: '',
 		name: '',
 		avatar: '',
+		location: {
+			coords: { latitude: 0, longitude: 0 },
+		},
 	},
 }
 
@@ -49,10 +50,11 @@ export const AddPostScreen: FC = () => {
 	>('')
 	const [isLoading, setIsLoading] = useState(false)
 	const [resetPicker, setResetPicker] = useState(false)
+
 	const { isValidFormState } = useValidateForm(formValue)
 	const { user } = useAuth()
 	const navigation = useNavigation<RootNavigationApp>()
-	const { locationDataUser } = useLocation()
+	const { locationDataUser, updateLocationUser } = useLocation()
 	const { showModal } = useCustomModal()
 
 	useEffect(() => {
@@ -62,15 +64,17 @@ export const AddPostScreen: FC = () => {
 		return setSelectedTypeAnimal('')
 	}, [formValue])
 
-	const handleResetForm = () => {
+	const handleResetFormNavigate = () => {
 		setFormValue(initialFormValue)
 		setResetPicker(true)
+		navigation.navigate('Profile', { screen: 'MyPetGalleryScreen' })
 	}
 
 	const hasLocCoords =
-		locationDataUser.coords?.latitude || locationDataUser.coords?.longitude
-			? true
-			: false
+		user?.location?.latitude && user?.location?.longitude ? true : false
+
+	const selectCurrentListByType = () =>
+		selectedTypeAnimal === 'Dog' ? dogBreedsList : catBreedsList
 
 	const handleSubmitForm = async () => {
 		try {
@@ -78,33 +82,89 @@ export const AddPostScreen: FC = () => {
 			if (!user?.id) {
 				throw new Error('Something is wrong with userId')
 			}
-			///////////FIx
-			if (true) {
-				showModal({
-					text: 'To enhance your experience and ensure accurate data submission, please grant permission for location access before submitting, as we use your geolocation data solely to improve our services, prioritizing your privacy and data security.',
-					confirmFn: () => {
-						console.log('fetch')
-					},
-					cancelFn() {},
+
+			if (!hasLocCoords) {
+				await new Promise<void>((resolve) => {
+					showModal({
+						text: 'To enhance your experience and ensure accurate data submission, please grant permission for location access before submitting, as we use your geolocation data solely to improve our services, prioritizing your privacy and data security.',
+
+						confirmFn: async () => {
+							try {
+								if (!user?.id) return
+								await updateLocationUser()
+
+								const newFormValue = {
+									...formValue,
+									owner: {
+										...formValue.owner,
+										location: {
+											coords: {
+												...locationDataUser.coords,
+											},
+										},
+									},
+								}
+
+								await submitPostFormToFireStorage(newFormValue, user.id)
+								handleResetFormNavigate()
+							} catch (error) {
+								console.error('Error updating location:', error)
+							} finally {
+								resolve()
+							}
+						},
+
+						cancelFn: async () => {
+							console.log('cancelFn')
+							try {
+								if (!user?.id) return
+								const newFormValue = {
+									...formValue,
+									owner: {
+										...formValue.owner,
+										location: {
+											coords: {
+												latitude: 0,
+												longitude: 0,
+											},
+										},
+									},
+								}
+
+								await submitPostFormToFireStorage(newFormValue, user.id)
+								handleResetFormNavigate()
+							} catch (error) {
+								console.error('Error submitting form without location:', error)
+							} finally {
+								resolve()
+							}
+						},
+					})
 				})
+			} else {
+				console.log('defaultFn')
+				const newFormValue = {
+					...formValue,
+					owner: {
+						...formValue.owner,
+						location: {
+							coords: {
+								latitude: locationDataUser.coords?.latitude,
+								longitude: locationDataUser.coords?.longitude,
+							},
+						},
+					},
+				}
+
+				await submitPostFormToFireStorage(newFormValue, user.id)
+				handleResetFormNavigate()
 			}
-
-			// await FireBaseDefaultData.createDefaultDataBase(dataAnimals, user.id)
-			// await submitPostFormToFireStorage(formValue, user.id)
-			// handleResetForm()
-
-			//fix navigation to Gallery
-
-			// navigation.navigate('Profile', { screen: 'MyPetGalleryScreen' })
 		} catch (error) {
 			console.log(error)
 		} finally {
 			setIsLoading(false)
 		}
 	}
-
-	const selectCurrentListByType = () =>
-		selectedTypeAnimal === 'Dog' ? dogBreedsList : catBreedsList
 
 	return (
 		<View style={styles.container}>
@@ -196,7 +256,7 @@ export const AddPostScreen: FC = () => {
 					<FormButton
 						title={'Submit'}
 						onPress={() => handleSubmitForm()}
-						// disabled={!isValidFormState}
+						disabled={!isValidFormState}
 						isFetching={isLoading}
 					/>
 				</View>

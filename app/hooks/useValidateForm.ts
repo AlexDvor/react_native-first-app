@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
+import { IAnimalsData } from '~interfaces/animals.types'
 
-interface useValidateFormProps {
-	[key: string]: any
-}
+type TFormState = Partial<IAnimalsData>
 
-export const useValidateForm = (formState: useValidateFormProps) => {
-	const [hasSomeEmptyFields, setHasSomeEmptyFields] = useState<boolean>(false)
+export const useValidateForm = (formState: TFormState) => {
+	const [hasSomeEmptyFields, setHasSomeEmptyFields] = useState(false)
 
 	useEffect(() => {
+		console.log('start validate')
+
 		for (const key in formState) {
 			if (!formState[key]) {
 				setHasSomeEmptyFields(false)
@@ -15,7 +16,7 @@ export const useValidateForm = (formState: useValidateFormProps) => {
 			}
 		}
 
-		if (formState.imageUri.length === 0) {
+		if (!formState.imageUri || formState.imageUri.length === 0) {
 			setHasSomeEmptyFields(false)
 			return
 		}

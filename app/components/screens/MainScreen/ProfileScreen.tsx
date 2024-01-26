@@ -12,7 +12,6 @@ import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
 import { useLocation } from '~hooks/useLocation'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
-import { LocationService } from '~services/location.services'
 
 const SIZE_ICON = 32
 const COLOR_ICON = 'black'
@@ -21,7 +20,8 @@ export const ProfileScreen: FC = () => {
 	const { user } = useAuth()
 	const { singOut } = useActions()
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
-	const { showModal, modalState } = useCustomModal()
+	const { showModal } = useCustomModal()
+	const { resetLocationUser } = useLocation()
 
 	const { locationDataUser, updateLocationUser } = useLocation()
 
@@ -39,6 +39,10 @@ export const ProfileScreen: FC = () => {
 
 	const handlePressMyGallery = () => {
 		navigate('MyPetGalleryScreen')
+	}
+
+	const handleEditProfile = () => {
+		resetLocationUser()
 	}
 
 	return (
@@ -120,6 +124,7 @@ export const ProfileScreen: FC = () => {
 					title={'Edit Profile'}
 					widthButton={250}
 					backgroundColorButton={'secondaryBtn'}
+					onPress={handleEditProfile}
 				/>
 				<PrimaryButton
 					title={'SignOut'}

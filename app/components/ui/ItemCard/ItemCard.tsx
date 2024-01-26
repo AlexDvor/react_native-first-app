@@ -12,12 +12,15 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { COLORS, widthScreenDevice } from '~constants/theme'
 import calculateAge from '~helper/number/calculateAgeInYears'
+import { isDefinedAndNotZero } from '~helper/number/isDefinedAndNotZero'
 import { useAuth } from '~hooks/useAuth'
+import { useLocation } from '~hooks/useLocation'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { MessageNavigationComponent } from '~interfaces/message.navigation.types'
 import { TCreateNotification } from '~interfaces/notification'
 import { ChatService } from '~services/chat.services'
 import { CollectionServices } from '~services/coll.services'
+import { LocationService } from '~services/location.services'
 import { NotificationService } from '~services/notification.services'
 
 import { AdoptedBadge } from '../AdoptedBadge/AdoptedBadge'
@@ -32,6 +35,7 @@ interface IAnimalProfileCard {
 }
 
 export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
+	const { locationDataUser } = useLocation()
 	const [isLoading, setIsLoading] = useState(false)
 	const { user } = useAuth()
 	const scrollCurrentRef = useRef(null)
@@ -97,6 +101,38 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 		} catch (error) {}
 	}
 
+	const checkLocation = () => {
+		const isCardOwnedByUser = item.owner.id === user?.id
+		const ownerCoords = item.owner.location?.coords
+		const currentCoords = user?.location
+
+		if (isCardOwnedByUser && locationDataUser.address) {
+			return `${locationDataUser.address?.stateDistrict}, ${locationDataUser.address?.town}`
+		}
+
+		if (isCardOwnedByUser && !locationDataUser.address) {
+			return "Current User doesn't have address"
+		}
+
+		if (ownerCoords && currentCoords && !isCardOwnedByUser) {
+			const hasAllCoords =
+				isDefinedAndNotZero(ownerCoords.latitude) &&
+				isDefinedAndNotZero(ownerCoords.longitude) &&
+				isDefinedAndNotZero(currentCoords.latitude) &&
+				isDefinedAndNotZero(currentCoords.longitude)
+
+			if (hasAllCoords) {
+				const distance = LocationService.calculateDistance(
+					ownerCoords,
+					currentCoords
+				)
+				return distance
+			} else {
+				return 'some problem with users coords'
+			}
+		}
+	}
+
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
 			<ScrollView ref={scrollCurrentRef} style={{}}>
@@ -113,7 +149,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 							color={'#111c1e'}
 							style={{ height: sizeIcon, width: sizeIcon }}
 						/>
-						<Text style={styles.location}>California ( 2,5km )</Text>
+						<Text style={styles.location}>{checkLocation()}</Text>
 					</View>
 					<View style={styles.featureWrapper}>
 						<View style={[styles.featureItem, styles.ageBackColor]}>

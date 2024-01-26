@@ -21,9 +21,11 @@ export const submitPostFormToFireStorage = async (
 				id: userId,
 				name: FIREBASE_AUTH.currentUser?.displayName,
 				avatar: FIREBASE_AUTH.currentUser?.photoURL || null,
+				location: { ...formValue.owner.location },
 			},
 			adoptedByUser: null,
 		}
+
 		//save item to firebase and return animal id
 
 		const animalId = await CollectionServices.saveAnimalToGeneralColl(formData)
