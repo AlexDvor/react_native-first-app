@@ -12,6 +12,8 @@ import { useActions } from '~hooks/useActions'
 import { useAuth } from '~hooks/useAuth'
 import { useLocation } from '~hooks/useLocation'
 import { ProfileNavigationComponent } from '~navigation/ProfileStackNavigator'
+import { AnimalService } from '~services/animal.services'
+import { UserService } from '~services/user.services'
 
 const SIZE_ICON = 32
 const COLOR_ICON = 'black'
@@ -41,8 +43,8 @@ export const ProfileScreen: FC = () => {
 		navigate('MyPetGalleryScreen')
 	}
 
-	const handleEditProfile = () => {
-		resetLocationUser()
+	const handleEditProfile = async () => {
+		// resetLocationUser()
 	}
 
 	return (

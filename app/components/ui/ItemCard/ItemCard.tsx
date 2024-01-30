@@ -1,6 +1,6 @@
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import React, { FC, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import {
 	Image,
 	SafeAreaView,
@@ -13,6 +13,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { COLORS, widthScreenDevice } from '~constants/theme'
 import calculateAge from '~helper/number/calculateAgeInYears'
 import { isDefinedAndNotZero } from '~helper/number/isDefinedAndNotZero'
+import { validateCoordinates } from '~helper/number/validateCoordinates'
+import { getLocationInfo } from '~helper/string/getLocationInfo'
 import { useAuth } from '~hooks/useAuth'
 import { useLocation } from '~hooks/useLocation'
 import { IAnimalsData } from '~interfaces/animals.types'
@@ -35,7 +37,7 @@ interface IAnimalProfileCard {
 }
 
 export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
-	const { locationDataUser } = useLocation()
+	const [placeDistance, setPlaceDistance] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 	const { user } = useAuth()
 	const scrollCurrentRef = useRef(null)
@@ -44,6 +46,40 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 	const dayOfBirthday = item.age.day
 	const monthOfBirthday = item.age.month
 	const yearOfBirthday = item.age.year
+
+	useEffect(() => {
+		const fetchPlaceLocation = async () => {
+			try {
+				const ownerCoords = validateCoordinates(
+					item.owner.location?.coords || {}
+				)
+				const currentUserCoords = validateCoordinates(user?.location || {})
+
+				if (!isOwnerCard) {
+					if (currentUserCoords && ownerCoords) {
+						const distance = LocationService.calculateDistance(
+							ownerCoords,
+							currentUserCoords
+						)
+						const placeInfo = await getLocationInfo(ownerCoords)
+						return setPlaceDistance(`${placeInfo} - ${distance}`)
+					} else if (ownerCoords) {
+						return setPlaceDistance(await getLocationInfo(ownerCoords))
+					}
+				} else {
+					if (currentUserCoords) {
+						return setPlaceDistance(await getLocationInfo(currentUserCoords))
+					} else {
+						return setPlaceDistance('You need to update your location')
+					}
+				}
+			} catch (error) {
+				return setPlaceDistance('Error')
+			}
+		}
+
+		fetchPlaceLocation()
+	}, [isOwnerCard])
 
 	const removeAnimalFromOwnColl = async () => {
 		if (!user?.id) return
@@ -57,7 +93,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 		}
 	}
 
-	const submitAdoptForm = async () => {
+	const handleSubmitFrom = async () => {
 		if (!user) return
 
 		const notification: TCreateNotification = {
@@ -101,37 +137,60 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 		} catch (error) {}
 	}
 
-	const checkLocation = () => {
-		const isCardOwnedByUser = item.owner.id === user?.id
-		const ownerCoords = item.owner.location?.coords
-		const currentCoords = user?.location
+	// const checkLocation = async () => {
+	// 	const isCardOwnedByUser = item.owner.id === user?.id
 
-		if (isCardOwnedByUser && locationDataUser.address) {
-			return `${locationDataUser.address?.stateDistrict}, ${locationDataUser.address?.town}`
-		}
+	// 	const ownerCoords = item.owner.location?.coords
 
-		if (isCardOwnedByUser && !locationDataUser.address) {
-			return "Current User doesn't have address"
-		}
+	// 	const currentUserCoords = user?.location
 
-		if (ownerCoords && currentCoords && !isCardOwnedByUser) {
-			const hasAllCoords =
-				isDefinedAndNotZero(ownerCoords.latitude) &&
-				isDefinedAndNotZero(ownerCoords.longitude) &&
-				isDefinedAndNotZero(currentCoords.latitude) &&
-				isDefinedAndNotZero(currentCoords.longitude)
+	// 	console.log('1')
+	// 	if (isCardOwnedByUser && locationDataUser.address) {
+	// 		return `${locationDataUser.address?.stateDistrict}, ${locationDataUser.address?.town}`
+	// 	}
 
-			if (hasAllCoords) {
-				const distance = LocationService.calculateDistance(
-					ownerCoords,
-					currentCoords
-				)
-				return distance
-			} else {
-				return 'some problem with users coords'
-			}
-		}
-	}
+	// 	console.log('2')
+	// 	if (isCardOwnedByUser || (!isCardOwnedByUser && !user?.location)) {
+	// 		return "Current User doesn't have address"
+	// 	}
+
+	// 	if (!isCardOwnedByUser && ownerCoords?.latitude && ownerCoords.longitude) {
+	// 		try {
+	// 			const location = await LocationService.getPlaceFromCoordinates(
+	// 				ownerCoords.latitude,
+	// 				ownerCoords.longitude
+	// 			)
+	// 			if (location) {
+	// 				return `${location?.address.state_district}, ${locationDataUser.address?.town}`
+	// 			}
+	// 			return 'Error in location of OwnerCard'
+	// 		} catch (error) {
+	// 			console.log('Error:', error)
+	// 			return 'Error in location of OwnerCard'
+	// 		}
+	// 	}
+
+	// 	console.log('3')
+	// 	if (ownerCoords && currentUserCoords && !isCardOwnedByUser) {
+	// 		const hasAllCoords =
+	// 			isDefinedAndNotZero(ownerCoords.latitude) &&
+	// 			isDefinedAndNotZero(ownerCoords.longitude) &&
+	// 			isDefinedAndNotZero(currentUserCoords.latitude) &&
+	// 			isDefinedAndNotZero(currentUserCoords.longitude)
+
+	// 		if (hasAllCoords) {
+	// 			const distance = LocationService.calculateDistance(
+	// 				ownerCoords,
+	// 				currentUserCoords
+	// 			)
+	// 			return distance
+	// 		} else {
+	// 			return 'some problem with users coords'
+	// 		}
+	// 	}
+
+	// 	return 'unknown'
+	// }
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
@@ -149,7 +208,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 							color={'#111c1e'}
 							style={{ height: sizeIcon, width: sizeIcon }}
 						/>
-						<Text style={styles.location}>{checkLocation()}</Text>
+						<Text style={styles.location}>{placeDistance}</Text>
 					</View>
 					<View style={styles.featureWrapper}>
 						<View style={[styles.featureItem, styles.ageBackColor]}>
@@ -246,7 +305,7 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 							title={item.adoptedByUser ? 'You are late' : 'Adopt Now'}
 							widthButton={300}
 							backgroundColorButton={'secondaryBtn'}
-							onPress={submitAdoptForm}
+							onPress={handleSubmitFrom}
 							disabled={item.adoptedByUser ? true : false}
 							disabledColor={'inactiveBtn'}
 						></PrimaryButton>

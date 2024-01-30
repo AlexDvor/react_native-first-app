@@ -123,9 +123,10 @@ export const CollectionServices = {
 		newData: [] | {} | boolean,
 		ref: DocumentReference<DocumentData>
 	) {
+		const nameColl = Constants[coll]
 		try {
 			await updateDoc(ref, {
-				[ITEM_NOTIFICATIONS]: arrayUnion(newData),
+				[nameColl]: arrayUnion(newData),
 			})
 		} catch (error) {
 			throw error
@@ -180,7 +181,7 @@ export const CollectionServices = {
 			throw error
 		}
 	},
-	
+
 	async addOwnAnimalToProfile(itemId: string, userId: string): Promise<void> {
 		try {
 			const docRef = doc(FIREBASE_DB, COLLECTION_USERS, userId)

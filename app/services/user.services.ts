@@ -1,5 +1,4 @@
 import { updateProfile } from 'firebase/auth'
-import { User } from 'firebase/auth'
 import {
 	DocumentData,
 	DocumentReference,
@@ -12,8 +11,6 @@ import { FIREBASE_AUTH, FIREBASE_DB } from '~config/firebaseConfig'
 import { IUpdOwnProfile, IUserData, IUserProfile } from '~interfaces/user.types'
 
 import { Constants } from './config.services'
-
-type TUserCredential = Pick<User, 'displayName' | 'email' | 'photoURL'>
 
 const { COLLECTION_USERS } = Constants
 

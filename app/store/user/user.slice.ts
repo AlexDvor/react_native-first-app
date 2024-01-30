@@ -9,7 +9,7 @@ import {
 	updateUser,
 } from './user.actions'
 
-interface initialStateProps {
+export interface initialStateProps {
 	user: {
 		id: string | null
 		name: string | null

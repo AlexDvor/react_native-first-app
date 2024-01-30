@@ -3,6 +3,7 @@ import { FIREBASE_DB } from '~config/firebaseConfig'
 import { IAnimalsData, IOwnerInfo } from '~interfaces/animals.types'
 
 import { Constants } from './config.services'
+import { Coordinates } from './location.services'
 
 const { COLLECTION_ANIMALS, ITEM_OWM_ANIMALS } = Constants
 
@@ -51,6 +52,36 @@ export const AnimalService = {
 				throw new Error(`Animal with ID ${animalId} not found`)
 			}
 		} catch (error) {
+			throw error
+		}
+	},
+
+	async updateOwnerCoords(
+		animalLits: string[],
+		newCoords: Coordinates
+	): Promise<void> {
+		try {
+			if (animalLits && animalLits.length > 0) {
+				for (const animalId of animalLits) {
+					const docRef = doc(FIREBASE_DB, COLLECTION_ANIMALS, animalId)
+					const docSnapshot = await getDoc(docRef)
+
+					if (docSnapshot.exists()) {
+						const animalRef = docSnapshot.data().owner
+						animalRef.location.coords = newCoords
+
+						await updateDoc(docRef, {
+							owner: animalRef,
+						})
+					} else {
+						console.error(`Animal with ID ${animalId} not found`)
+					}
+				}
+			} else {
+				throw new Error(`animals list is empty`)
+			}
+		} catch (error) {
+			console.error('Error updating animal data:', error)
 			throw error
 		}
 	},

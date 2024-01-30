@@ -33,7 +33,7 @@ export type TLocationData = {
 	displayName: string
 }
 
-interface Coordinates {
+export interface Coordinates {
 	latitude: number
 	longitude: number
 }

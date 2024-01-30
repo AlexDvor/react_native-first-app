@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
+import { AnimalService } from '~services/animal.services'
 import {
 	LocationService,
 	TLocationData,
 	TResponseLocationData,
 	TUserLocationCoords,
 } from '~services/location.services'
+import { UserService } from '~services/user.services'
 
 import { useActions } from './useActions'
 import { useAuth } from './useAuth'
@@ -45,6 +47,8 @@ export const useLocation = () => {
 			const coordsUser: TUserLocationCoords =
 				await LocationService.getLocationCoords()
 
+			if (!coordsUser) return
+
 			const currPlace: TResponseLocationData =
 				await LocationService.getPlaceFromCoordinates(
 					coordsUser?.coords.latitude || 0,
@@ -66,10 +70,19 @@ export const useLocation = () => {
 					},
 					displayName: currPlace.display_name,
 				}))
-				updateUser({
-					userId: user?.id || '',
-					newData: { location: coordsUser?.coords },
-				})
+				// updated state user and owner field coords for animals
+				if (user?.id) {
+					updateUser({
+						userId: user?.id,
+						newData: { location: coordsUser?.coords },
+					})
+					const { user: userRef } = await UserService.getUserRef(user?.id)
+					const animalIds = userRef.ownAnimals
+					await AnimalService.updateOwnerCoords(animalIds, {
+						latitude: coordsUser?.coords.latitude || 0,
+						longitude: coordsUser?.coords.longitude || 0,
+					})
+				}
 			} else {
 				throw new Error('Error in coordUser')
 			}
