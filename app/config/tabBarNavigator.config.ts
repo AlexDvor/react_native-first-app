@@ -12,3 +12,12 @@ export const tabBarNavigatorConfig = {
 		backgroundColor: COLORS.backgroundTabNavigator,
 	},
 }
+
+export const screenOptionsConf = {
+	cardStyle: {
+		backgroundColor: COLORS.screenBackgroundColor,
+	},
+	headerStyle: {
+		backgroundColor: COLORS.screenHeaderBackgroundColor,
+	},
+}

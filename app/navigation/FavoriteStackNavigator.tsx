@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { FC } from 'react'
 import { FavoriteScreen } from '~components/screens/MainScreen/FavoriteScreen'
 import { AnimalProfileScreen } from '~components/screens/MainScreen/NestedScreen/AnimalProfileScreen'
-import { COLORS } from '~constants/theme'
+import { screenOptionsConf } from '~config/tabBarNavigator.config'
 import { FavoriteRootStackParamList } from '~interfaces/favorite.navigation.types'
 
 const FavoriteStack = createStackNavigator<FavoriteRootStackParamList>()
@@ -15,28 +15,18 @@ export const FavoriteStackNavigator: FC = () => {
 				name="FavoriteScreen"
 				component={FavoriteScreen}
 				options={{
+					...screenOptionsConf,
 					title: 'Favorites',
 					headerShown: true,
-					cardStyle: {
-						backgroundColor: COLORS.screenBackgroundColor,
-					},
-					headerStyle: {
-						backgroundColor: COLORS.screenHeaderBackgroundColor,
-					},
 				}}
 			></Screen>
 			<Screen
 				name="AnimalProfileScreen"
 				component={AnimalProfileScreen}
 				options={{
+					...screenOptionsConf,
 					headerShown: true,
 					title: 'My Animals',
-					cardStyle: {
-						backgroundColor: COLORS.screenBackgroundColor,
-					},
-					headerStyle: {
-						backgroundColor: COLORS.screenHeaderBackgroundColor,
-					},
 				}}
 			></Screen>
 		</Navigator>

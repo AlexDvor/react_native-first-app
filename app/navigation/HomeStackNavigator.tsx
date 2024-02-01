@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { ChatScreen } from '~components/screens/MainScreen/NestedScreen/ChatScreen'
 import { NotificationItemScreen } from '~components/screens/MainScreen/NestedScreen/NotificationItemScreen'
 import { NotificationScreen } from '~components/screens/MainScreen/NotificationScreen'
-import { COLORS } from '~constants/theme'
+import { screenOptionsConf } from '~config/tabBarNavigator.config'
 
 import { HomeScreen } from '../components/screens/MainScreen/HomeScreen'
 import { AnimalProfileScreen } from '../components/screens/MainScreen/NestedScreen/AnimalProfileScreen'
@@ -20,50 +20,30 @@ export const HomeStackNavigator: FC = () => {
 				name="AnimalProfileScreen"
 				component={AnimalProfileScreen}
 				options={{
+					...screenOptionsConf,
 					headerShown: true,
 					title: 'Animal',
-					cardStyle: {
-						backgroundColor: COLORS.screenBackgroundColor,
-					},
-					headerStyle: {
-						backgroundColor: COLORS.screenHeaderBackgroundColor,
-					},
 				}}
 			></Screen>
 			<Screen
 				name="ChatScreen"
 				component={ChatScreen}
 				options={{
-					cardStyle: {
-						backgroundColor: COLORS.screenBackgroundColor,
-					},
-					headerStyle: {
-						backgroundColor: COLORS.screenHeaderBackgroundColor,
-					},
+					...screenOptionsConf,
 				}}
 			></Screen>
 			<Screen
 				name="NotificationScreen"
 				component={NotificationScreen}
 				options={{
-					cardStyle: {
-						backgroundColor: COLORS.screenBackgroundColor,
-					},
-					headerStyle: {
-						backgroundColor: COLORS.screenHeaderBackgroundColor,
-					},
+					...screenOptionsConf,
 				}}
 			></Screen>
 			<Screen
 				name="NotificationItemScreen"
 				component={NotificationItemScreen}
 				options={{
-					cardStyle: {
-						backgroundColor: COLORS.screenBackgroundColor,
-					},
-					headerStyle: {
-						backgroundColor: COLORS.screenHeaderBackgroundColor,
-					},
+					...screenOptionsConf,
 				}}
 			></Screen>
 		</Navigator>

@@ -5,7 +5,7 @@ import { AnimalProfileScreen } from '~components/screens/MainScreen/NestedScreen
 import { LocationScreen } from '~components/screens/MainScreen/NestedScreen/LocationScreen'
 import { MyPetGalleryScreen } from '~components/screens/MainScreen/NestedScreen/MyPetGalleryScreen'
 import { ProfileScreen } from '~components/screens/MainScreen/ProfileScreen'
-import { COLORS } from '~constants/theme'
+import { screenOptionsConf } from '~config/tabBarNavigator.config'
 import { IAnimalsData } from '~interfaces/animals.types'
 
 export type ProfileRootStackParamList = {
@@ -31,52 +31,32 @@ export const ProfileStackNavigator: FC = () => {
 				name="ProfileScreen"
 				component={ProfileScreen}
 				options={{
-					cardStyle: {
-						backgroundColor: COLORS.screenBackgroundColor,
-					},
-					headerStyle: {
-						backgroundColor: COLORS.screenHeaderBackgroundColor,
-					},
+					...screenOptionsConf,
 				}}
 			></Screen>
 			<Screen
 				name="MyPetGalleryScreen"
 				component={MyPetGalleryScreen}
 				options={{
+					...screenOptionsConf,
 					headerShown: true,
 					title: 'My Animals',
-					cardStyle: {
-						backgroundColor: COLORS.screenBackgroundColor,
-					},
-					headerStyle: {
-						backgroundColor: COLORS.screenHeaderBackgroundColor,
-					},
 				}}
 			></Screen>
 			<Screen
 				name="AnimalProfileScreen"
 				component={AnimalProfileScreen}
 				options={{
+					...screenOptionsConf,
 					headerShown: true,
 					title: 'My Animals',
-					cardStyle: {
-						backgroundColor: COLORS.screenBackgroundColor,
-					},
-					headerStyle: {
-						backgroundColor: COLORS.screenHeaderBackgroundColor,
-					},
 				}}
 			></Screen>
 			<Screen
 				name="LocationScreen"
 				component={LocationScreen}
 				options={{
-					cardStyle: {
-						backgroundColor: COLORS.screenBackgroundColor,
-					},
-					headerStyle: {
-						backgroundColor: COLORS.screenHeaderBackgroundColor,
-					},
+					...screenOptionsConf,
 				}}
 			></Screen>
 		</Navigator>
