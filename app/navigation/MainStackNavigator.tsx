@@ -50,7 +50,7 @@ export const MainStackNavigator = () => {
 								size={size}
 								color={color}
 							/>
-							<ChatIndicator hasNewMessages={true} />
+							<ChatIndicator hasNewMessages={false} />
 						</>
 					),
 
