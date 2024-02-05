@@ -9,7 +9,7 @@ export const validateCoordinates = (coords: TValidateCoordinates) => {
 		coords.longitude === undefined ||
 		coords.latitude === undefined
 	) {
-		console.log('Error: Invalid coordinates object')
+		console.log('validateCoordinates fun: Invalid coordinates object')
 		return null
 	}
 
@@ -19,7 +19,9 @@ export const validateCoordinates = (coords: TValidateCoordinates) => {
 			latitude: coords.latitude,
 		}
 	} else {
-		console.log('Error: Invalid or missing coordinates values')
+		console.log(
+			'validateCoordinates fun: Invalid or missing coordinates values'
+		)
 		return null
 	}
 }

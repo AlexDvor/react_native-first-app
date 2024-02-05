@@ -54,6 +54,9 @@ export const Card: FC<IAnimalProfileCard> = ({ item, isOwnerCard }) => {
 					item.owner.location?.coords || {}
 				)
 				const currentUserCoords = validateCoordinates(user?.location || {})
+				console.log('❌ ~ ownerCoords:', ownerCoords)
+				console.log('❌ ~ currentUserCoords:', currentUserCoords)
+				console.log('❌ ~ placeDistance:', placeDistance)
 
 				if (!isOwnerCard) {
 					if (currentUserCoords && ownerCoords) {

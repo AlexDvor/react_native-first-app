@@ -78,10 +78,12 @@ export const useLocation = () => {
 					})
 					const { user: userRef } = await UserService.getUserRef(user?.id)
 					const animalIds = userRef.ownAnimals
-					await AnimalService.updateOwnerCoords(animalIds, {
-						latitude: coordsUser?.coords.latitude || 0,
-						longitude: coordsUser?.coords.longitude || 0,
-					})
+					if (animalIds.length > 0) {
+						await AnimalService.updateOwnerCoords(animalIds, {
+							latitude: coordsUser?.coords.latitude || 0,
+							longitude: coordsUser?.coords.longitude || 0,
+						})
+					}
 				}
 			} else {
 				throw new Error('Error in coordUser')
