@@ -2,11 +2,10 @@ import { useNavigation } from '@react-navigation/native'
 import { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
-import { Spinner } from '~components/ui/Spinner/Spinner'
+import { GallerySkeleton } from '~components/ui/Skeletons/GallerySkeleton'
 import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { CollectionServices } from '~services/coll.services'
-
 
 export const MyPetGalleryScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -36,7 +35,7 @@ export const MyPetGalleryScreen: FC = () => {
 
 	return (
 		<View style={styles.container}>
-			{isLoading ? <Spinner /> : null}
+			{isLoading ? <GallerySkeleton /> : null}
 			{petList?.length > 0 && !isLoading && (
 				<Gallery
 					items={petList}

@@ -4,7 +4,7 @@ import { COLORS } from '~constants/theme'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { THomeScreenName } from '~interfaces/home.navigation.types'
 
-import { Spinner } from '../Spinner/Spinner'
+import { GallerySkeleton } from '../Skeletons/GallerySkeleton'
 
 import { GalleryItem } from './GalleryItem'
 
@@ -60,7 +60,7 @@ export const Gallery: FC<IGallery> = ({
 	return (
 		<View style={styles.container}>
 			{isLoading ? (
-				<Spinner />
+				<GallerySkeleton />
 			) : (
 				<FlatList
 					horizontal={false}

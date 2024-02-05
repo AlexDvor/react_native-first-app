@@ -95,6 +95,7 @@ export const HomeScreen: FC<DefaultHomeProps> = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+
 		...CONTAINER.mainContainer,
 	},
 

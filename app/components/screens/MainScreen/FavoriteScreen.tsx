@@ -2,17 +2,16 @@ import { useNavigation } from '@react-navigation/native'
 import { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Gallery } from '~components/ui/Gallery/Gallery'
-import { Spinner } from '~components/ui/Spinner/Spinner'
+import { GallerySkeleton } from '~components/ui/Skeletons/GallerySkeleton'
 import { useAuth } from '~hooks/useAuth'
 import { IAnimalsData } from '~interfaces/animals.types'
 import { CollectionServices } from '~services/coll.services'
 
-
 export const FavoriteScreen: FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [favoritesList, setFavoriteList] = useState<IAnimalsData[]>([])
-	const navigation = useNavigation()
 	const { user } = useAuth()
+	const navigation = useNavigation()
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -36,7 +35,7 @@ export const FavoriteScreen: FC = () => {
 
 	return (
 		<View style={styles.container}>
-			{isLoading ? <Spinner /> : null}
+			{isLoading ? <GallerySkeleton /> : null}
 			{favoritesList?.length > 0 && !isLoading && (
 				<Gallery
 					items={favoritesList}
