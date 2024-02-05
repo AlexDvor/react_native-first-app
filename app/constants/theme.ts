@@ -51,6 +51,11 @@ export const COLORS = {
 
 	screenBackgroundColor: '#ffffff',
 	screenHeaderBackgroundColor: '#ffffff',
+
+	//skeleton
+
+	skeletonBackgroundColor: '#f3f3f3',
+	skeletonForegroundColor: '#d4d4d4',
 }
 
 export const CONTAINER = {

@@ -4,7 +4,7 @@ import ContentLoader, {
 	Rect,
 } from 'react-content-loader/native'
 import { StyleSheet, View } from 'react-native'
-import { heightScreenDevice, widthScreenDevice } from '~constants/theme'
+import { COLORS, heightScreenDevice, widthScreenDevice } from '~constants/theme'
 
 export const GallerySkeleton: FC = (
 	props: JSX.IntrinsicAttributes & IContentLoaderProps
@@ -19,8 +19,8 @@ export const GallerySkeleton: FC = (
 				width={widthScreenDevice - 20}
 				height={heightScreenDevice - 20}
 				viewBox={setViewBox}
-				backgroundColor="#f3f3f3"
-				foregroundColor="#ecebeb"
+				backgroundColor={COLORS.skeletonBackgroundColor}
+				foregroundColor={COLORS.skeletonForegroundColor}
 			>
 				<Rect x="0" y="0" rx="8" ry="8" width={widthRect} height="120" />
 				<Rect x="0" y="135" rx="3" ry="3" width={widthRect} height="10" />

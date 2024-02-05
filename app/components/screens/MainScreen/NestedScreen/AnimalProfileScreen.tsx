@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { Card } from '~components/ui/ItemCard/ItemCard'
+import { CardSkeleton } from '~components/ui/Skeletons/CardSkeleton'
 import { useAuth } from '~hooks/useAuth'
 import { UserService } from '~services/user.services'
 
@@ -42,7 +43,7 @@ export const AnimalProfileScreen: FC<ProfileAnimalProps> = ({ route }) => {
 			{!isLoading ? (
 				<Card item={animalData} isOwnerCard={isOwner} />
 			) : (
-				<Text>...Loading</Text>
+				<CardSkeleton />
 			)}
 		</>
 	)
