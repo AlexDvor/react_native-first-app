@@ -67,7 +67,7 @@ export const AddPostScreen: FC = () => {
 	const handleResetFormNavigate = () => {
 		setFormValue(initialFormValue)
 		setResetPicker(true)
-		navigation.navigate('Profile', { screen: 'MyPetGalleryScreen' })
+		navigation.navigate('Profile')
 	}
 
 	const hasLocCoords =
