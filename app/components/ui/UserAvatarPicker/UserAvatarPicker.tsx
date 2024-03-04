@@ -16,7 +16,13 @@ export const UserAvatarPicker: FC = () => {
 			Alert.alert(
 				'Permission Required',
 				'The permission to access is required to choose an image.',
-				[{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+				[
+					{ text: 'OK', onPress: () => console.log('OK Pressed') },
+					{
+						text: 'Permission',
+						onPress: async () => await requestPermission(),
+					},
+				]
 			)
 			return
 		}

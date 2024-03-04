@@ -82,17 +82,14 @@ export const AddPostScreen: FC = () => {
 			if (!user?.id) {
 				throw new Error('Something is wrong with userId')
 			}
-
 			if (!hasLocCoords) {
 				await new Promise<void>((resolve) => {
 					showModal({
 						text: 'To enhance your experience and ensure accurate data submission, please grant permission for location access before submitting, as we use your geolocation data solely to improve our services, prioritizing your privacy and data security.',
-
 						confirmFn: async () => {
 							try {
 								if (!user?.id) return
 								await updateLocationUser()
-
 								const newFormValue = {
 									...formValue,
 									owner: {
@@ -104,7 +101,6 @@ export const AddPostScreen: FC = () => {
 										},
 									},
 								}
-
 								await submitPostFormToFireStorage(newFormValue, user.id)
 								handleResetFormNavigate()
 							} catch (error) {
@@ -113,7 +109,6 @@ export const AddPostScreen: FC = () => {
 								resolve()
 							}
 						},
-
 						cancelFn: async () => {
 							console.log('cancelFn')
 							try {
@@ -130,7 +125,6 @@ export const AddPostScreen: FC = () => {
 										},
 									},
 								}
-
 								await submitPostFormToFireStorage(newFormValue, user.id)
 								handleResetFormNavigate()
 							} catch (error) {
@@ -155,10 +149,10 @@ export const AddPostScreen: FC = () => {
 						},
 					},
 				}
-
 				await submitPostFormToFireStorage(newFormValue, user.id)
 				handleResetFormNavigate()
 			}
+			// await FireBaseDefaultData.createDefaultDataBase(dataAnimals, user.id)
 		} catch (error) {
 			console.log(error)
 		} finally {

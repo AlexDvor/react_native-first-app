@@ -20,10 +20,7 @@ export const ProfileScreen: FC = () => {
 	const { user } = useAuth()
 	const { singOut } = useActions()
 	const { navigate } = useNavigation<ProfileNavigationComponent>()
-
 	const { showModal } = useCustomModal()
-	const { resetLocationUser } = useLocation()
-
 	const { locationDataUser, updateLocationUser } = useLocation()
 
 	const handlePressLocation = () => {
@@ -42,9 +39,7 @@ export const ProfileScreen: FC = () => {
 		navigate('MyPetGalleryScreen')
 	}
 
-	const handleEditProfile = async () => {
-		// resetLocationUser()
-	}
+	const handleEditProfile = async () => {}
 
 	return (
 		<>

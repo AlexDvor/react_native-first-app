@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { Card } from '~components/ui/ItemCard/ItemCard'
 import { CardSkeleton } from '~components/ui/Skeletons/CardSkeleton'
 import { useAuth } from '~hooks/useAuth'

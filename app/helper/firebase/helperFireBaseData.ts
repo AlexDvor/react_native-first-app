@@ -31,7 +31,7 @@ export const FireBaseDefaultData = {
 				const manipulatedImage = await manipulateAsync(
 					item.uri,
 					[{ resize: { width: 800 } }],
-					{ compress: 0.1, format: SaveFormat.JPEG }
+					{ compress: 0.8, format: SaveFormat.JPEG }
 				)
 
 				const response = await fetch(manipulatedImage.uri)
