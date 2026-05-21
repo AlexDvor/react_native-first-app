@@ -12,6 +12,7 @@ Mobile pet adoption marketplace enabling users to list animals, browse nearby pe
 
 - [Tech Stack](#-tech-stack)
 - [Features](#-features)
+- [Project Presentation](#-project-presentation)
 - [What Has Been Done](#-what-has-been-done)
 - [Future Improvements](#-future-improvements)
 - [Installation](#-installation)
@@ -21,42 +22,42 @@ Mobile pet adoption marketplace enabling users to list animals, browse nearby pe
 
 ## 🛠 Tech Stack
 
-**Core**
+### Core
 
-- **React Native 0.71** — cross-platform mobile UI development
-- **Expo 48** — managed development workflow and native device APIs
+- **React Native 0.71** — cross-platform mobile application development
+- **Expo 48** — managed workflow, development server, and native device APIs
 - **React 18** — component-based UI development
-- **TypeScript** — static typing and safer application architecture
+- **TypeScript** — static typing and safer application structure
 
-**Navigation & State**
+### Navigation & State Management
 
 - **React Navigation** — bottom tab navigation and nested stack navigation
-- **Redux Toolkit** — authentication/session state management
-- **React Redux** — binding Redux state to React components
+- **Redux Toolkit** — authentication and session state management
+- **React Redux** — integration between Redux state and React components
 - **AsyncStorage** — local persistence support
 
-**Backend & Cloud Services**
+### Backend & Cloud Services
 
-- **Firebase Authentication** — email/password registration and login
+- **Firebase Authentication** — email/password user registration and login
 - **Cloud Firestore** — users, animals, chats, messages, favorites, and notifications
 - **Firebase Storage** — uploaded animal photos and user avatars
 
-**Device & UX Libraries**
+### Device APIs & UI Libraries
 
 - **Expo Image Picker** — selecting images from the device gallery
-- **Expo Image Manipulator** — image compression before upload
-- **Expo Location** — foreground location permissions and coordinates
+- **Expo Image Manipulator** — compressing images before upload
+- **Expo Location** — foreground location permissions and coordinate handling
 - **React Native Gifted Chat** — real-time chat interface
-- **React Native SVG** and **react-native-svg-transformer** — SVG support
+- **React Native SVG** and **react-native-svg-transformer** — SVG rendering and import support
 - **React Native Modal** — reusable modal dialogs
 - **Date-fns** — date and time formatting
 - **React Content Loader** — skeleton loading states
 
-**Tooling**
+### Tooling
 
 - **Prettier** with sorted imports
 - **Babel module resolver** with `~` import alias
-- **Metro config** for SVG transformation and CJS support
+- **Metro configuration** for SVG transformation and CJS support
 - **react-native-dotenv** for environment variables
 - **Git** for version control
 
@@ -64,42 +65,57 @@ Mobile pet adoption marketplace enabling users to list animals, browse nearby pe
 
 - User registration, login, authentication state handling, and sign out
 - Browse pet listings by category: **All**, **Dogs**, and **Cats**
-- Paginated animal gallery with reusable gallery cards
+- Animal gallery with reusable pet cards and filtered content
 - Detailed animal profile screen with photos, pet metadata, owner information, and adoption status
-- Add pet listings with breed, age, gender, weight, vaccine status, description, and multiple images
-- Image compression and upload flow using Firebase Storage
+- Add new pet adoption listings with breed, age, gender, weight, vaccine status, description, and images
+- Image selection, compression, upload to Firebase Storage, and Firestore metadata creation
 - Favorites system for saving and removing animals from a personal list
-- “My Animals” gallery for pets published by the current user
-- Real-time chat between adopters and owners with GiftedChat
+- “My Animals” section for pets published by the current user
+- Real-time chat between adopters and pet owners using GiftedChat and Firestore subscriptions
 - Adoption request, confirmation, rejection, and notification workflows
 - Profile screen with avatar update, user information, location status, and quick actions
-- Foreground geolocation permissions and coordinate-based location data
+- Foreground geolocation permission flow and coordinate-based user/animal location data
 - Skeleton loaders, spinners, reusable buttons, modals, sliders, and form components
+
+## 📊 Project Presentation
+
+You can view or download the full project presentation here:
+
+📎 [Pet Adoption App Presentation](./docs/Pet_Adoption_App_Presentation.pptx)
+
+> Recommended repository structure:
+>
+> ```text
+> project-root/
+> ├── README.md
+> └── docs/
+>     └── Pet_Adoption_App_Presentation.pptx
+> ```
 
 ## ✅ What Has Been Done
 
 - Created an Expo React Native application with TypeScript and a modular folder structure
-- Configured Firebase Auth, Firestore, and Firebase Storage through environment variables
+- Configured Firebase Authentication, Cloud Firestore, and Firebase Storage using environment variables
 - Added authentication screens and Redux Toolkit state management for user sessions
-- Built bottom tab navigation with nested stack navigators for Home, Chat, Favorites, and Profile flows
-- Implemented animal listing browsing, filtering, pagination, profile viewing, and favorites
+- Built bottom tab navigation with nested stack navigators for Home, Messages, Favorites, and Profile flows
+- Implemented animal listing browsing, filtering, profile viewing, and favorites
 - Built a complete add-post flow with form validation, image selection, image compression, Storage upload, and Firestore document creation
-- Added real-time chat functionality, chat lists, message saving, and message subscriptions
+- Added real-time chat functionality, chat lists, message saving, last-message updates, and message subscriptions
 - Implemented user notifications for adoption requests and adoption status changes
 - Added profile features including avatar upload, location update, user details, and “My Animals” access
 - Created reusable UI components such as gallery cards, sliders, buttons, modals, skeletons, indicators, and form controls
 
 ## 🔧 Future Improvements
 
-- Replace the default Expo app name, icon, splash screen, and branding assets with final production branding
-- Finish the edit-profile flow, because the current `handleEditProfile` handler is still empty
-- Add Firestore security rules, indexes, validation rules, and production-ready access control
-- Normalize Firestore data models for notifications, favorites, chats, and user-owned animals to avoid large arrays inside user documents
+- Replace default Expo app branding with final production app name, icon, splash screen, and visual identity
+- Complete the edit-profile flow and connect all profile actions to production-ready logic
+- Add Firestore security rules, Storage rules, indexes, validation rules, and production-ready access control
+- Normalize Firestore data models for notifications, favorites, chats, and user-owned animals to avoid storing large arrays inside user documents
 - Improve error handling by replacing development `console.log` calls with user-friendly messages and centralized logging
 - Reduce loose `any` types and strengthen TypeScript coverage for chat, slider, notification, and form-related components
 - Add automated tests for services, hooks, validation logic, and critical user flows
 - Add offline-friendly behavior, retry states, and better handling for poor network conditions
-- Improve real-time unread message indicators and notification badges in the tab bar
+- Improve unread message indicators and notification badges in the tab bar
 - Add EAS Build configuration and production deployment documentation for Android and iOS
 
 ## ⚙️ Installation
@@ -113,7 +129,7 @@ cd react_native-first-app-main
 
 ### 2. Install dependencies
 
-The project contains a `yarn.lock` file, so Yarn is recommended.
+The project includes a `yarn.lock` file, so Yarn is recommended.
 
 ```bash
 yarn install
@@ -153,7 +169,7 @@ In your Firebase project, enable:
 - Cloud Firestore
 - Firebase Storage
 
-The application uses Firestore collections such as:
+The application uses Firestore data related to:
 
 - `users`
 - `animals`
@@ -193,7 +209,7 @@ After launching the app, you can:
 
 1. Create a new account or log in.
 2. Browse available cats and dogs.
-3. Open animal profiles and save favorites.
+3. Open animal profiles and save favorite listings.
 4. Create your own pet adoption listing.
 5. Upload animal images from the device gallery.
 6. Chat with owners or adopters in real time.
@@ -206,7 +222,7 @@ After launching the app, you can:
 
 - Master the Expo-managed React Native stack with TypeScript, import aliases, and consistent formatting.
 - Build multi-level navigation using bottom tabs and nested stack navigators with typed route parameters.
-- Practice a serverless backend using Firebase Auth, Firestore, Firebase Storage, and `.env` configuration.
+- Practice a serverless backend using Firebase Authentication, Cloud Firestore, Firebase Storage, and `.env` configuration.
 - Design a service layer to isolate Firebase access and reduce business logic inside screens.
 - Implement full media CRUD for pet listings, including image selection, compression, upload, and Firestore metadata.
 - Build real-time chat using GiftedChat, Firestore message collections, and `onSnapshot` subscriptions.
@@ -239,4 +255,12 @@ eas build --platform android
 eas build --platform ios
 ```
 
-5. Optionally publish the web version through Expo Web, Vercel, or Netlify after validating React Native Web compatibility.
+5. Submit production builds to the app stores when the application is fully tested:
+
+```bash
+eas submit --platform android
+```
+
+```bash
+eas submit --platform ios
+```
