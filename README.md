@@ -83,15 +83,6 @@ You can view or download the full project presentation here:
 
 📎 [Pet Adoption App Presentation](./docs/Pet_Adoption_App_Presentation.pptx)
 
-> Recommended repository structure:
->
-> ```text
-> project-root/
-> ├── README.md
-> └── docs/
->     └── Pet_Adoption_App_Presentation.pptx
-> ```
-
 ## ✅ What Has Been Done
 
 - Created an Expo React Native application with TypeScript and a modular folder structure
